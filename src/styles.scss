@@ -296,7 +296,6 @@ body {
     background-color: $bg-color;
 }
 
-
 /* buttom styles */
 
 .btn-default{ // btn-classe ist schon vorhanden Bootstrap?
@@ -311,11 +310,13 @@ body {
     border-radius: 25px;
     padding: 12px 25px;
     font-size: $fnt-size-XS;
-    font-weight: 700;
     transition: all ease-out $transition-time;
     &:hover{
         background-color: $prim-color-hover;
         transition: all ease-out $transition-time;
+    }
+    &:disabled{
+        background-color: $dark-grey;
     }
 }
 
@@ -325,7 +326,6 @@ body {
     padding: 12px 25px;
     color: $prim-color;
     font-size: $fnt-size-XS;
-    font-weight: 700;
     transition: all ease-out $transition-time;
     &:hover{
         background-color: $prim-color-bright-hover;
@@ -351,4 +351,52 @@ body {
         }
     }
 }
+
+// input fields
+.form-field-ipt-text-icon{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 486px;
+    >.ipt-field-wrapper{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: $prim-color-light-hover;
+        padding: 18px 32px;
+        border: solid transparent 1px;
+        border-radius: 100px;
+
+        > div{
+            width: 24px;
+            aspect-ratio: 1;
+            background-color: $dark-grey;
+            mask-position: 50%;
+            mask-repeat: no-repeat;
+        }
+
+        > input{
+            background-color: unset;
+            border: unset;
+            outline: unset;
+            flex-grow: 2;
+            font-size: $fnt-size-XS;
+        }
+        
+        &:hover{
+            border: solid $dark-grey 1px;
+        }
+        &:has(input:focus){
+            border: solid $prim-color-bright-hover 1px;
+            > div{
+                background-color: $black;
+            }
+        }
+    }
+    .error-msg{
+        font-size: $fnt-size-XXS;
+        color: $error-red;
+    }
+}
+
 
