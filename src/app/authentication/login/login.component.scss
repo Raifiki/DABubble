@@ -64,10 +64,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
 }
 
 .input-container {
   width: 80%;
+  color: black;
 }
 
 .headline-container {
@@ -118,6 +120,7 @@
   background-image: url("../../../assets/img/lock.png");
   background-repeat: no-repeat;
   background-position: 20px 50%;
+  margin-top: 30px;
 }
 
 .input-email {
@@ -128,7 +131,6 @@
 }
 
 .input-fields {
-  color: #eceefe;
   font-size: 18px;
   font-weight: 500;
   padding: 18px 32px 18px 64px;

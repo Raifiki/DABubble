@@ -14,32 +14,16 @@
       </div>
     </div>
     <form (ngSubmit)="onSubmit()" class="input-container" #f="ngForm">
-      <input
-        type="email"
-        required
-        placeholder="beispielname.@email.com"
-        id="userEmail"
-        name="userEmail"
-        ngModel
-        #userEmail="ngModel"
-        class="input-email input-fields"
-      />
-      @if (!userEmail.valid) {
+      <input type="email" required placeholder="beispielname.@email.com" id="userEmail" name="userEmail" ngModel
+        #userEmail="ngModel" class="input-email input-fields" />
+      @if (!userEmail.valid && userEmail.touched) {
       <div class="invalid-input">
         *Diese E-Mail-Adresse ist leider ungültig.
       </div>
       }
-      <input
-        type="password"
-        required
-        placeholder="Passwort"
-        id="password"
-        name="password"
-        ngModel
-        #password="ngModel"
-        class="input-pw input-fields"
-      />
-      @if (!password.valid) {
+      <input type="password" required placeholder="Passwort" id="password" name="password" ngModel #password="ngModel"
+        class="input-pw input-fields" />
+      @if (!password.valid && password.touched) {
       <div class="invalid-input">
         *Falsches Passwort. Bitte noch einmal versuchen.
       </div>
@@ -56,7 +40,7 @@
       </div>
 
       <div class="btn-container">
-        <button [disabled]="lgnDisabled" type="login" class="login-btn">
+        <button [disabled]="!f.valid" type="submit" class="login-btn">
           Anmelden
         </button>
         <button class="guest-login">Gäste-Login</button>
