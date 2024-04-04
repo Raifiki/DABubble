@@ -1,1 +1,53 @@
-<p>signin works!</p>
+<div class="main">
+
+    <div class="login-container">
+        <img src="../../../assets/img/arrow_back.png" class="go-back" (click)="goBack()">
+        <div class="headline-container">
+            <div class="headline">Konto erstellen</div>
+            <div class="subheadline">
+                Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.
+            </div>
+        </div>
+        <form (ngSubmit)="onSubmit(f)" class="input-container" #f="ngForm">
+            <input type="text" required placeholder="Vorname und Nachname" id="userName" name="userName" ngModel
+                #userName="ngModel" class="input-name input-fields" [minLength]="4"/>
+            @if (!userName.valid && userName.touched) {
+            <div class="invalid-input">
+                *Bitte geben Sie Ihren Namen ein. 
+            </div>
+            }
+            <input type="email" required placeholder="beispielname.@email.com" id="userEmail" name="userEmail" ngModel
+                #userEmail="ngModel" class="input-email input-fields" email />
+            @if (!userEmail.valid && userEmail.touched) {
+            <div class="invalid-input">
+                *Diese E-Mail-Adresse ist leider ungültig.
+            </div>
+            }
+            <input type="password" required placeholder="Passwort" id="password" name="password" ngModel
+                #password="ngModel" class="input-pw input-fields"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ -/:-@\[-`{-~]).{8,20}$" />
+            @if (!password.valid && password.touched) {
+            <div class="invalid-input">
+                *Bitte legen Sie Ihr Passwort fest. Mindestens 8 Zeichen/Nummern (mind 1 Kleinbuchstabe, 1
+                Großbuchstabe, 1 Nummer und 1 Sonderzeichen)
+            </div>
+            }
+            <div class="privacy">
+                    <input type="checkbox" class="checkbox" name="checkbox" ngModel #checkbox="ngModel" (click)="checkboxChange()" [checked]="checkboxChange" [ngStyle]="checkboxChecked ? {'background-image': 'url(../../../assets/img/check_box_checked.png)'} : {'background-image': 'url(../../../assets/img/check_box_unchecked.png)'}">
+                    <div>
+                        <div>Ich stimme der <a href="/privacy">Datenschutzbestimmung</a>zu. </div>
+                        @if (!checkboxChecked && f.valid) {
+                        <div class="invalid-input">Sie müssen das Kontrollkästchen aktivieren um fotzufahren.</div>
+                    }
+                </div>
+
+            </div>
+            <div class="btn-container">
+                <button [disabled]="!f.valid || !checkboxChecked"  type="submit" class="login-btn">
+                    weiter
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
