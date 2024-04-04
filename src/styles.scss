@@ -1,5 +1,63 @@
+@import 'app/shared/styles/includeStyles.scss';
+
 /* You can add global styles to this file, and also import other style files */
 body {
     margin: 0;
-    background-color: #eceefe;
+    background-color: $bg-color;
+}
+
+
+/* button styles */
+
+.btn-default{ // btn-classe ist schon vorhanden Bootstrap?
+    cursor: pointer;
+    border: none;
+    background-color: unset;
+}
+
+.primary-btn{
+    background-color: $prim-color;
+    color: $white;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: $fnt-size-XS;
+    font-weight: 700;
+    transition: all ease-out $transition-time;
+    &:hover{
+        background-color: $prim-color-hover;
+        transition: all ease-out $transition-time;
+    }
+}
+
+.secondary-btn{
+    border: solid 1px $prim-color-hover;
+    border-radius: 25px;
+    padding: 12px 25px;
+    color: $prim-color;
+    font-size: $fnt-size-XS;
+    font-weight: 700;
+    transition: all ease-out $transition-time;
+    &:hover{
+        background-color: $prim-color-bright-hover;
+        color: $white;
+        border-color: transparent;
+    }
+}
+
+.icon-btn{
+    border-radius: 50%;
+    aspect-ratio: 1;
+    >div{
+        width: 100%;
+        aspect-ratio: 1;
+        background-color: black;
+        mask-position: 50%;
+        mask-repeat: no-repeat;
+    }
+    &:hover{
+        background-color: $prim-color-light-hover !important;
+        >div{
+            background-color: $prim-color-bright-hover !important;
+        }
+    }
 }
