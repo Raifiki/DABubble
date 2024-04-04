@@ -1,0 +1,40 @@
+.main-content {
+  background-color: #797ef3;
+  font-family: "Nunito";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 0 30px 0;
+  height: 100vh;
+}
+
+.content-container {
+  background-color: white;
+  width: 50%;
+  height: 50%;
+  border-radius: 30px;
+  padding: 30px;
+  height: 100%;
+}
+
+.goBack {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 50px;
+
+  &:hover {
+    scale: 1.1;
+  }
+}
+
+h3,
+h2,
+h1 {
+  color: #444df2;
+}
+
+h1 {
+  font-size: 64px;
+}
