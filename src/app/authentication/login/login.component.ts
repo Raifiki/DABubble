@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class LoginComponent {
   lgnDisabled:boolean = true;
 
-  onSubmit() {
-   
+  onSubmit(f: NgForm) {
+
   }
 }
