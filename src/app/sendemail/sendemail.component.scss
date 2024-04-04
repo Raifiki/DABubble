@@ -1,0 +1,45 @@
+@import './../shared/styles/includeStyles.scss';
+
+
+.send-email-card{
+    width: 698px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 40px 67px;
+    border-radius: $border-radius-large;
+    font-size: $fnt-size-S;
+    background-color: bisque;
+    >.back-btn{
+        position: absolute;
+        left: 32px;
+        top: 45px;
+        width: 40px;
+        >.back-btn-icon{
+            mask-image: url(./../../assets/icons/arrow_left_black.svg);
+        }
+    }
+    >.card-header{
+        color: $prim-color;
+        >h2{
+            font-size: $fnt-size-L;
+        }
+    }
+    >.card-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        .form-field-ipt-text-icon{
+            .ipt-email-img{
+                mask-image: url(./../../assets/img/mail.png);
+            }
+        }
+        >.info-text{
+            text-align: center;
+            color: $dark-grey;
+        }
+    }
+}
