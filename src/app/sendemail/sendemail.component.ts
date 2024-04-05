@@ -9,5 +9,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './sendemail.component.scss'
 })
 export class SendemailComponent {
+  eMail!:string;
   test!:string;
 }
