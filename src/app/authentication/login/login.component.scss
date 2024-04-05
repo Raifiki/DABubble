@@ -246,6 +246,7 @@
   align-items: center;
   opacity: 0;
   animation: fading-out 3s linear;
+  z-index: -1;
 
 }
 
@@ -256,7 +257,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: logo-animation 2s ease-out;
+  animation: logo-animation 2s ease;
   z-index: 2;
 }
 
@@ -267,7 +268,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: logo2-animation 1.95s  ;
+  animation: logo2-animation 2s ease ;
   z-index: 1;
 }
 
@@ -275,6 +276,7 @@
 @keyframes fading-out {
   0% {
     opacity: 1;
+    z-index: 1;
   }
 
   99% {
