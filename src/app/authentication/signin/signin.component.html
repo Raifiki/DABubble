@@ -10,10 +10,10 @@
         </div>
         <form (ngSubmit)="onSubmit(f)" class="input-container" #f="ngForm">
             <input type="text" required placeholder="Vorname und Nachname" id="userName" name="userName" ngModel
-                #userName="ngModel" class="input-name input-fields" [minLength]="4"/>
+                #userName="ngModel" class="input-name input-fields" [minLength]="4" />
             @if (!userName.valid && userName.touched) {
             <div class="invalid-input">
-                *Bitte geben Sie Ihren Namen ein. 
+                *Bitte geben Sie Ihren Namen ein.
             </div>
             }
             <input type="email" required placeholder="beispielname.@email.com" id="userEmail" name="userEmail" ngModel
@@ -33,21 +33,22 @@
             </div>
             }
             <div class="privacy">
-                    <input type="checkbox" class="checkbox" name="checkbox" ngModel #checkbox="ngModel" (click)="checkboxChange()" [checked]="checkboxChange" [ngStyle]="checkboxChecked ? {'background-image': 'url(../../../assets/img/check_box_checked.png)'} : {'background-image': 'url(../../../assets/img/check_box_unchecked.png)'}">
-                    <div>
-                        <div>Ich stimme der <a href="/privacy">Datenschutzbestimmung</a>zu. </div>
-                        @if (!checkboxChecked && f.valid) {
-                        <div class="invalid-input">Sie müssen das Kontrollkästchen aktivieren um fotzufahren.</div>
+                <input type="checkbox" class="checkbox" name="checkbox" ngModel #checkbox="ngModel"
+                    (click)="checkboxChange()" [checked]="checkboxChange"
+                    [ngStyle]="checkboxChecked ? {'background-image': 'url(../../../assets/img/check_box_checked.png)'} : {'background-image': 'url(../../../assets/img/check_box_unchecked.png)'}">
+                <div>
+                    <div>Ich stimme der <a href="/privacy">Datenschutzbestimmung</a>zu. </div>
+                    @if (!checkboxChecked && f.valid) {
+                    <div class="invalid-input">Sie müssen das Kontrollkästchen aktivieren um fotzufahren.</div>
                     }
                 </div>
 
             </div>
             <div class="btn-container">
-                <button [disabled]="!f.valid || !checkboxChecked"  type="submit" class="login-btn">
+                <button [disabled]="!f.valid || !checkboxChecked" type="submit" class="login-btn">
                     weiter
                 </button>
             </div>
         </form>
     </div>
-
 </div>
