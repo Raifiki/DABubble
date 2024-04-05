@@ -257,7 +257,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: logo-animation 2s ease;
+  animation: logo-animation 2s ease-in-out;
   z-index: 2;
 }
 
@@ -268,8 +268,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: logo2-animation 2s ease ;
+  animation: logo2-animation 2s ease-in-out ;
   z-index: 1;
+  overflow: hidden;
 }
 
 
@@ -295,17 +296,17 @@
     scale: 1.5;
   }
 
-  90% {
+  80% {
     top: 50%;
     left: 50%;
     scale: 1.5;
   }
-
   100% {
     top: 75px;
     left: 75px;
     scale: 1;
   }
+
 }
 
 
@@ -313,13 +314,19 @@
   0% {
     top: 50%;
     left:50%;
-    scale: 1.5;
+    scale: 2.5;
     transform: rotate(0deg) translateX(300px) rotate(0deg);
+
   }
-  100% {
+  80% {
     top: 50%;
     left:50%;
     scale: 1;
+    transform: rotate(360deg) translateX(100px) rotate(-360deg);
+  }
+  100% {
+    top: 100px;
+    left: 150px;
     transform: rotate(360deg) translateX(100px) rotate(-360deg);
   }
 }
