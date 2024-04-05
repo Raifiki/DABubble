@@ -5,7 +5,7 @@
     <div class="card-header">
         <h2>Passwort zurücksetzten</h2>
     </div>
-    <form class="card-content" #resetPWForm="ngForm">
+    <form class="card-content" #resetPWForm="ngForm" (ngSubmit)="onSubmit(resetPWForm)">
         <span>Bitte geben Sie ihre E-Mail-Adresse ein.</span>
         <div class="form-field-ipt-text-icon">
             <div class="ipt-field-wrapper">
@@ -19,3 +19,5 @@
         <button class="btn-default primary-btn" [disabled]="!resetPWForm.valid">E-Mail senden</button>
     </form>
 </div>
+
+<app-overlayemailsend [onIptChangeShowOverlay]="toggleOverlay"></app-overlayemailsend>
