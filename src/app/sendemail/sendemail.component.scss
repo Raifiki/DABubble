@@ -41,5 +41,8 @@
             text-align: center;
             color: $dark-grey;
         }
+        >button{
+            align-self: flex-end;
+        }
     }
 }
