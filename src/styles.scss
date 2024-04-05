@@ -356,6 +356,13 @@ body {
     }
 }
 
+.text-btn{
+    color: $prim-color-bright-hover;
+    &:hover{
+        font-weight: bold;
+    }
+}
+
 // input fields
 .form-field-ipt-text-icon{
     display: flex;

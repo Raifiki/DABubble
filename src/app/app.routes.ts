@@ -9,6 +9,7 @@ import { SigninComponent } from './authentication/signin/signin.component';
 import { SendemailComponent } from './sendemail/sendemail.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import { RegistereduserprofileComponent } from './registereduserprofile/registereduserprofile.component';
 
 export const routes: Routes = [
  { path: '', component: AuthenticationComponent },
@@ -18,7 +19,7 @@ export const routes: Routes = [
  { path: 'signin', component: SigninComponent },
  { path: 'sendemail', component: SendemailComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
  { path: 'resetPW', component: ResetpasswordComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
- { path: 'userProfile', component: UserprofileComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
+ { path: 'userProfile', component: RegistereduserprofileComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
  
 
 ];
