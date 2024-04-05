@@ -1,0 +1,63 @@
+@import './../shared/styles/includeStyles.scss';
+
+.edit-profile-card{
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 45px;
+    padding: 40px;
+    border-radius: 30px;
+    width: fit-content;
+    min-width: 500px;
+    >.card-header{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        >.back-btn{
+            width: 40px;
+            >.back-btn-icon{
+                mask-image: url(./../../assets/icons/close.svg);
+            }
+        }
+    }
+}
+
+.card-content{
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    width: 100%;
+    > img{
+        width: 200px;
+        aspect-ratio: 1;
+        align-self: center;
+        border-radius: 100%;
+    }
+    > form{
+        display: flex;
+        flex-direction: column;
+        gap: 45px;
+        >.form-content-wrapper{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            .header-ipt-field{
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                font-size: $fnt-size-S;
+                font-weight: bold;
+                >img{
+                    width: 30px;
+                    aspect-ratio: 1;
+                }
+            }
+        }
+        >.btn-wrapper{
+            display: flex;
+            justify-content: center;
+            gap: 45px;
+        }
+    }
+}
