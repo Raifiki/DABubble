@@ -4,7 +4,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AnimationService } from '../../services/animation.service';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -13,23 +12,23 @@ import { AnimationService } from '../../services/animation.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  animationService = inject(AnimationService)
+  animationService = inject(AnimationService);
   lgnDisabled: boolean = true;
-  animationPlayed =  this.animationService.amountPlayed()
+  animationPlayed = this.animationService.amountPlayed();
 
-
-ngOnInit(): void {
-  if (this.animationPlayed === 0) {
-    setTimeout(() => {
-      this.animationService.amountPlayed.set(1)
-      console.log(this.animationPlayed)
-    }, 2000);
+  constructor() {
+    this.animationPlayed = this.animationService.amountPlayed();
+    console.log(this.animationPlayed);
   }
-}
 
+  ngOnInit(): void {
+    if (this.animationPlayed === 0) {
+      setTimeout(() => {
+        this.animationService.amountPlayed.set(1);
+        this.animationPlayed = this.animationService.amountPlayed();
+      }, 2000);
+    }
+  }
 
   onSubmit(f: NgForm) {}
-
-
-
-  }
+}

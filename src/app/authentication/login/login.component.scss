@@ -268,7 +268,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: logo2-animation 2s ease-in-out ;
+  animation: logo2-animation 2s ease-in-out;
   z-index: 1;
   overflow: hidden;
 }
@@ -301,6 +301,7 @@
     left: 50%;
     scale: 1.5;
   }
+
   100% {
     top: 75px;
     left: 75px;
@@ -313,17 +314,19 @@
 @keyframes logo2-animation {
   0% {
     top: 50%;
-    left:50%;
+    left: 50%;
     scale: 2.5;
     transform: rotate(0deg) translateX(300px) rotate(0deg);
 
   }
+
   80% {
     top: 50%;
-    left:50%;
+    left: 50%;
     scale: 1;
     transform: rotate(360deg) translateX(100px) rotate(-360deg);
   }
+
   100% {
     top: 100px;
     left: 150px;
@@ -331,3 +334,21 @@
   }
 }
 
+.first-logo-without-animation {
+  position: absolute;
+  top: 75px;
+  left: 75px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.second-logo-without-animation {
+  position: absolute;
+  top: 100px;
+  left: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
