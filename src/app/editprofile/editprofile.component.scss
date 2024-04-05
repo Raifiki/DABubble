@@ -28,12 +28,15 @@
     flex-direction: column;
     gap: 45px;
     width: 100%;
+
     > img{
+        align-self: center;
+        cursor: pointer;
         width: 200px;
         aspect-ratio: 1;
-        align-self: center;
         border-radius: 100%;
     }
+
     > form{
         display: flex;
         flex-direction: column;

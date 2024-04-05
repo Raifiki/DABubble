@@ -19,6 +19,15 @@ export class EditprofileComponent {
     status: 'Aktiv'
   };
 
+  avatarImgPathList: string[] = [
+    'assets/img/avatar/avatar0.svg',
+    'assets/img/avatar/avatar1.svg',
+    'assets/img/avatar/avatar2.svg',
+    'assets/img/avatar/avatar3.svg',
+    'assets/img/avatar/avatar4.svg',
+    'assets/img/avatar/avatar5.svg',
+  ];
+
   onSubmit(form:NgForm){
     // save new data
   }
