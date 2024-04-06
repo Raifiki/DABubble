@@ -6,6 +6,7 @@ import { AnimationService } from '../../services/animation.service';
 import { UserprofileComponent } from '../../userprofile/userprofile.component';
 import { User } from '../../shared/interfaces/interfaces';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-signin',
@@ -28,7 +29,8 @@ export class SigninComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private animationService: AnimationService
+    private animationService: AnimationService,
+    private userService: UserService
   ) {}
 
   goBack() {
@@ -45,8 +47,7 @@ export class SigninComponent {
       password: form.value.password,
       status: 'Aktiv'
     };
-    this.user.next(user); 
-    console.log(user);
+    this.userService.user.next(user); 
   }
 
   checkboxChange() {
