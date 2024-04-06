@@ -31,7 +31,8 @@ export class ChooseavatarComponent {
     this.user = {
       name: 'Leo Weiß',
       avatarImgPath: 'assets/img/avatar/profile.svg',
-      email: 'leonard_weiss@web.de'
+      email: 'leonard_weiss@web.de',
+      password: ''
     };
   }
 

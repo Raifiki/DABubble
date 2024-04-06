@@ -16,7 +16,8 @@ export class EditprofileComponent {
     name: 'Leo Weiß',
     avatarImgPath: 'assets/img/avatar/avatar0.svg',
     email: 'leonard_weiss@web.de',
-    status: 'Aktiv'
+    status: 'Aktiv',
+    password: ''
   };
 
   avatarImgPathList: string[] = [

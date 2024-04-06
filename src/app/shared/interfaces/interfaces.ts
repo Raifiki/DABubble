@@ -3,4 +3,5 @@ export interface User{
     avatarImgPath: string;
     email: string;
     status?: 'Aktiv' | 'Abwesend';
+    password: string;
 }
