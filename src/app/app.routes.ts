@@ -11,6 +11,7 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { RegistereduserprofileComponent } from './registereduserprofile/registereduserprofile.component';
 import { EditprofileComponent } from './editprofile/editprofile.component';
+import { CreatechannelComponent } from './createchannel/createchannel.component';
 
 export const routes: Routes = [
  { path: '', component: AuthenticationComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
  { path: 'sendemail', component: SendemailComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
  { path: 'resetPW', component: ResetpasswordComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
  { path: 'userProfile', component: EditprofileComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
+ { path: 'createChannel', component: CreatechannelComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
  
 
 ];
