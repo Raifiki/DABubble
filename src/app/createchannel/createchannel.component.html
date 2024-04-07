@@ -1,1 +1,61 @@
-<p>createchannel works!</p>
+<div class="create-channel-card">
+    <div class="card-header">
+        @if (formState == 'channelName') {
+            <h3>Channel erstellen</h3>
+        } @else {
+            <h3>Leute hinzufügen</h3>
+        }
+        <button class="btn-default icon-btn back-btn">
+            <div class="back-btn-icon"></div>
+        </button>
+    </div>
+    <div class="card-content">
+        @if(formState == 'channelName'){
+            <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein  #marketing zum Beispiel.</span>
+            <form #createChannelForm="ngForm" (ngSubmit)="onSubmitName(createChannelForm)">
+                <div class="form-field-ipt-style2">
+                    <div class="header-ipt-field">
+                        <span><b>Channel-Name</b></span>
+                    </div>
+                    <div class="ipt-field-wrapper">
+                        <span>#</span>
+                        <input type="text" placeholder="z.B. Kooperationsprojekte" required name="name" #name="ngModel" [(ngModel)]="channel.name">
+                    </div>
+                    <span [hidden]="name.untouched || name.valid" class="error-msg">Bitte schreiben Sie einen Namen</span>
+                </div>
+                <div class="form-field-ipt-style2">
+                    <div class="header-ipt-field">
+                        <span><b>Beschreibung</b>(optional)</span>
+                    </div>
+                    <div class="ipt-field-wrapper">
+                        <input type="text" placeholder="Dein Text hier" name="description" #description="ngModel" [(ngModel)]="channel.description">
+                    </div>
+                </div>
+                <button class="btn-default primary-btn" [disabled]="!createChannelForm.valid">
+                    <span>Weiter</span>
+                </button>
+            </form>
+        } @else {
+            <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"> 
+                <div class="radio-ipt-wrapper">
+                    <input type="radio" id="all"   name="addMember" value="all" checked [(ngModel)]="memberSelection">
+                    <label for="all">Alle Mitglieder von <span class="channel-name">OfficeTeam</span> hinzufügen</label><br>
+                </div>
+                <div class="radio-ipt-wrapper">
+                    <input type="radio" id="select"  name="addMember" value="select" [(ngModel)]="memberSelection">
+                    <label for="select">Bestimmte Leute hinzufügen</label><br>
+                </div>
+                <span>{{memberSelection}}</span>
+                <app-userlistitem [user]="users[0]" [checked]="true"></app-userlistitem>
+                @if (memberSelection == 'select') {
+                    <div class="form-field-ipt-style2">
+                        <div class="ipt-field-wrapper">
+                            <span>Hallo</span>
+                            <input type="text" placeholder="Namen eingeben" name="selectMember" #selectMember>
+                        </div>
+                    </div>
+                }
+            </form>
+        }
+    </div>
+</div>
