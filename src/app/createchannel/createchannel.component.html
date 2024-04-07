@@ -38,21 +38,33 @@
         } @else {
             <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"> 
                 <div class="radio-ipt-wrapper">
-                    <input type="radio" id="all"   name="addMember" value="all" checked [(ngModel)]="memberSelection">
+                    <input type="radio" id="all"   name="addMember" value="all"  [(ngModel)]="memberSelection">
                     <label for="all">Alle Mitglieder von <span class="channel-name">OfficeTeam</span> hinzufügen</label><br>
                 </div>
                 <div class="radio-ipt-wrapper">
                     <input type="radio" id="select"  name="addMember" value="select" [(ngModel)]="memberSelection">
                     <label for="select">Bestimmte Leute hinzufügen</label><br>
                 </div>
-                <span>{{memberSelection}}</span>
-                <app-userlistitem [user]="users[0]" [checked]="true"></app-userlistitem>
-                @if (memberSelection == 'select') {
+                @if (memberSelection == 'select' || true) {
                     <div class="form-field-ipt-style2">
-                        <div class="ipt-field-wrapper">
-                            <span>Hallo</span>
-                            <input type="text" placeholder="Namen eingeben" name="selectMember" #selectMember>
+                        <div class="ipt-field-wrapper user-search">
+                            <div class="selected-user-list">
+                                @for (member of channel.members; track member; let idx = $index) {
+                                    <div>
+                                        <img src="{{ member.avatarImgPath }}" alt="avatar">
+                                        <span>{{ member.name }}</span>
+                                        <button (click)="removeUser(idx)">close</button>
+                                    </div>
+                                }
+                            </div>
+                            <input type="text" placeholder="Namen eingeben" name="selectMember" #selectMember (keyup)="filterUsers(selectMember.value)">
                         </div>
+                    </div>
+                    <div class="user-list-dropdown">
+                        @for (user of filteredUser; track user; let idx = $index) {
+                            <app-userlistitem [user]="user" [checked]="false" (click)="addUser(idx)"></app-userlistitem>
+                        }
+
                     </div>
                 }
             </form>

@@ -42,8 +42,21 @@
                 color: $prim-color-bright-hover;
             }
         }
+        
         >button{
             align-self: flex-end;
         }
+    }
+}
+
+.user-search{
+    >.selected-user-list{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        width: unset;
+        aspect-ratio: unset;
+        background-color: unset;
     }
 }

@@ -61,6 +61,8 @@ export class CreatechannelComponent {
     }
   ];
 
+  filteredUser: User[] = this.users;
+
   onSubmitName(form:NgForm){
     if (form.valid) {
       this.formState = 'addMember';
@@ -69,6 +71,20 @@ export class CreatechannelComponent {
 
   onSubmit(form:NgForm){
 
+  }
+
+  removeUser(idx:number){
+    this.channel.members.splice(idx,1)
+  }
+
+  addUser(idx:number){
+    if (!this.channel.members.find(user => user == this.filteredUser[idx])){
+      this.channel.members.push(this.filteredUser[idx]);
+    }
+  }
+
+  filterUsers(prompt:string){
+    this.filteredUser = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
   }
 
 }
