@@ -22,7 +22,7 @@ export class SigninComponent {
     avatarImgPath: '',
     email: '',
     password: '',
-    status: 'Aktiv' // Setze den Standardstatus hier oder lass ihn weg, wenn du einen leeren Status bevorzugst
+    status: 'Aktiv' 
   });
   user$ = this.user.asObservable();
 
