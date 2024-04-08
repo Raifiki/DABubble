@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AnimationService } from '../../services/animation.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   lgnDisabled: boolean = true;
   animationPlayed = this.animationService.amountPlayed();
 
-  constructor() {
+  constructor(private router: Router) {
     this.animationPlayed = this.animationService.amountPlayed();
     console.log(this.animationPlayed);
   }
@@ -31,4 +31,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {}
+
+  goTo() {
+    this.router.navigate(['/generalView'])
+  }
 }
