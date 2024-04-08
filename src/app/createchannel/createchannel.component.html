@@ -12,7 +12,7 @@
     <div class="card-content">
         @if(formState == 'channelName'){
             <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein  #marketing zum Beispiel.</span>
-            <form #createChannelForm="ngForm" (ngSubmit)="onSubmitName(createChannelForm)">
+            <form #createChannelForm="ngForm" (ngSubmit)="onSubmitName(createChannelForm)"  autocomplete="off">
                 <div class="form-field-ipt-style2">
                     <div class="header-ipt-field">
                         <span><b>Channel-Name</b></span>
@@ -36,7 +36,7 @@
                 </button>
             </form>
         } @else {
-            <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"> 
+            <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"  autocomplete="off"> 
                 <div class="radio-ipt-wrapper">
                     <input type="radio" id="all"   name="addMember" value="all"  [(ngModel)]="memberSelection">
                     <label for="all">Alle Mitglieder von <span class="channel-name">OfficeTeam</span> hinzufügen</label><br>
@@ -45,28 +45,39 @@
                     <input type="radio" id="select"  name="addMember" value="select" [(ngModel)]="memberSelection">
                     <label for="select">Bestimmte Leute hinzufügen</label><br>
                 </div>
-                @if (memberSelection == 'select' || true) {
+                @if (memberSelection == 'select') {
                     <div class="form-field-ipt-style2">
                         <div class="ipt-field-wrapper user-search">
                             <div class="selected-user-list">
                                 @for (member of channel.members; track member; let idx = $index) {
-                                    <div>
+                                    <div class="user-chip">
                                         <img src="{{ member.avatarImgPath }}" alt="avatar">
                                         <span>{{ member.name }}</span>
-                                        <button (click)="removeUser(idx)">close</button>
+                                        <button class="btn-default icon-btn remove-user-btn" (click)="removeUser(idx)">
+                                            <div class="back-btn-icon"></div>
+                                        </button>
                                     </div>
                                 }
                             </div>
                             <input type="text" placeholder="Namen eingeben" name="selectMember" #selectMember (keyup)="filterUsers(selectMember.value)">
                         </div>
                     </div>
-                    <div class="user-list-dropdown">
-                        @for (user of filteredUser; track user; let idx = $index) {
-                            <app-userlistitem [user]="user" [checked]="false" (click)="addUser(idx)"></app-userlistitem>
-                        }
-
-                    </div>
+                    @if (selectMember.value.length>0) {
+                        <div class="user-list-dropdown">
+                            @for (user of filteredUser; track user; let idx = $index) {
+                                <app-userlistitem [user]="user" [checked]="false" (click)="addUser(idx); selectMember.value=''"></app-userlistitem>
+                            }
+                        </div>
+                    }
                 }
+                <div class="btn-group">
+                    <button class="btn-default secondary-btn" type="button" (click)="formState='channelName'">
+                        <span>Zurück</span>
+                    </button>
+                    <button class="btn-default primary-btn" [disabled]="memberSelection == 'select' && channel.members.length == 0">
+                        <span>Weiter</span>
+                    </button>
+                </div>
             </form>
         }
     </div>

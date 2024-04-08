@@ -20,7 +20,7 @@ import { User } from '../shared/interfaces/interfaces';
 export class CreatechannelComponent {
   channel: Channel = new Channel();
 
-  formState: 'channelName' | 'addMember' = 'addMember';
+  formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';
 
   users: User[] = [
