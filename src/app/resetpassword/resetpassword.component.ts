@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 // import custom components
 import { OverlayanmeldenComponent } from './overlayanmelden/overlayanmelden.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-resetpassword',
@@ -16,6 +17,8 @@ export class ResetpasswordComponent {
   newPassword!:string;
   confirmPassword!:string;
 
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   toggleOverlay:boolean = true;
 
   onSubmit(form:NgForm){
@@ -23,5 +26,9 @@ export class ResetpasswordComponent {
       this.toggleOverlay = !this.toggleOverlay;
       form.reset();
     }
+  }
+
+  goBack() {
+    this.router.navigate(['..'], { relativeTo: this.route })
   }
 }
