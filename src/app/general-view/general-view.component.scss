@@ -39,6 +39,10 @@
     gap: 20px;
   }
 
+  .user-menu {
+    cursor: pointer;
+  }
+
   .content {
     display: flex;
     justify-content: space-between;
@@ -86,6 +90,7 @@
   .profile {
     position: absolute;
     top: 100px;
+    cursor: pointer;
     right: 50px;
     z-index: 3;
   }
@@ -104,6 +109,7 @@
   
   .option-select {
     position: absolute;
+    cursor: pointer;
     top: 100px;
     right: 50px;
     background-color: white ;
