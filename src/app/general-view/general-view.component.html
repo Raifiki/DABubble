@@ -5,8 +5,10 @@
         <div class="user">
             <div>{{this.activeUser.name}}User Test</div>
             <div>{{this.activeUser.avatarImgPath}} <img src="assets/img/avatar/avatar0.svg" alt=""> </div>
-            <div><img src="../../assets/img/keyboard_arrow_down.png" alt=""></div>
+            <div><img src="../../assets/img/keyboard_arrow_down.png" (click)="openMenu()"></div>
         </div>
+
+
     </div>
     <div class="content">
         <div class="left-side">Channel</div>
@@ -14,3 +16,17 @@
         <div class="right-side">Thread</div>
     </div>
 </div>
+
+
+<div class="profile" [ngClass]="{inactive: !showUserProfile}">
+    <app-userprofile></app-userprofile>
+</div>
+
+
+<div class="overlay" [ngClass]="{inactive: !showMenu}" (click)="closeMenu()"></div>
+    <div class="options" [ngClass]="{inactive: !showMenu}">
+        <div class="option-select">
+            <div (click)="openProfile()">Profil</div>
+            <div (click)="logOut()">LogOut</div>
+        </div>
+    </div>

@@ -77,3 +77,46 @@
     justify-content: center;
     align-items: center;
   }
+
+  .inactive {
+    display: none;
+    z-index: -2;
+  }
+
+  .profile {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    z-index: 3;
+  }
+
+  .overlay{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4 );
+  }
+
+  
+  .option-select {
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    background-color: white ;
+    width: 150px;
+    height: 150px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+
+  }
