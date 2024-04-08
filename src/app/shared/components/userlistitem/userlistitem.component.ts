@@ -22,6 +22,7 @@ export class UserlistitemComponent {
   @Input({ required: true }) checked!:boolean;
 
   signedInUser!:User;
+  
   constructor(){
     this.userService.user$.subscribe(user => this.signedInUser = user);
   }
