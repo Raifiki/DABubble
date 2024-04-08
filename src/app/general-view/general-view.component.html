@@ -19,7 +19,7 @@
 
 
 <div class="profile" [ngClass]="{inactive: !showUserProfile}">
-    <app-userprofile></app-userprofile>
+    <app-userprofile (menu)="closeMenu()"></app-userprofile>
 </div>
 
 

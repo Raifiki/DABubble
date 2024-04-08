@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, Output} from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../shared/interfaces/interfaces';
 import { CommonModule } from '@angular/common';
@@ -45,10 +45,11 @@ export class GeneralViewComponent {
     this.router.navigate(['/'])
   }
 
-  closeMenu() {
-    
+  closeMenu() {  
     this.showMenu = false
     this.showUserProfile = false
-
   }
+
+  
+
 }
