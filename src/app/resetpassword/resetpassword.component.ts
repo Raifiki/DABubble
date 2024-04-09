@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 // import custom components
@@ -17,6 +17,7 @@ export class ResetpasswordComponent {
   newPassword!:string;
   confirmPassword!:string;
 
+
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   toggleOverlay:boolean = true;
@@ -26,9 +27,6 @@ export class ResetpasswordComponent {
       this.toggleOverlay = !this.toggleOverlay;
       form.reset();
     }
-  }
 
-  goBack() {
-    this.router.navigate(['..'], { relativeTo: this.route })
   }
 }

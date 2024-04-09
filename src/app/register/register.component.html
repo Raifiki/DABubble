@@ -1,0 +1,38 @@
+
+<div class="create-account">
+    <div>Neu bei DABubble ?</div>
+    <div (click)="goToSignIn()" class="create">
+        Konto erstellen
+    </div>
+</div>
+
+@if (isLoginShowen) {
+    <app-login (isPwForgotten)="showPwComponent($event)" ></app-login>
+}
+
+@if (isSignIsShowen) {
+    <app-signin (isShowen)="showSignInComponent($event)" (chooseAvatar)="showAvatar($event)"></app-signin>
+}
+
+@if (isResetPwIsShowen) {
+    <app-sendemail (isShowen)="showMain($event)"></app-sendemail>
+}
+
+@if (chooseAvatar) {
+    <app-chooseavatar (isShowen)="showMain($event)"></app-chooseavatar>
+}
+
+<div class="footer-container">
+    <a routerLink="/imprint">Impressum</a>
+    <a routerLink="/privacy">Datenschutz</a>
+</div>
+
+@if (animationPlayed === 0) {
+    <img src="../../../assets/img/Logo.png" alt="" class="first-logo">
+    <img src="../../../assets/img/Logo name.png" alt="" class="second-logo">
+    <div class="overlay-intro"></div>
+    }
+    @if (animationPlayed != 0){
+    <img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation">
+    <img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation">
+    }

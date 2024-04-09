@@ -5,15 +5,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { UserprofileComponent } from '../userprofile/userprofile.component';
+
 import { Router } from '@angular/router';
+import { EditprofileComponent } from '../editprofile/editprofile.component';
 
 
 
 @Component({
   selector: 'app-general-view',
   standalone: true,
-  imports: [CommonModule, FormsModule, UserprofileComponent],
+  imports: [CommonModule, FormsModule, EditprofileComponent],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss'
 })

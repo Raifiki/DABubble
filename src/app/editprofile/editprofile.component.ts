@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 //import interfaces
@@ -31,6 +31,12 @@ export class EditprofileComponent {
 
   onSubmit(form:NgForm){
     // save new data
+  }
+
+  @Output() menu = new EventEmitter()
+
+  closingMenu() {
+    this.menu.emit(false)
   }
 
 }

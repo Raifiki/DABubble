@@ -1,5 +1,16 @@
 @import './../shared/styles/includeStyles.scss';
 
+.main {
+  display: flex;
+  position: relative;
+  height: 100vh;
+  font-family: "Nunito";
+  justify-content: center;
+  align-items: center;
+  background-color: #eceefe;
+}
+
+
 .choose-avatar-card{
     width: 606px;
     position: relative;
@@ -10,7 +21,7 @@
     padding: 40px 67px;
     border-radius: $border-radius-large;
     font-size: $fnt-size-S;
-    background-color: bisque;
+    background-color: white;
     >.back-btn{
         position: absolute;
         left: 32px;

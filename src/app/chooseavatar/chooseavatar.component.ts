@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 // import costumer components
 import { OverlayaccountcreatedComponent } from './overlayaccountcreated/overlayaccountcreated.component';
@@ -16,6 +16,7 @@ import { User } from '../shared/interfaces/interfaces';
 export class ChooseavatarComponent {
   user!:User;
   toggleOverlay:boolean = false;
+  @Output() isShowen = new EventEmitter()
 
   avatarImgPathList: string[] = [
     'assets/img/avatar/avatar0.svg',
@@ -42,6 +43,10 @@ export class ChooseavatarComponent {
 
   createAccount(){
     this.toggleOverlay = !this.toggleOverlay;
+  }
+
+  goBack() {
+    this.isShowen.emit(false)
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { OverlayemailsendComponent } from './overlayemailsend/overlayemailsend.component';
 
@@ -13,7 +13,7 @@ import { OverlayemailsendComponent } from './overlayemailsend/overlayemailsend.c
 export class SendemailComponent {
   eMail!:string;
   test!:string;
-
+  @Output() isShowen = new EventEmitter()
   toggleOverlay:boolean = true;
 
   onSubmit(form:NgForm){
@@ -21,6 +21,12 @@ export class SendemailComponent {
       this.toggleOverlay = !this.toggleOverlay;
       form.reset();
     }
+    this.isShowen.emit(true)
   }
+
+  
+  goBack() {
+    this.isShowen.emit(false)
+   }
 
 }

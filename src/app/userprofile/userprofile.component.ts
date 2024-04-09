@@ -20,9 +20,5 @@ export class UserprofileComponent {
     password: '',
   };
 
-  @Output() menu = new EventEmitter()
 
-closingMenu() {
-  this.menu.emit(false)
-}
 }

@@ -1,5 +1,13 @@
 @import './../shared/styles/includeStyles.scss';
-
+.main {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eceefe;
+}
 
 .send-email-card{
     width: 698px;
@@ -11,7 +19,7 @@
     padding: 40px 67px;
     border-radius: $border-radius-large;
     font-size: $fnt-size-S;
-    background-color: bisque;
+    background-color: white;
     >.back-btn{
         position: absolute;
         left: 32px;
