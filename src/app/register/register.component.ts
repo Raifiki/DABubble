@@ -10,17 +10,23 @@ import { SendemailComponent } from '../sendemail/sendemail.component';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [SigninComponent, LoginComponent, SendemailComponent, RouterLink, ChooseavatarComponent],
+  imports: [
+    SigninComponent,
+    LoginComponent,
+    SendemailComponent,
+    RouterLink,
+    ChooseavatarComponent,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  isSignIsShowen = false
-  isResetPwIsShowen = false
-  isLoginShowen = true
+  isSignIsShowen = false;
+  isResetPwIsShowen = false;
+  isLoginShowen = true;
   animationService = inject(AnimationService);
   animationPlayed = this.animationService.amountPlayed();
-  chooseAvatar = false
+  chooseAvatar = false;
 
   constructor() {
     this.animationPlayed = this.animationService.amountPlayed();
@@ -28,42 +34,41 @@ export class RegisterComponent {
   }
 
   showPwComponent(event: boolean) {
-    this.isResetPwIsShowen = true
-    this.isLoginShowen = false
-    this.isSignIsShowen = false
-    }
+    this.isResetPwIsShowen = event;
+    this.isLoginShowen = false;
+    this.isSignIsShowen = false;
+  }
 
   showSignInComponent(event: boolean) {
-    this.isSignIsShowen = false
-    this.isLoginShowen = true
-    }
+    this.isSignIsShowen = false;
+    this.isLoginShowen = event;
+  }
 
-    goToSignIn() {
-      this.isLoginShowen = false
-      this.isSignIsShowen = true
-    }
+  goToSignIn() {
+    this.isLoginShowen = false;
+    this.isSignIsShowen = true;
+  }
 
-    ngOnInit(): void {
-      if (this.animationPlayed === 0) {
-        setTimeout(() => {
-          this.animationService.amountPlayed.set(1);
-          this.animationPlayed = this.animationService.amountPlayed();
-        }, 2000);
-      }
+  ngOnInit(): void {
+    if (this.animationPlayed === 0) {
+      setTimeout(() => {
+        this.animationService.amountPlayed.set(1);
+        this.animationPlayed = this.animationService.amountPlayed();
+      }, 2000);
     }
+  }
 
-    showMain(event: boolean) {
-      this.isLoginShowen = true;
-      this.isResetPwIsShowen = false;
-      this.isSignIsShowen = false;
-      this.chooseAvatar = false;
-    }
+  showMain(event: boolean) {
+    this.isLoginShowen = event;
+    this.isResetPwIsShowen = false;
+    this.isSignIsShowen = false;
+    this.chooseAvatar = false;
+  }
 
-    showAvatar(event: boolean) {
-      this.chooseAvatar = true
-      this.isLoginShowen = false
-      this.isResetPwIsShowen = false
-      this.isSignIsShowen = false
-    }
-
+  showAvatar(event: boolean) {
+    this.chooseAvatar = event;
+    this.isLoginShowen = false;
+    this.isResetPwIsShowen = false;
+    this.isSignIsShowen = false;
+  }
 }

@@ -12,13 +12,18 @@ import { ChooseavatarComponent } from '../../chooseavatar/chooseavatar.component
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [FormsModule, CommonModule, UserprofileComponent, ChooseavatarComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    UserprofileComponent,
+    ChooseavatarComponent,
+  ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
 })
 export class SigninComponent {
   checkboxChecked = false;
-  @Output() isShowen = new EventEmitter()
+  @Output() isShowen = new EventEmitter();
   user: BehaviorSubject<User> = new BehaviorSubject<User>({
     name: '',
     avatarImgPath: '',
@@ -27,7 +32,7 @@ export class SigninComponent {
     status: 'Aktiv',
   });
   user$ = this.user.asObservable();
-  @Output() chooseAvatar = new EventEmitter()
+  @Output() chooseAvatar = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -37,7 +42,7 @@ export class SigninComponent {
   ) {}
 
   goBack() {
-    this.isShowen.emit(false)
+    this.isShowen.emit(false);
   }
 
   onSubmit(form: NgForm) {
@@ -49,8 +54,7 @@ export class SigninComponent {
       status: 'Aktiv',
     };
     this.userService.user.next(user);
-    this.chooseAvatar.emit(true)
-
+    this.chooseAvatar.emit(true);
   }
 
   checkboxChange() {

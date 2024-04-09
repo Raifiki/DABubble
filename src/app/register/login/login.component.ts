@@ -3,7 +3,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -11,24 +10,20 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent   {
+export class LoginComponent {
   lgnDisabled: boolean = true;
-@Output() isPwForgotten = new EventEmitter()
-@Output() isShowen = new EventEmitter()
+  @Output() isPwForgotten = new EventEmitter();
+  @Output() isShowen = new EventEmitter();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-
-  onSubmit(f: NgForm) {
-
-  }
+  onSubmit(f: NgForm) {}
 
   goTo() {
     this.router.navigate(['/generalView']);
   }
 
   forgotPw() {
-    this.isPwForgotten.emit(true)
+    this.isPwForgotten.emit(true);
   }
-
 }
