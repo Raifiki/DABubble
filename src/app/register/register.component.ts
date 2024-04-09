@@ -1,21 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { SigninComponent } from './signin/signin.component';
-import { LoginComponent } from './login/login.component';
-import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AnimationService } from '../services/animation.service';
 import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
 import { SendemailComponent } from '../sendemail/sendemail.component';
+import { LoginComponent } from './login/login.component';
+import { SigninComponent } from './signin/signin.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    SigninComponent,
-    LoginComponent,
     SendemailComponent,
     RouterLink,
     ChooseavatarComponent,
+    LoginComponent,
+    SigninComponent
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -40,8 +39,8 @@ export class RegisterComponent {
   }
 
   showSignInComponent(event: boolean) {
-    this.isSignIsShowen = false;
-    this.isLoginShowen = event;
+    this.isSignIsShowen = event;
+    this.isLoginShowen = true;
   }
 
   goToSignIn() {
@@ -59,7 +58,7 @@ export class RegisterComponent {
   }
 
   showMain(event: boolean) {
-    this.isLoginShowen = event;
+    this.isLoginShowen = true
     this.isResetPwIsShowen = false;
     this.isSignIsShowen = false;
     this.chooseAvatar = false;
@@ -71,4 +70,6 @@ export class RegisterComponent {
     this.isResetPwIsShowen = false;
     this.isSignIsShowen = false;
   }
+
+
 }
