@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 // import custom components
 import { OverlayanmeldenComponent } from './overlayanmelden/overlayanmelden.component';
@@ -8,8 +9,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-resetpassword',
   standalone: true,
-  imports: [ FormsModule,
-  OverlayanmeldenComponent ],
+  imports: [ 
+    FormsModule,
+    OverlayanmeldenComponent,
+    RouterLink ],
   templateUrl: './resetpassword.component.html',
   styleUrl: './resetpassword.component.scss'
 })

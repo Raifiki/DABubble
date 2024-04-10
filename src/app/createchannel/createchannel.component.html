@@ -39,7 +39,7 @@
             <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"  autocomplete="off"> 
                 <div class="radio-ipt-wrapper">
                     <input type="radio" id="all"   name="addMember" value="all"  [(ngModel)]="memberSelection">
-                    <label for="all">Alle Mitglieder von <span class="channel-name">OfficeTeam</span> hinzufügen</label><br>
+                    <label for="all">Alle Mitglieder zu <span class="channel-name">#{{ channel.name }}</span> hinzufügen</label><br>
                 </div>
                 <div class="radio-ipt-wrapper">
                     <input type="radio" id="select"  name="addMember" value="select" [(ngModel)]="memberSelection">
