@@ -7,7 +7,8 @@ import { UserprofileComponent } from '../../general-view/overlay/userprofile/use
 import { User } from '../../shared/interfaces/interfaces';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../services/user.service';
-import { ChooseavatarComponent } from '../../chooseavatar/chooseavatar.component';
+import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
+
 
 @Component({
   selector: 'app-signin',

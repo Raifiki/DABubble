@@ -1,4 +1,4 @@
-@import './../shared/styles/includeStyles.scss';
+@import './../../shared/styles/includeStyles.scss';
 
 .main {
   display: flex;
@@ -28,7 +28,7 @@
         top: 45px;
         width: 40px;
         >.back-btn-icon{
-            mask-image: url(./../../assets/icons/arrow_left_black.svg);
+            mask-image: url(../../../assets/icons/arrow_left_black.svg);
         }
     }
     >.card-header{

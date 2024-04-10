@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AnimationService } from '../services/animation.service';
-import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
-import { SendemailComponent } from '../sendemail/sendemail.component';
+
 import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './signin/signin.component';
+import { SendemailComponent } from './sendemail/sendemail.component';
+import { ChooseavatarComponent } from './chooseavatar/chooseavatar.component';
 
 @Component({
   selector: 'app-register',

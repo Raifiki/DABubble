@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 // import costumer components
 import { OverlayaccountcreatedComponent } from './overlayaccountcreated/overlayaccountcreated.component';
+import { User } from '../../shared/interfaces/interfaces';
 
 // import interfaces
-import { User } from '../shared/interfaces/interfaces';
+
 
 @Component({
   selector: 'app-chooseavatar',
