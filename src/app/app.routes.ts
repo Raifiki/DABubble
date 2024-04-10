@@ -15,9 +15,7 @@ export const routes: Routes = [
   { path: '', component: RegisterComponent },
   { path: 'imprint', component: ImprintComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
-  { path: 'chooseAvatar', component: ChooseavatarComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
   { path: 'signin', component: SigninComponent },
-  { path: 'sendemail', component: SendemailComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
   { path: 'resetPW', component: ResetpasswordComponent },
   { path: 'generalView', component: GeneralViewComponent },
 ];
