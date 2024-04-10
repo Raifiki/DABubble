@@ -6,4 +6,4 @@ export interface User{
     password: string;
 }
 
-export type OverlayType = 'hide' | 'dropDownUserMenu' | 'registeredUserProfile' | 'editProfile' | 'userProfile' | 'createChannel';
+export type OverlayType = 'hide' | 'dropDownUserMenu' | 'registeredUserProfile' | 'editProfile' | 'userProfile' | 'createChannel' | 'editChannel';

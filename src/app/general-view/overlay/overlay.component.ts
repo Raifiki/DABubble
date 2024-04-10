@@ -6,6 +6,7 @@ import { RegistereduserprofileComponent } from './registereduserprofile/register
 import { EditprofileComponent } from './editprofile/editprofile.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { CreatechannelComponent } from './createchannel/createchannel.component';
+import { EditchannelComponent } from './editchannel/editchannel.component';
 
 // import services
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
@@ -18,7 +19,8 @@ import { OverlaycontrolService } from '../../services/overlaycontrol.service';
     EditprofileComponent,
     RegistereduserprofileComponent,
     DropdownusermenuComponent,
-    UserprofileComponent],
+    UserprofileComponent,
+    EditchannelComponent],
   templateUrl: './overlay.component.html',
   styleUrl: './overlay.component.scss'
 })
