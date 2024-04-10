@@ -5,3 +5,5 @@ export interface User{
     status?: 'Aktiv' | 'Abwesend';
     password: string;
 }
+
+export type OverlayType = 'hide' | 'dropDownUserMenu' | 'registeredUserProfile' | 'editProfile' | 'userProfile' | 'createChannel';

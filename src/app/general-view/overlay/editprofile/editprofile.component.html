@@ -1,7 +1,7 @@
 <div class="edit-profile-card">
     <div class="card-header">
         <h3>Dein Profil bearbeiten</h3>
-        <button class="btn-default icon-btn back-btn" (click)="closingMenu()">
+        <button class="btn-default icon-btn back-btn" (click)="overlayCtrlService.hideOverlay()">
             <div class="back-btn-icon"></div>
         </button>
     </div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="btn-wrapper">
-                <button type="button" class="btn-default secondary-btn">
+                <button type="button" class="btn-default secondary-btn" (click)="overlayCtrlService.showOverlay('registeredUserProfile',$event)">
                     <span>Abbrechen</span>
                 </button>
                 <button class="btn-default primary-btn" [disabled]="!editProfileForm.valid">

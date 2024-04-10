@@ -1,8 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 //import interfaces
-import { User } from '../shared/interfaces/interfaces';
+import { User } from '../../../shared/interfaces/interfaces';
+
+// import services
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+
 
 @Component({
   selector: 'app-editprofile',
@@ -20,6 +24,8 @@ export class EditprofileComponent {
     password: ''
   };
 
+  overlayCtrlService = inject(OverlaycontrolService);
+
   avatarImgPathList: string[] = [
     'assets/img/avatar/avatar0.svg',
     'assets/img/avatar/avatar1.svg',
@@ -30,13 +36,8 @@ export class EditprofileComponent {
   ];
 
   onSubmit(form:NgForm){
-    // save new data
+    this.overlayCtrlService.showOverlay('registeredUserProfile');
+    console.log('Save edited user data - data not saved, need to implemented');
+    
   }
-
-  @Output() menu = new EventEmitter()
-
-  closingMenu() {
-    this.menu.emit(false)
-  }
-
 }

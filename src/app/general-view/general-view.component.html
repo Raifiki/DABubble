@@ -5,7 +5,7 @@
         <div class="user">
             <div>{{this.activeUser.name}}User Test</div>
             <div>{{this.activeUser.avatarImgPath}} <img src="assets/img/avatar/avatar0.svg" alt=""> </div>
-            <div><img class="user-menu" src="../../assets/img/keyboard_arrow_down.png" (click)="openMenu()"></div>
+            <div><img class="user-menu" src="../../assets/img/keyboard_arrow_down.png" (click)="overlayCtrlService.showOverlay('userProfile')"></div>
         </div>
 
 
@@ -17,16 +17,4 @@
     </div>
 </div>
 
-
-<div class="profile" [ngClass]="{inactive: !showUserProfile}">
-    <app-editprofile (menu)="closeMenu()"></app-editprofile>
-</div>
-
-
-<div class="overlay" [ngClass]="{inactive: !showMenu}" (click)="closeMenu()"></div>
-    <div class="options" [ngClass]="{inactive: !showMenu}">
-        <div class="option-select">
-            <div (click)="openProfile()">Profil</div>
-            <div (click)="logOut()">LogOut</div>
-        </div>
-    </div>
+<app-overlay></app-overlay>

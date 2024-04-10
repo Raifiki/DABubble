@@ -1,7 +1,7 @@
 <div class="user-profile-card">
     <div class="card-header">
         <h3>Profil</h3>
-        <button class="btn-default icon-btn back-btn" >
+        <button class="btn-default icon-btn back-btn" (click)="overlayCtrlService.hideOverlay()">
             <div class="back-btn-icon"></div>
         </button>
     </div>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn-default primary-btn">
+        <button class="btn-default primary-btn" (click)="sendMessage()">
             <img src="assets/icons/comment.svg" alt="message">
             <span>Nachricht</span>
         </button>

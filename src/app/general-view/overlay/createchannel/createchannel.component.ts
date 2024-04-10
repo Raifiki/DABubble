@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 // import customer component
-import { UserlistitemComponent } from '../shared/components/userlistitem/userlistitem.component';
+import { UserlistitemComponent } from '../../../shared/components/userlistitem/userlistitem.component';
 
 // import classes
-import { Channel } from '../shared/models/channel.class';
+import { Channel } from '../../../shared/models/channel.class';
 
 // import interfaces
-import { User } from '../shared/interfaces/interfaces';
+import { User } from '../../../shared/interfaces/interfaces';
+
+// import services
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 
 @Component({
   selector: 'app-createchannel',
@@ -22,6 +25,8 @@ export class CreatechannelComponent {
 
   formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';
+
+  overlayCtrlService = inject(OverlaycontrolService);
 
   users: User[] = [
     {
@@ -85,6 +90,11 @@ export class CreatechannelComponent {
 
   filterUsers(prompt:string){
     this.filteredUser = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
+  }
+
+  createChannel(){
+    this.overlayCtrlService.hideOverlay();
+    console.log('channel created event - save data not implemented');
   }
 
 }

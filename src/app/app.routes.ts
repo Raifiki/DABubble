@@ -6,8 +6,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { ChooseavatarComponent } from './chooseavatar/chooseavatar.component';
 import { SendemailComponent } from './sendemail/sendemail.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
-import { EditprofileComponent } from './editprofile/editprofile.component';
-import { CreatechannelComponent } from './createchannel/createchannel.component';
+import { CreatechannelComponent } from './general-view/overlay/createchannel/createchannel.component';
 import { GeneralViewComponent } from './general-view/general-view.component';
 import { SigninComponent } from './register/signin/signin.component';
 import { RegisterComponent } from './register/register.component';
@@ -19,8 +18,6 @@ export const routes: Routes = [
   { path: 'chooseAvatar', component: ChooseavatarComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
   { path: 'signin', component: SigninComponent },
   { path: 'sendemail', component: SendemailComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
-  { path: 'resetPW', component: ResetpasswordComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
-  { path: 'userProfile', component: EditprofileComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
-  { path: 'createChannel', component: CreatechannelComponent }, // nur temprär, diskussion in Team wie wir das ganze einbinden
+  { path: 'resetPW', component: ResetpasswordComponent },
   { path: 'generalView', component: GeneralViewComponent },
 ];

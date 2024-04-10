@@ -1,7 +1,7 @@
 <div class="registered-user-profile-card">
     <div class="card-header">
         <h3>Profil</h3>
-        <button class="btn-default icon-btn back-btn">
+        <button class="btn-default icon-btn back-btn" (click)="overlayCtrlService.hideOverlay()">
             <div class="back-btn-icon"></div>
         </button>
     </div>
@@ -10,7 +10,7 @@
         <div class="name-status-wrapper">
             <div class="name-editBtn-wrapper">
                 <h2>{{ user.name }}</h2>
-                <button class="btn-default text-btn">Bearbeiten</button>
+                <button class="btn-default text-btn" (click)="overlayCtrlService.showOverlay('editProfile',$event)">Bearbeiten</button>
             </div>
             <div class="status-wrapper" [class.active]="user.status == 'Aktiv'">
                 <div class="status-lamp"></div>
