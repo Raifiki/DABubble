@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { combineLatest } from 'rxjs';
 import { AddMembersComponent } from './general-view/overlay/add-members/add-members.component';
 import { MembersListComponent } from './general-view/overlay/members-list/members-list.component';
+import { MembersComponent } from './general-view/overlay/members/members.component';
 
 export const routes: Routes = [
   { path: '', component: RegisterComponent },
@@ -18,5 +19,5 @@ export const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'resetPW', component: ResetpasswordComponent },
   { path: 'generalView', component: GeneralViewComponent },
-  {path: 'testing', component: MembersListComponent},
+  {path: 'testing', component: MembersComponent},
 ];
