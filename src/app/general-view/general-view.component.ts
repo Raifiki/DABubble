@@ -14,6 +14,7 @@ import { OverlayComponent } from './overlay/overlay.component';
 import { User } from '../shared/interfaces/interfaces';
 import { LeftSideComponent } from './overlay/left-side/left-side.component';
 import { NewMessageComponent } from './overlay/new-message/new-message.component';
+import { DirectMessageComponent } from './overlay/direct-message/direct-message.component';
 
 @Component({
   selector: 'app-general-view',
@@ -24,6 +25,7 @@ import { NewMessageComponent } from './overlay/new-message/new-message.component
     OverlayComponent,
     LeftSideComponent,
     NewMessageComponent,
+    DirectMessageComponent
   ],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
