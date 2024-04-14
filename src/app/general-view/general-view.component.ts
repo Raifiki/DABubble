@@ -12,6 +12,7 @@ import { OverlayComponent } from './overlay/overlay.component';
 
 // import interfaces
 import { User } from '../shared/interfaces/interfaces';
+import { LeftSideComponent } from './overlay/left-side/left-side.component';
 
 @Component({
   selector: 'app-general-view',
@@ -19,7 +20,8 @@ import { User } from '../shared/interfaces/interfaces';
   imports: [
     CommonModule, 
     FormsModule, 
-    OverlayComponent],
+    OverlayComponent,
+  LeftSideComponent],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss'
 })
