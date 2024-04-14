@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MembersListComponent } from '../members-list/members-list.component';
 
 @Component({
   selector: 'app-left-side',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, MembersListComponent],
   templateUrl: './left-side.component.html',
   styleUrl: './left-side.component.scss'
 })
