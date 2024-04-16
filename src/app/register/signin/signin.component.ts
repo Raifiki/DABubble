@@ -3,9 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationService } from '../../services/animation.service';
-import { UserprofileComponent } from '../../general-view/overlay/userprofile/userprofile.component';
 import { User } from '../../shared/interfaces/interfaces';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
 
@@ -37,9 +35,6 @@ export class SigninComponent {
   @Output() chooseAvatar = new EventEmitter();
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private animationService: AnimationService,
     private userService: UserService
   ) {}
 

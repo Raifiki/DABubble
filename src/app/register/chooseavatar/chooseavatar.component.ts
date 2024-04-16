@@ -3,6 +3,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 // import costumer components
 import { OverlayaccountcreatedComponent } from './overlayaccountcreated/overlayaccountcreated.component';
 import { User } from '../../shared/interfaces/interfaces';
+import { UserService } from '../../services/user.service';
+
 
 // import interfaces
 
@@ -28,14 +30,16 @@ export class ChooseavatarComponent {
     'assets/img/avatar/avatar5.svg',
   ];
 
-  constructor(){
-    // just for static use
-    this.user = {
-      name: 'Leo Weiß',
-      avatarImgPath: 'assets/img/avatar/profile.svg',
-      email: 'leonard_weiss@web.de',
-      password: ''
-    };
+  constructor(private userService: UserService){
+    this.userService.user.subscribe(userData => {
+      this.user = {
+        name: userData.name,
+        avatarImgPath: this.avatarImgPathList[0],
+        email: userData.email,
+        password: userData.password
+      };
+    });
+    this.userService.user.next(this.user)
   }
 
   changeAvatarImg(imgPath:string){
