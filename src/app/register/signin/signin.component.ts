@@ -24,14 +24,16 @@ import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
 export class SigninComponent {
   checkboxChecked = false;
   @Output() isShowen = new EventEmitter();
-  user: BehaviorSubject<User> = new BehaviorSubject<User>({
+
+  user: User = {
     name: '',
     avatarImgPath: '',
     email: '',
     password: '',
     status: 'Aktiv',
-  });
-  user$ = this.user.asObservable();
+  };
+
+
   @Output() chooseAvatar = new EventEmitter();
 
   constructor(
@@ -54,6 +56,7 @@ export class SigninComponent {
       status: 'Aktiv',
     };
     this.userService.user.next(user);
+    console.log(this.userService.user)
     this.chooseAvatar.emit(true);
   }
 

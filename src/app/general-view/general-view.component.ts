@@ -36,7 +36,7 @@ import { ThreadComponent } from './overlay/thread/thread.component';
 })
 export class GeneralViewComponent {
   constructor(private userService: UserService) {
-    this.unsubscribe = this.userService.user$.subscribe(
+    this.unsubscribe = this.userService.user.subscribe(
       (user) => (this.activeUser = user)
     );
   }
