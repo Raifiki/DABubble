@@ -17,6 +17,7 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 })
 export class EditprofileComponent {
   user: User = {
+    id: '',
     name: 'Leo Weiß',
     avatarImgPath: 'assets/img/avatar/avatar0.svg',
     email: 'leonard_weiss@web.de',

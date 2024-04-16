@@ -8,6 +8,7 @@ import { User } from '../shared/interfaces/interfaces';
 })
 export class UserService {
   user: BehaviorSubject<User> = new BehaviorSubject<User>({
+    id:'',
     name: '',
     avatarImgPath: '',
     email: '',

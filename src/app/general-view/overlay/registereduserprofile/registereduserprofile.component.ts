@@ -17,6 +17,7 @@ export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
 
   user: User = {
+    id: '',
     name: 'Leo Weiß',
     avatarImgPath: 'assets/img/avatar/avatar0.svg',
     email: 'leonard_weiss@web.de',

@@ -12,6 +12,7 @@ import { User } from '../../../shared/interfaces/interfaces';
 
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { ChannelService } from '../../../services/channel.service';
 
 @Component({
   selector: 'app-createchannel',
@@ -21,15 +22,17 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
   styleUrl: './createchannel.component.scss'
 })
 export class CreatechannelComponent {
-  channel: Channel = new Channel();
+  channel: Channel = new Channel('','','');
 
   formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';
 
   overlayCtrlService = inject(OverlaycontrolService);
+  channelService = inject(ChannelService);
 
   users: User[] = [
     {
+      id: 'dummyID0',
       name: 'User0',
       avatarImgPath: 'assets/img/avatar/avatar0.svg',
       email: 'user0@DABubble.com',
@@ -37,6 +40,7 @@ export class CreatechannelComponent {
       password: ''
     }, 
     {
+      id: 'dummyID1',
       name: 'User1',
       avatarImgPath: 'assets/img/avatar/avatar2.svg',
       email: 'user1@DABubble.com',
@@ -44,6 +48,7 @@ export class CreatechannelComponent {
       password: ''
     },
     {
+      id: 'dummyID2',
       name: 'User2',
       avatarImgPath: 'assets/img/avatar/avatar3.svg',
       email: 'user2@DABubble.com',
@@ -51,6 +56,7 @@ export class CreatechannelComponent {
       password: ''
     },
     {
+      id: 'dummyID3',
       name: 'User3',
       avatarImgPath: 'assets/img/avatar/avatar4.svg',
       email: 'user3@DABubble.com',
@@ -58,6 +64,7 @@ export class CreatechannelComponent {
       password: ''
     },
     {
+      id: 'dummyID4',
       name: 'User4',
       avatarImgPath: 'assets/img/avatar/avatar5.svg',
       email: 'user4@DABubble.com',
@@ -88,6 +95,13 @@ export class CreatechannelComponent {
     }
   }
 
+  getUserData(userID: string): User{
+    let user: User = {} as User;
+    let idx = this.users.findIndex(user => user.id == userID);
+    if(idx >= 0) user = this.users[idx];
+    return user;
+  }
+
   filterUsers(prompt:string){
     this.filteredUser = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
   }
@@ -96,5 +110,4 @@ export class CreatechannelComponent {
     this.overlayCtrlService.hideOverlay();
     console.log('channel created event - save data not implemented');
   }
-
 }

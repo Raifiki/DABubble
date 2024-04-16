@@ -33,6 +33,7 @@ export class ChooseavatarComponent {
   constructor(private userService: UserService){
     this.userService.user.subscribe(userData => {
       this.user = {
+        id: userData.id,
         name: userData.name,
         avatarImgPath: this.avatarImgPathList[0],
         email: userData.email,

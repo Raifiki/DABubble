@@ -24,6 +24,7 @@ export class SigninComponent {
   @Output() isShowen = new EventEmitter();
 
   user: User = {
+    id: '',
     name: '',
     avatarImgPath: '',
     email: '',
@@ -44,6 +45,7 @@ export class SigninComponent {
 
   onSubmit(form: NgForm) {
     const user: User = {
+      id:'',
       name: form.value.userName,
       email: form.value.userEmail,
       avatarImgPath: '',
