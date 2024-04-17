@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,11 @@ export class LoginComponent {
   @Output() isPwForgotten = new EventEmitter();
   @Output() isShowen = new EventEmitter();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
 
-  onSubmit(f: NgForm) {}
+  onSubmit(f: NgForm) {
+    this.userService.logUserIn(f.value.userEmail, f.value.password)
+  }
 
   goTo() {
     this.router.navigate(['/generalView']);
