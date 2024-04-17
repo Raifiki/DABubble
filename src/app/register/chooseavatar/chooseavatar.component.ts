@@ -48,11 +48,23 @@ export class ChooseavatarComponent {
   }
 
   createAccount(){
+    this.userService.createAcc(this.user.email, this.user.password)
     this.toggleOverlay = !this.toggleOverlay;
+    this.deleteUserData()
+    this.goBack()
   }
 
   goBack() {
     this.isShowen.emit(false)
   }
 
+  deleteUserData() {
+    this.user = {
+       id: '',
+       name: '',
+       avatarImgPath: '',
+       email: '',
+       password: ''
+    }
+  }
 }

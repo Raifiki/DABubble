@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../shared/interfaces/interfaces';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FirebaseInitService } from './firebase-init.service';
 
 
 @Injectable({
@@ -15,11 +17,19 @@ export class UserService {
     password: '',
     status: 'Aktiv'
   });
-  
+   
+ 
+  constructor(private firebaseInitService: FirebaseInitService ) {
+  }
 
-
-  constructor() {
-
+  async createAcc(email: string, password: string) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.firebaseInitService.getAuth(), email, password);
+      console.log(userCredential.user);
+    } catch (error: any) {
+      alert('Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' + error)
+      console.log(error)
+    }
   }
 
 

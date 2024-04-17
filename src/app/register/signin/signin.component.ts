@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationService } from '../../services/animation.service';
 import { User } from '../../shared/interfaces/interfaces';
 import { UserService } from '../../services/user.service';
-import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
+
 
 
 @Component({
@@ -14,7 +14,6 @@ import { ChooseavatarComponent } from '../chooseavatar/chooseavatar.component';
   imports: [
     FormsModule,
     CommonModule,
-    ChooseavatarComponent,
   ],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
@@ -53,7 +52,7 @@ export class SigninComponent {
       status: 'Aktiv',
     };
     this.userService.user.next(user);
-    console.log(this.userService.user)
+    console.log(this.userService.user) 
     this.chooseAvatar.emit(true);
   }
 
