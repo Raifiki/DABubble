@@ -4,7 +4,7 @@
       <img src="./../../../../assets/icons/Workspace logo.jpg" alt="" />
       <p>Devspace</p>
     </div>
-    <img src="../../../../assets/icons/16. edit_square.jpg" alt="" />
+    <img src="../../../../assets/icons/16. edit_square.jpg"  (click)="openNewMessageComponent()" />
   </div>
   <div class="body">
     <div class="channels">
@@ -14,14 +14,14 @@
           <img src="../../../../assets/icons/workspaces.svg" alt="" />
           <b>Channels</b>
         </div>
-        <div class="plus-icon"></div>
+        <div class="plus-icon" (click)="overlayCtrlService.showOverlay('createChannel')" ></div>
       </div>
       <div class="channels-list">
         <p class="channels-name"># Entwicklerteam</p>
       </div>
       <div class="bottom">
         <img src="../../../../assets/icons/add_circle.jpg" alt="" />
-        <p>Channel hinzufügen</p>
+        <p (click)="overlayCtrlService.showOverlay('createChannel')">Channel hinzufügen</p>
       </div>
     </div>
     <div class="direct-messages">

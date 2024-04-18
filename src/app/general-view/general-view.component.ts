@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { OverlaycontrolService } from '../services/overlaycontrol.service';
 import { ChannelService } from '../services/channel.service';
+import { MessageService } from '../services/message.service';
+
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
@@ -37,10 +39,32 @@ import { User } from '../shared/models/user.class';
   styleUrl: './general-view.component.scss',
 })
 export class GeneralViewComponent {
+
+    currentMessageComponent: "channel-message" | "direct-message" | "new-message" = "channel-message";
+
+
   constructor(private userService: UserService) {
     this.unsubscribe = this.userService.user.subscribe(
       (user) => (this.activeUser = user)
     );
+  }
+
+  toggleMessageComponent(nextComponent: "channel-message" | "direct-message" | "new-message") {
+    this.currentMessageComponent = nextComponent;
+     switch (this.currentMessageComponent) {
+      case 'channel-message':
+        this.currentMessageComponent = 'direct-message';
+        break;
+      case 'direct-message':
+        this.currentMessageComponent = 'new-message';
+        break;
+      case 'new-message':
+        this.currentMessageComponent = 'channel-message';
+        break;
+      default:
+        this.currentMessageComponent = 'channel-message';
+        break;
+    }
   }
 
   activeUser!: User;
@@ -49,6 +73,7 @@ export class GeneralViewComponent {
 
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
+ 
 
   ngOnDestroy(): void {
     this.unsubscribe.unsubscribe();

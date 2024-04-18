@@ -41,6 +41,7 @@
     width: 40px;
     height: 40px;
     vertical-align: middle;
+    cursor: pointer;
   }
 }
 .body {
@@ -61,6 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   > div {
     display: flex;
 
@@ -86,6 +88,7 @@
   background-image: url(../../../assets/icons/add.svg);
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 
 .channels-list{
@@ -121,6 +124,7 @@
 
   > p {
     margin: 0;
+    cursor: pointer;
   }
 
   &:hover {
