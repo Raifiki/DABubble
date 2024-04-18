@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { User } from '../../shared/interfaces/interfaces';
 import { UserService } from '../../services/user.service';
+import { User } from '../../shared/models/user.class';
 
 
 @Component({
@@ -19,14 +19,7 @@ export class SigninComponent {
   checkboxChecked = false;
   @Output() isShowen = new EventEmitter();
 
-  user: User = {
-    id: '',
-    name: '',
-    avatarImgPath: '',
-    email: '',
-    password: '',
-    status: 'Aktiv',
-  };
+  user: User = new User();
 
 
   @Output() chooseAvatar = new EventEmitter();
@@ -40,14 +33,15 @@ export class SigninComponent {
   }
 
   onSubmit(form: NgForm) {
-    const user: User = {
+    const user: User = new User({
       id:'',
       name: form.value.userName,
       email: form.value.userEmail,
-      avatarImgPath: '',
       password: form.value.password,
+      imgPath: 'assets/img/avatar/profile.svg',
       status: 'Aktiv',
-    };
+    });
+    console.log('submit signIN:',user);
     this.userService.user.next(user);
     this.chooseAvatar.emit(true);
   }

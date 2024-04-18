@@ -1,8 +1,6 @@
-// import interfaces
-import { User } from "../interfaces/interfaces";
-
 // import classes
 import { Reaction } from "./reaction.class";
+import { User } from "./user.class";
 
 export class Message {
     creator!: User;

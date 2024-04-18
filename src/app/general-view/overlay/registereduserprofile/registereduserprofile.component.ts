@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 
-//import interfaces
-import { User } from '../../../shared/interfaces/interfaces';
-
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+
+// import classes
+import { User } from '../../../shared/models/user.class';
 
 @Component({
   selector: 'app-registereduserprofile',
@@ -16,12 +16,11 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
 
-  user: User = {
+  user: User = new User({
     id: '',
     name: 'Leo Weiß',
-    avatarImgPath: 'assets/img/avatar/avatar0.svg',
+    imgPath: 'assets/img/avatar/avatar0.svg',
     email: 'leonard_weiss@web.de',
     status: 'Aktiv',
-    password: ''
-  };
+  });
 }

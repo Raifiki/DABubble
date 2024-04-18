@@ -6,9 +6,7 @@ import { UserlistitemComponent } from '../../../shared/components/userlistitem/u
 
 // import classes
 import { Channel } from '../../../shared/models/channel.class';
-
-// import interfaces
-import { User } from '../../../shared/interfaces/interfaces';
+import { User } from '../../../shared/models/user.class';
 
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
@@ -31,46 +29,41 @@ export class CreatechannelComponent {
   channelService = inject(ChannelService);
 
   users: User[] = [
-    {
+    new User ({
       id: 'dummyID0',
       name: 'User0',
-      avatarImgPath: 'assets/img/avatar/avatar0.svg',
+      imgPath: 'assets/img/avatar/avatar0.svg',
       email: 'user0@DABubble.com',
       status: 'Aktiv',
-      password: ''
-    }, 
-    {
+    }), 
+    new User ({
       id: 'dummyID1',
       name: 'User1',
-      avatarImgPath: 'assets/img/avatar/avatar2.svg',
+      imgPath: 'assets/img/avatar/avatar2.svg',
       email: 'user1@DABubble.com',
       status: 'Abwesend',
-      password: ''
-    },
-    {
+    }),
+    new User ({
       id: 'dummyID2',
       name: 'User2',
-      avatarImgPath: 'assets/img/avatar/avatar3.svg',
+      imgPath: 'assets/img/avatar/avatar3.svg',
       email: 'user2@DABubble.com',
       status: 'Aktiv',
-      password: ''
-    },
-    {
+    }),
+    new User ({
       id: 'dummyID3',
       name: 'User3',
-      avatarImgPath: 'assets/img/avatar/avatar4.svg',
+      imgPath: 'assets/img/avatar/avatar4.svg',
       email: 'user3@DABubble.com',
       status: 'Abwesend',
-      password: ''
-    },
-    {
+    }),
+    new User ({
       id: 'dummyID4',
       name: 'User4',
-      avatarImgPath: 'assets/img/avatar/avatar5.svg',
+      imgPath: 'assets/img/avatar/avatar5.svg',
       email: 'user4@DABubble.com',
       status: 'Aktiv',
-      password: ''
-    }
+    })
   ];
 
   filteredUser: User[] = this.users;

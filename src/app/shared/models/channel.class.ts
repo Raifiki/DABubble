@@ -1,8 +1,7 @@
-// import interfaces
-import { User } from "../interfaces/interfaces";
 
 //import classes
 import { Message } from "./message.class";
+import { User } from "./user.class";
 
 export class Channel {
     id: string;
@@ -23,14 +22,13 @@ export class Channel {
 
     createUserObject(userID: string): User{
         // add code to get User from Backend
-        return {
-                id:'dummyIDSignedInUser',
-                name: 'Leo Weiß',
-                avatarImgPath: 'assets/img/avatar/avatar1.svg',
-                email: 'test@dev.com',
-                status: 'Aktiv' ,
-                password: 'Test12345!',
-              };
+        return new User({
+            id: 'dummyIDSignedInUser',
+            name: 'Leo Weiß',
+            email: 'test@dev.com',
+            imgPath: 'assets/img/avatar/avatar1.svg',
+            status: 'Aktiv',
+        });
     }
 
     createMemberList(userIDs:string[]): User[]{

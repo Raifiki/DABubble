@@ -38,7 +38,7 @@ export class EditchannelComponent {
     this.resizeTextarea();
   }
 
-  ngOnDestroay(){
+  ngOnDestroy(){
     this.unsubscripeChannel.unsubscribe();
   }
 

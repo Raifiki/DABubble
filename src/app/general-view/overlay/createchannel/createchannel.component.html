@@ -51,7 +51,7 @@
                             <div class="selected-user-list">
                                 @for (member of channel.members; track member; let idx = $index) {
                                     <div class="user-chip">
-                                        <img src="{{ member.avatarImgPath }}" alt="avatar">
+                                        <img src="{{ member.imgPath }}" alt="avatar">
                                         <span>{{ member.name }}</span>
                                         <button class="btn-default icon-btn remove-user-btn" (click)="removeUser(idx)">
                                             <div class="back-btn-icon"></div>
