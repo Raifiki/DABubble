@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
-//import interfaces
-import { User } from '../../../shared/interfaces/interfaces';
-
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+
+// import classes
+import { User } from '../../../shared/models/user.class';
 
 
 @Component({
@@ -16,14 +16,14 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
   styleUrl: './editprofile.component.scss'
 })
 export class EditprofileComponent {
-  user: User = {
+  user: User = new User ({
     id: '',
     name: 'Leo Weiß',
-    avatarImgPath: 'assets/img/avatar/avatar0.svg',
+    imgPath: 'assets/img/avatar/avatar0.svg',
     email: 'leonard_weiss@web.de',
     status: 'Aktiv',
     password: ''
-  };
+  });
 
   overlayCtrlService = inject(OverlaycontrolService);
 

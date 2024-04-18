@@ -1,10 +1,10 @@
 import { Component, Input, inject } from '@angular/core';
 
-// import interfaces
-import { User } from '../../interfaces/interfaces';
-
 // import services
 import { UserService } from '../../../services/user.service';
+
+// import classes
+import { User } from '../../models/user.class';
 
 @Component({
   selector: 'app-userlistitem',

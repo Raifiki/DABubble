@@ -1,28 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../shared/interfaces/interfaces';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
 import { doc, collection,  onSnapshot } from "firebase/firestore";
-import { docData } from '@angular/fire/firestore';
-import { UserClass } from '../shared/models/user.class';
+import { User } from '../shared/models/user.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  user: BehaviorSubject<User> = new BehaviorSubject<User>({
-    id: '',
-    name: '',
-    avatarImgPath: '',
-    email: '',
-    password: '',
-    status: 'Aktiv',
-  });
-
+  user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  enteredPassword!: string;
   usersList: any[] = [];
   unsubUserList: any;
   unsubUser: any;
@@ -96,7 +87,7 @@ export class UserService {
     let userRef = this.getUserRef(userID);
      this.unsubUser = onSnapshot(userRef, (data) => {
         const userData = data.data();
-        const user = new UserClass(userData)
+        const user = new User(userData)
         console.log(user)
       })
     } 

@@ -16,8 +16,9 @@ import { DirectMessageComponent } from './overlay/direct-message/direct-message.
 import { ChannelMessageComponent } from './overlay/channel-message/channel-message.component';
 import { ThreadComponent } from './overlay/thread/thread.component';
 
-// import interfaces
-import { User } from '../shared/interfaces/interfaces';
+// import classes
+import { User } from '../shared/models/user.class';
+
 
 @Component({
   selector: 'app-general-view',

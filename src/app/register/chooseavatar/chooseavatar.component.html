@@ -7,7 +7,7 @@
         <h2>Wähle deinen Avatar</h2>
     </div>
     <div class="card-content">
-        <img class="profile-img btn" src="{{ user.avatarImgPath }}" alt="user-avatar">
+        <img class="profile-img btn" src="{{ user.imgPath }}" alt="user-avatar">
         <div class="card-content-avatar-wrapper">
             <div class="avatar-list-text-wrapper">
                 <span class="user-name"><b>{{ user.name }}</b></span>
@@ -15,7 +15,7 @@
             </div>
             <div class="avatar-list-img-wrapper">
                 @for(imgPath of avatarImgPathList; track imgPath; let idx = $index){
-                    <button class="avatar-btn btn-default" [class.avatar-active]="user.avatarImgPath == avatarImgPathList[idx]" (click)="changeAvatarImg(avatarImgPathList[idx])">
+                    <button class="avatar-btn btn-default" [class.avatar-active]="user.imgPath == avatarImgPathList[idx]" (click)="changeAvatarImg(avatarImgPathList[idx])">
                         <img src="{{ imgPath }}" alt="">
                     </button>
                 }

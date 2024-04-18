@@ -1,5 +1,6 @@
-//import interfaces
-import { User } from "../interfaces/interfaces";
+//import classes
+import { User } from "./user.class";
+
 
 export class Reaction {
     imgPath:string;
