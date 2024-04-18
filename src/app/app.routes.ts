@@ -7,9 +7,6 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { GeneralViewComponent } from './general-view/general-view.component';
 import { SigninComponent } from './register/signin/signin.component';
 import { RegisterComponent } from './register/register.component';
-import { combineLatest } from 'rxjs';
-import { AddMembersComponent } from './general-view/overlay/add-members/add-members.component';
-import { MembersListComponent } from './general-view/overlay/members-list/members-list.component';
 import { MembersComponent } from './general-view/overlay/members/members.component';
 
 export const routes: Routes = [
