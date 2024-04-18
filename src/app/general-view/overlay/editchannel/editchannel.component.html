@@ -26,7 +26,7 @@
             <div class="field-header-wrapper">
                 <span>Beschreibung</span>
                 @if (editDetails) {
-                    <button class="btn-default text-btn" (click)="editDetails = false">Speichern</button>
+                    <button class="btn-default text-btn" (click)="editDetails = false ; updateChannelDescription()">Speichern</button>
                 } @else {
                     <button class="btn-default text-btn" (click)="editDetails = true">Bearbeiten</button>
                 }
@@ -43,5 +43,5 @@
             </div>
         </div>
     </div>
-    <button class="btn-default primary-btn">Channel verlassen</button>
+    <button class="btn-default primary-btn" (click)="removeUserFromChannel()">Channel verlassen</button>
 </div>

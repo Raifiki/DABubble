@@ -22,8 +22,9 @@ export class Channel {
     }
 
     createUserObject(userID: string): User{
+        // add code to get User from Backend
         return {
-                id:'',
+                id:'dummyIDSignedInUser',
                 name: 'Leo Weiß',
                 avatarImgPath: 'assets/img/avatar/avatar1.svg',
                 email: 'test@dev.com',
@@ -38,5 +39,14 @@ export class Channel {
             userList.push(this.createUserObject(userID));
         });
         return userList;
+    }
+
+    getCleanBEJSON(){
+        return {
+            creatorID: this.creator.id,
+            description: this.description,
+            name: this.name,
+            userID: this.members.map(member => member.id),
+        }
     }
 }

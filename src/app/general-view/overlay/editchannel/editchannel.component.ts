@@ -30,7 +30,7 @@ export class EditchannelComponent {
   @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
 
   constructor(){
-    this.unsubscripeChannel = this.channelService.openedChannel$.subscribe(channel => this.channel = channel);
+    this.unsubscripeChannel = this.channelService.activeChannel$.subscribe(channel => this.channel = channel);
     this.newName = this.channel.name;
   }
   
@@ -47,8 +47,23 @@ export class EditchannelComponent {
     this.textarea.nativeElement.style.height = this.textarea.nativeElement.scrollHeight + 'px';
   }
 
-  updateChannelName(){
+  async updateChannelName(){
     this.channel.name = this.newName;
+    await this.updateChannelOnServer();
+  }
+  
+  async updateChannelDescription(){
+    await this.updateChannelOnServer();
+  }
+  
+  
+  async removeUserFromChannel(){
+    // remove signedIn user from chennel memberlist and channel from user channel list needs to be done
+    await this.updateChannelOnServer();
+  }
+
+  async updateChannelOnServer(){
+    await this.channelService.updateChannel(this.channel);
   }
 
 }

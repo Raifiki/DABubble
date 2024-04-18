@@ -81,12 +81,18 @@ export class CreatechannelComponent {
     }
   }
 
-  onSubmit(form:NgForm){
-
+  async onSubmitCreateChannel(form:NgForm){
+    if(form.valid){
+      if(this.memberSelection == 'all') this.addAllUsers2Channel();
+      this.addCreator2Channel();
+      await this.channelService.createChannel(this.channel);
+      this.overlayCtrlService.hideOverlay();
+      console.log('channel created event - save data not implemented', this.channel.getCleanBEJSON());
+    }
   }
 
   removeUser(idx:number){
-    this.channel.members.splice(idx,1)
+    this.channel.members.splice(idx,1);
   }
 
   addUser(idx:number){
@@ -106,8 +112,17 @@ export class CreatechannelComponent {
     this.filteredUser = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
   }
 
-  createChannel(){
-    this.overlayCtrlService.hideOverlay();
-    console.log('channel created event - save data not implemented');
+  addCreator2Channel(){
+    // signedIn USer ID missing --> Dummy user in channel class defined
+    //if (!this.channel.members.find(user => user == 'sinedInUser'){
+    //  this.channel.members.push('sinedInUser');
+    //}
+    //this.channel.creator = this.getUserData(signedIN_User_ID); 
   }
+
+  addAllUsers2Channel(){
+    this.channel.members = [];
+    this.users.forEach( user => this.channel.members.push(user));
+  }
+
 }
