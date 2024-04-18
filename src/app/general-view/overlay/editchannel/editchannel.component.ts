@@ -20,8 +20,6 @@ export class EditchannelComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
 
-  unsubscripeChannel: Subscription
-
   channel!: Channel;
   newName: string;
   editName: boolean = false;
@@ -30,7 +28,7 @@ export class EditchannelComponent {
   @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
 
   constructor(){
-    this.unsubscripeChannel = this.channelService.activeChannel$.subscribe(channel => this.channel = channel);
+    this.channel = this.channelService.activeChannel;
     this.newName = this.channel.name;
   }
   
@@ -39,7 +37,6 @@ export class EditchannelComponent {
   }
 
   ngOnDestroy(){
-    this.unsubscripeChannel.unsubscribe();
   }
 
   resizeTextarea(){

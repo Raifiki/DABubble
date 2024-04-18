@@ -7,6 +7,7 @@ import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from 'fireb
 
 // import classes
 import { Channel } from '../shared/models/channel.class';
+import { Unsubscribe } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ import { Channel } from '../shared/models/channel.class';
 export class ChannelService {
 
   channels: Channel[] = [];
-  private activeChannel: BehaviorSubject<Channel> = new BehaviorSubject<Channel>(new Channel('', '', ''));
-  activeChannel$ = this.activeChannel.asObservable();
+  activeChannel: Channel = {} as Channel;
 
   firestore: Firestore = inject(Firestore);
   unsubChannels;
+  unsubChannel!: Unsubscribe;
 
   constructor(){
     this.unsubChannels = this.subChannels();
@@ -37,11 +38,8 @@ export class ChannelService {
               channel.data()['userID']
             )
           );
-            // remove at end +++++++++++++++++
-            console.log('unfiltered Channels:', this.channels);
-            // remove at end +++++++++++++++++
-          });
-          this.setActiveChannel('LbzEitGqaO3A2U8Jl6lj')
+        });
+      this.subChannel('LbzEitGqaO3A2U8Jl6lj');
     })
   }
 
@@ -81,10 +79,21 @@ export class ChannelService {
 
   ngOnDestroy(){
     this.unsubChannels();
+    this.unsubChannel();
   }
 
-  setActiveChannel(channelID:string){
-    let channel = this.channels.find(channel => channel.id == channelID)
-    if (channel) this.activeChannel.next(channel);
+  subChannel(channelID:string){
+    this.unsubChannel = onSnapshot(this.getChannelRef(channelID), (channel) => {
+      let data = channel.data();
+      if (data) {
+        this.activeChannel = new Channel(
+          channel.id,
+          data['name'],
+          data['creatorID'],
+          data['description'],
+          data['userID']
+        );
+      }
+    });
   }
 }
