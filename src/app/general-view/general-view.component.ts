@@ -6,17 +6,18 @@ import { Subscription } from 'rxjs';
 // import services
 import { UserService } from '../services/user.service';
 import { OverlaycontrolService } from '../services/overlaycontrol.service';
+import { ChannelService } from '../services/channel.service';
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
-
-// import interfaces
-import { User } from '../shared/interfaces/interfaces';
 import { LeftSideComponent } from './overlay/left-side/left-side.component';
 import { NewMessageComponent } from './overlay/new-message/new-message.component';
 import { DirectMessageComponent } from './overlay/direct-message/direct-message.component';
 import { ChannelMessageComponent } from './overlay/channel-message/channel-message.component';
 import { ThreadComponent } from './overlay/thread/thread.component';
+
+// import interfaces
+import { User } from '../shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-general-view',
@@ -46,6 +47,7 @@ export class GeneralViewComponent {
   private unsubscribe!: Subscription;
 
   overlayCtrlService = inject(OverlaycontrolService);
+  channelService = inject(ChannelService);
 
   ngOnDestroy(): void {
     this.unsubscribe.unsubscribe();

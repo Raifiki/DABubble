@@ -36,7 +36,7 @@
                 </button>
             </form>
         } @else {
-            <form #createChannelForm="ngForm" (ngSubmit)="onSubmit(createChannelForm)"  autocomplete="off"> 
+            <form #createChannelForm="ngForm" (ngSubmit)="onSubmitCreateChannel(createChannelForm)"  autocomplete="off"> 
                 <div class="radio-ipt-wrapper">
                     <input type="radio" id="all"   name="addMember" value="all"  [(ngModel)]="memberSelection">
                     <label for="all">Alle Mitglieder zu <span class="channel-name">#{{ channel.name }}</span> hinzufügen</label><br>
@@ -74,7 +74,7 @@
                     <button class="btn-default secondary-btn" type="button" (click)="formState='channelName'">
                         <span>Zurück</span>
                     </button>
-                    <button class="btn-default primary-btn" [disabled]="memberSelection == 'select' && channel.members.length == 0" (click)="createChannel()">
+                    <button class="btn-default primary-btn" [disabled]="memberSelection == 'select' && channel.members.length == 0">
                         <span>Weiter</span>
                     </button>
                 </div>
