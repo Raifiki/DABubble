@@ -42,7 +42,6 @@ export class SigninComponent {
       imgPath: 'assets/img/avatar/profile.svg',
       status: 'Aktiv',
     });
-    console.log('submit signIN:',user);
     this.userService.user.next(user);
     this.chooseAvatar.emit(true);
   }
