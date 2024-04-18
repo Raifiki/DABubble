@@ -1,5 +1,5 @@
-@import "./../../../shared/styles/includeStyles.scss";
-@import "./../../../../styles.scss";
+@import "../../../styles.scss";
+@import "../../shared/styles/includeStyles.scss";
 
 .content {
   display: flex;
@@ -57,7 +57,7 @@
 .back-btn{
     width: 40px;
     >.back-btn-icon{
-        mask-image: url(./../../../../assets/icons/close.svg);
+        mask-image: url(../../../assets/icons/close.svg);
     }
 }
 

@@ -1,5 +1,5 @@
-@import "./../../../shared/styles/includeStyles.scss";
-@import "./../../../../styles.scss";
+@import "./../../shared/styles/includeStyles.scss";
+@import "./../../../styles.scss";
 
 
 .content {
@@ -77,13 +77,13 @@
 }
 
 .dropdown {
-  background-image: url(../../../../assets/icons/arrow_drop_down.svg);
+  background-image: url(../../../assets/icons/arrow_drop_down.svg);
   width: 30px;
   height: 30px;
 }
 
 .plus-icon {
-  background-image: url(../../../../assets/icons/add.svg);
+  background-image: url(../../../assets/icons/add.svg);
   width: 24px;
   height: 24px;
 }
@@ -128,7 +128,7 @@
   }
 
   &:hover  img {
-    content: url(../../../../assets/icons/add_circle_hover.jpg);
+    content: url(../../../assets/icons/add_circle_hover.jpg);
   }
 }
 

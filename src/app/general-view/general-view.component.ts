@@ -10,11 +10,11 @@ import { ChannelService } from '../services/channel.service';
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
-import { LeftSideComponent } from './overlay/left-side/left-side.component';
-import { NewMessageComponent } from './overlay/new-message/new-message.component';
-import { DirectMessageComponent } from './overlay/direct-message/direct-message.component';
-import { ChannelMessageComponent } from './overlay/channel-message/channel-message.component';
-import { ThreadComponent } from './overlay/thread/thread.component';
+import { LeftSideComponent } from './left-side/left-side.component';
+import { NewMessageComponent } from './messages/new-message/new-message.component';
+import { DirectMessageComponent } from './messages/direct-message/direct-message.component';
+import { ChannelMessageComponent } from './messages/channel-message/channel-message.component';
+import { ThreadComponent } from './thread/thread.component';
 
 // import classes
 import { User } from '../shared/models/user.class';
