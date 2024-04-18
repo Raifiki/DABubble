@@ -83,6 +83,7 @@ export class UserService {
         let data = element.data()
         let user = {id, data}
         this.usersList.push(user)
+        console.log(this.usersList)
       });
     })
   }

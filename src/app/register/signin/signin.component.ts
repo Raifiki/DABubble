@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AnimationService } from '../../services/animation.service';
 import { User } from '../../shared/interfaces/interfaces';
 import { UserService } from '../../services/user.service';
-
 
 
 @Component({
