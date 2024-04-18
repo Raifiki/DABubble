@@ -30,8 +30,10 @@ export class ChooseavatarComponent {
     'assets/img/avatar/avatar5.svg',
   ];
 
+  subscription;
+
   constructor(private userService: UserService){
-    this.userService.user.subscribe(userData => {
+   this.subscription = this.userService.user.subscribe(userData => {
       this.user = {
         id: userData.id,
         name: userData.name,
@@ -45,6 +47,7 @@ export class ChooseavatarComponent {
 
   changeAvatarImg(imgPath:string){
     this.user.avatarImgPath = imgPath;
+    this.userService.user.next(this.user)
   }
 
   createAccount(){
@@ -66,5 +69,12 @@ export class ChooseavatarComponent {
        email: '',
        password: ''
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe()
+  }
+  unsubscribe() {
+    this.subscription.unsubscribe()
   }
 }

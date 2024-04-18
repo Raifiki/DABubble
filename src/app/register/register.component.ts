@@ -30,7 +30,6 @@ export class RegisterComponent {
 
   constructor() {
     this.animationPlayed = this.animationService.amountPlayed();
-    console.log(this.animationPlayed);
   }
 
   showPwComponent(event: boolean) {

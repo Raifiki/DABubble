@@ -52,7 +52,6 @@ export class SigninComponent {
       status: 'Aktiv',
     };
     this.userService.user.next(user);
-    console.log(this.userService.user) 
     this.chooseAvatar.emit(true);
   }
 
