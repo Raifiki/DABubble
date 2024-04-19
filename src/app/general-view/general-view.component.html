@@ -13,7 +13,6 @@
     <div class="content">
         <div class="left-side" (buttonClick)="toggleMessageComponent(('new-message'))" ><app-left-side></app-left-side></div>
         <button (click)="overlayCtrlService.showOverlay('editChannel')">edit Channel</button>
-        <button (click)="overlayCtrlService.showOverlay('createChannel')">create Channel</button>
         <div class="middle"> <div *ngIf="currentMessageComponent === 'channel-message'">
             <app-channel-message></app-channel-message>
           </div>

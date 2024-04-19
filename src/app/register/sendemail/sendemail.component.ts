@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+
+// import firebase
+import { sendPasswordResetEmail } from 'firebase/auth';
+
+// import customer components
 import { OverlayemailsendComponent } from './overlayemailsend/overlayemailsend.component';
+
+// import services
+import { FirebaseInitService } from '../../services/firebase-init.service';
 
 @Component({
   selector: 'app-sendemail',
@@ -12,21 +20,29 @@ import { OverlayemailsendComponent } from './overlayemailsend/overlayemailsend.c
 })
 export class SendemailComponent {
   eMail!:string;
-  test!:string;
   @Output() isShowen = new EventEmitter()
   toggleOverlay:boolean = true;
 
+  authService = inject(FirebaseInitService);
+
   onSubmit(form:NgForm){
-    if(form.valid){
-      this.toggleOverlay = !this.toggleOverlay;
-      form.reset();
-    }
-    this.isShowen.emit(true)
+    if(form.valid) this.sendMail(form);
   }
 
-  
   goBack() {
     this.isShowen.emit(false)
    }
+
+  sendMail(form:NgForm){
+  sendPasswordResetEmail(this.authService.getAuth(),this.eMail)
+    .then(() => {
+      this.toggleOverlay = !this.toggleOverlay;
+      setTimeout(() => {
+        form.reset();
+        this.isShowen.emit(true);
+      },4000)
+    })
+    .catch(err => {alert(['eMail konnte nicht gesendet werden aufgrund folgendem Fehler:' + err])})
+  }
 
 }

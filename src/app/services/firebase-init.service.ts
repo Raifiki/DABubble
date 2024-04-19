@@ -31,4 +31,5 @@ export class FirebaseInitService {
   getDatabase() {
     return this.database // greift nur auf die datenbank zu. es müsste hier noch der name der datenbank angefügt werden, die geladen werden soll
   }
+
 }
