@@ -33,20 +33,21 @@ import { User } from '../shared/models/user.class';
     NewMessageComponent,
     DirectMessageComponent,
     ChannelMessageComponent,
-    ThreadComponent
+    ThreadComponent,
   ],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
 })
-export class GeneralViewComponent {
+export class GeneralViewComponent{
+  activeUser!:User
+  search!: string;
+  overlayCtrlService = inject(OverlaycontrolService);
+  channelService = inject(ChannelService);
+  currentMessageComponent: "channel-message" | "direct-message" | "new-message" = "channel-message";
 
-    currentMessageComponent: "channel-message" | "direct-message" | "new-message" = "channel-message";
 
-
-  constructor(private userService: UserService) {
-    this.unsubscribe = this.userService.user.subscribe(
-      (user) => (this.activeUser = user)
-    );
+  constructor() {
+    this.activeUser = new User(this.loadingUserFromStorage())
   }
 
   toggleMessageComponent(nextComponent: "channel-message" | "direct-message" | "new-message") {
@@ -67,15 +68,15 @@ export class GeneralViewComponent {
     }
   }
 
-  activeUser!: User;
-  search!: string;
-  private unsubscribe!: Subscription;
-
-  overlayCtrlService = inject(OverlaycontrolService);
-  channelService = inject(ChannelService);
- 
-
-  ngOnDestroy(): void {
-    this.unsubscribe.unsubscribe();
+  loadingUserFromStorage() {
+      const currentUserString = localStorage.getItem('user');
+      if (currentUserString) {
+        return new User(JSON.parse(currentUserString));
+      } else {
+        return null
+      }
   }
+
+
+
 }

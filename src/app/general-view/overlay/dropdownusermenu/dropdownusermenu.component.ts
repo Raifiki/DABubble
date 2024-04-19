@@ -18,6 +18,7 @@ export class DropdownusermenuComponent {
 
   logOut() {
     this.router.navigate(['/'])
+    localStorage.setItem('user', '')
     this.overlayCtrlService.hideOverlay();
   }
 }

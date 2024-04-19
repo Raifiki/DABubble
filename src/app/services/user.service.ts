@@ -18,11 +18,11 @@ export class UserService {
   usersList: any[] = [];
   unsubUserList: any;
   unsubUser: any;
+  activeUser!: User;
 
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUserListRef()
     this.getUsersList()
-    this.loadUser('APO3A94aSybOXtERYhx48l4N1B93')
     }
 
   async createAcc(email: string, password: string) {
@@ -53,7 +53,9 @@ export class UserService {
         password
       );
       await this.loadUser(userCredential.user.uid)
-      this.router.navigate(['/generalView'])
+      setTimeout(() => {
+        this.router.navigate(['/generalView'])
+      }, 1000);
     } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -113,6 +115,5 @@ export class UserService {
 
 
 }
-
 
 

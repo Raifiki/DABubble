@@ -23,7 +23,7 @@ export class LoginComponent {
   }
 
   goTo() {
-    this.router.navigate(['/generalView']);
+      this.router.navigate(['/generalView']);
   }
 
   forgotPw() {

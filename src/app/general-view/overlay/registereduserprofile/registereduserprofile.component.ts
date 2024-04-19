@@ -5,6 +5,7 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 
 // import classes
 import { User } from '../../../shared/models/user.class';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-registereduserprofile',
@@ -16,11 +17,20 @@ import { User } from '../../../shared/models/user.class';
 export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
 
-  user: User = new User({
-    id: '',
-    name: 'Leo Weiß',
-    imgPath: 'assets/img/avatar/avatar0.svg',
-    email: 'leonard_weiss@web.de',
-    status: 'Aktiv',
-  });
+  user!: User
+
+  constructor(private userService: UserService) {
+    this.user = new User(this.loadingUserFromStorage())
+  }
+
+  loadingUserFromStorage() {
+    let currentUser = localStorage.getItem('user')
+    if (currentUser) {
+      return new User(JSON.parse(currentUser))
+    } else {
+      return null
+    }
+  }
+    
+  
 }
