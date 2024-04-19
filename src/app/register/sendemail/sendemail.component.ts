@@ -34,6 +34,10 @@ export class SendemailComponent {
    }
 
   sendMail(form:NgForm){
+    var actionCodeSettings = {
+      url: 'http://localhost:4200',
+      handleCodeInApp: true
+    };
   sendPasswordResetEmail(this.authService.getAuth(),this.eMail)
     .then(() => {
       this.toggleOverlay = !this.toggleOverlay;
