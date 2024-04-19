@@ -20,8 +20,8 @@ export class FirebaseInitService {
   private initializeApp() {
     const firebaseConfig = environment.firebase;
     this.app = initializeApp(firebaseConfig);
-    this.auth = getAuth(this.app);
     this.database = getFirestore(this.app);
+    this.auth = getAuth(this.app);
   }
 
   getAuth() {

@@ -7,6 +7,7 @@ export class User {
     imgPath: string;
     status?: 'Aktiv' | 'Abwesend';
     password?:string;
+    
 
   
     constructor(obj?: any) {
@@ -17,14 +18,15 @@ export class User {
       this.email = obj ? obj.email : '';
       this.imgPath = obj ? obj.imgPath : '';
       this.status = obj ? obj.status : 'Abwesend';
-      this.password = obj? obj.password : '';
+      this.password = obj ? obj.password : '';
     }
 
     public toJSON() {
         return {
+            id: this.id,
             name: this.name,
-            channelIDs: this.channelIDs,
-            directMessagesIDs: this.directMessagesIDs,
+            channelIDs: this.channelIDs ? this.channelIDs : [],
+            directMessagesIDs: this.directMessagesIDs ? this.directMessagesIDs : [],
             email: this.email,
             imgPath: this.imgPath,
             status: this.status,

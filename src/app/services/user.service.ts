@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection,  onSnapshot } from "firebase/firestore";
+import { doc, collection,  onSnapshot, addDoc, setDoc } from "firebase/firestore";
 import { User } from '../shared/models/user.class';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class UserService {
   unsubUserList: any;
   unsubUser: any;
 
-  constructor(private firebaseInitService: FirebaseInitService) {
+  constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUserListRef()
     this.getUsersList()
     this.loadUser('APO3A94aSybOXtERYhx48l4N1B93')
@@ -32,6 +33,9 @@ export class UserService {
         password
       );
       console.log(userCredential.user);
+      this.user.value.id = userCredential.user.uid
+      this.saveUser()
+
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -48,7 +52,8 @@ export class UserService {
         email,
         password
       );
-      console.log(userCredential.user);
+      await this.loadUser(userCredential.user.uid)
+      this.router.navigate(['/generalView'])
     } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -59,7 +64,7 @@ export class UserService {
   }
 
   private getUserListRef() {
-    return collection(this.firebaseInitService.getDatabase(), "users")
+    return collection(this.firebaseInitService.getDatabase(), 'users')
   }
 
   private getUserRef(id:string) {
@@ -89,10 +94,24 @@ export class UserService {
      this.unsubUser = onSnapshot(userRef, (data) => {
         const userData = data.data();
         const user = new User(userData)
+        this.saveUserToLocalStorage(user)
         console.log(user)
       })
     } 
    
+    async saveUser() {
+      let user = this.user.value
+      let docId = user.id
+      let newUser = user.toJSON()
+      console.log(user)
+      await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
+     }
+
+     saveUserToLocalStorage(user:any) {
+      localStorage.setItem('user',(JSON.stringify(user)))
+     }
+
+
 }
 
 
