@@ -26,7 +26,7 @@ export class RegistereduserprofileComponent {
   loadingUserFromStorage() {
     let currentUser = localStorage.getItem('user')
     if (currentUser) {
-      return new User(JSON.parse(currentUser))
+      return (JSON.parse(currentUser))
     } else {
       return null
     }

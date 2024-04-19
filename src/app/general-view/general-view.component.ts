@@ -71,7 +71,7 @@ export class GeneralViewComponent{
   loadingUserFromStorage() {
       const currentUserString = localStorage.getItem('user');
       if (currentUserString) {
-        return new User(JSON.parse(currentUserString));
+        return (JSON.parse(currentUserString));
       } else {
         return null
       }
