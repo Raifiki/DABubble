@@ -38,7 +38,7 @@ export class SendemailComponent {
       url: 'http://localhost:4200',
       handleCodeInApp: true
     };
-  sendPasswordResetEmail(this.authService.getAuth(),this.eMail)
+  sendPasswordResetEmail(this.authService.getAuth(),this.eMail,actionCodeSettings)
     .then(() => {
       this.toggleOverlay = !this.toggleOverlay;
       setTimeout(() => {
