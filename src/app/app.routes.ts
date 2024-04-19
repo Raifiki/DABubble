@@ -8,6 +8,8 @@ import { GeneralViewComponent } from './general-view/general-view.component';
 import { SigninComponent } from './register/signin/signin.component';
 import { RegisterComponent } from './register/register.component';
 import { MembersComponent } from './general-view/overlay/members/members.component';
+import { DirectMessageComponent } from './general-view/messages/direct-message/direct-message.component';
+import { NewMessageComponent } from './general-view/messages/new-message/new-message.component';
 
 export const routes: Routes = [
   { path: '', component: RegisterComponent },
@@ -16,5 +18,5 @@ export const routes: Routes = [
   { path: 'signin', component: SigninComponent },
   { path: 'resetPW', component: ResetpasswordComponent },
   { path: 'generalView', component: GeneralViewComponent },
-  {path: 'testing', component: MembersComponent},
+  {path: 'testing', component: NewMessageComponent},
 ];
