@@ -23,6 +23,11 @@ export class SendemailComponent {
   @Output() isShowen = new EventEmitter()
   toggleOverlay:boolean = true;
 
+  private actionCodeSettings = {
+    url: 'http://localhost:4200',
+    handleCodeInApp: true
+  };
+
   authService = inject(FirebaseInitService);
 
   onSubmit(form:NgForm){
@@ -34,19 +39,15 @@ export class SendemailComponent {
    }
 
   sendMail(form:NgForm){
-    var actionCodeSettings = {
-      url: 'http://localhost:4200',
-      handleCodeInApp: true
-    };
-  sendPasswordResetEmail(this.authService.getAuth(),this.eMail,actionCodeSettings)
-    .then(() => {
-      this.toggleOverlay = !this.toggleOverlay;
-      setTimeout(() => {
-        form.reset();
-        this.isShowen.emit(true);
-      },4000)
-    })
-    .catch(err => {alert(['eMail konnte nicht gesendet werden aufgrund folgendem Fehler:' + err])})
+    sendPasswordResetEmail(this.authService.getAuth(),this.eMail,this.actionCodeSettings)
+      .then(() => {
+        this.toggleOverlay = !this.toggleOverlay;
+        setTimeout(() => {
+          form.reset();
+          this.isShowen.emit(true);
+        },4000)
+      })
+      .catch(err => {alert(['eMail konnte nicht gesendet werden aufgrund folgendem Fehler:' + err])})
   }
 
 }
