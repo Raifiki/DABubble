@@ -38,7 +38,7 @@ export class LeftSideComponent implements OnInit{
   }
 
   getDataFromLocalStorage(key: string): void{
-    this.userData = this.storageService.getData(key);
+    this.userData = this.storageService.getLocalStorageData(key);
   }
 
 

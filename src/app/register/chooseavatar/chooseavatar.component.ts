@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 
 // import costumer components
 import { OverlayaccountcreatedComponent } from './overlayaccountcreated/overlayaccountcreated.component';
@@ -6,6 +6,9 @@ import { UserService } from '../../services/user.service';
 
 // import classes
 import { User } from '../../shared/models/user.class';
+
+// import services
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-chooseavatar',
@@ -17,7 +20,12 @@ import { User } from '../../shared/models/user.class';
 export class ChooseavatarComponent {
   user:User = new User();
   toggleOverlay:boolean = false;
-  @Output() isShowen = new EventEmitter()
+  @Output() isShowen = new EventEmitter();
+
+  storageService = inject(StorageService);
+
+  customImage: File | undefined;
+  customImgPath: string | undefined;
 
   avatarImgPathList: string[] = [
     'assets/img/avatar/avatar0.svg',
@@ -41,14 +49,17 @@ export class ChooseavatarComponent {
 
   changeAvatarImg(imgPath:string){
     this.user.imgPath = imgPath;
-    this.userService.user.next(this.user)
+    this.userService.user.next(this.user);
   }
 
-  createAccount(){
-    if(this.user.password)this.userService.createAcc(this.user.email, this.user.password)
-    this.toggleOverlay = !this.toggleOverlay;
-    this.deleteUserData()
-    this.goBack()
+  async createAccount(){
+    if(this.user.password){
+      await this.userService.createAcc(this.user.email, this.user.password);
+      this.toggleOverlay = !this.toggleOverlay;
+      this.uploadUserImage(this.userService.user.value.id);
+      this.deleteUserData();
+      this.goBack();
+    };
   }
 
   goBack() {
@@ -65,4 +76,23 @@ export class ChooseavatarComponent {
   unsubscribe() {
     this.subscription.unsubscribe()
   }
+
+  onFileSelected(event: Event){
+    const fileList: FileList | null = (event.target as HTMLInputElement).files;
+    if (fileList && fileList[0].type.includes('image') ) {
+      this.customImage = fileList[0];
+      this.customImgPath = URL.createObjectURL(this.customImage);
+      this.changeAvatarImg(this.customImage.name);
+    }
+  }
+
+  uploadUserImage(userID:string){
+    if (this.customImage) this.storageService.uploadFile(this.storageService.getUserRef(userID),this.customImage);
+  }
+
+  clearCustomImg(){
+    this.customImage = undefined;
+    this.customImgPath = undefined;
+  }
+
 }

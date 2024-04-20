@@ -7,7 +7,7 @@
         <h2>Wähle deinen Avatar</h2>
     </div>
     <div class="card-content">
-        <img class="profile-img btn" src="{{ user.imgPath }}" alt="user-avatar">
+        <img class="profile-img btn" src="{{ (customImgPath)? customImgPath: user.imgPath }}" alt="user-avatar">
         <div class="card-content-avatar-wrapper">
             <div class="avatar-list-text-wrapper">
                 <span class="user-name"><b>{{ user.name }}</b></span>
@@ -15,7 +15,7 @@
             </div>
             <div class="avatar-list-img-wrapper">
                 @for(imgPath of avatarImgPathList; track imgPath; let idx = $index){
-                    <button class="avatar-btn btn-default" [class.avatar-active]="user.imgPath == avatarImgPathList[idx]" (click)="changeAvatarImg(avatarImgPathList[idx])">
+                    <button class="avatar-btn btn-default" [class.avatar-active]="user.imgPath == avatarImgPathList[idx]" (click)="changeAvatarImg(avatarImgPathList[idx]); clearCustomImg()">
                         <img src="{{ imgPath }}" alt="">
                     </button>
                 }
@@ -24,11 +24,12 @@
         <div class="card-content-upload-img-wrapper">
             <span>eigenes Bild verwenden</span>
             <label for="uploadImgBtn" class="btn-default secondary-btn">Datei hochladen</label>
-            <input id="uploadImgBtn" type="file">
+            <input id="uploadImgBtn" type="file" (change)="onFileSelected($event)">
         </div>
     </div>
     <div class="card-footer">
         <button (click)="createAccount()" class="btn-default primary-btn">Weiter</button>
+        <button (click)="storageService.getFileURL(storageService.getUserRef('gTcf5o3qw5cKhzm0mYUZF0ocIHA2'),'WIN_20220816_16_28_25_Pro.jpg')">download File URL</button>
     </div>
     </div>
 </div>

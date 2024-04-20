@@ -101,17 +101,21 @@ export class UserService {
       })
     } 
    
-    async saveUser() {
-      let user = this.user.value
-      let docId = user.id
-      let newUser = user.toJSON()
-      console.log(user)
-      await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
-     }
+  async saveUser() {
+    let user = this.user.value
+    let docId = user.id
+    let newUser = user.toJSON()
+    console.log(user)
+    await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
+    }
 
-     saveUserToLocalStorage(user:any) {
-      localStorage.setItem('user',(JSON.stringify(user)))
-     }
+    saveUserToLocalStorage(user:any) {
+    localStorage.setItem('user',(JSON.stringify(user)))
+    }
+
+  getUserImgPath(user: User){
+    // Pfad des User img setzten wenn ein custom IMG verwendet wird. Sonst keine Änderung nötig. Erkennung durch 'assets' im Pfad. custom img pfad beinhalet nur den IMG-Namen
+  }
 
 
 }
