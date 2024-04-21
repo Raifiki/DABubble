@@ -117,6 +117,14 @@ export class UserService {
     // Pfad des User img setzten wenn ein custom IMG verwendet wird. Sonst keine Änderung nötig. Erkennung durch 'assets' im Pfad. custom img pfad beinhalet nur den IMG-Namen
   }
 
+  loadingUserFromStorage() {
+    let currentUser = localStorage.getItem('user')
+    if (currentUser) {
+      return (JSON.parse(currentUser))
+    } else {
+      return null
+    }
+  }
 
 }
 

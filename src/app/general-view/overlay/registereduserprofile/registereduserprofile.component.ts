@@ -16,21 +16,15 @@ import { UserService } from '../../../services/user.service';
 })
 export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
+  userService = inject(UserService)
 
   user!: User
 
-  constructor(private userService: UserService) {
-    this.user = new User(this.loadingUserFromStorage())
+  constructor() {
+    this.user = new User(this.userService.loadingUserFromStorage())
   }
 
-  loadingUserFromStorage() {
-    let currentUser = localStorage.getItem('user')
-    if (currentUser) {
-      return (JSON.parse(currentUser))
-    } else {
-      return null
-    }
-  }
-    
+
+
   
 }
