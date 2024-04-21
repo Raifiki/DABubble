@@ -1,28 +1,9 @@
-
-  <ul>
-    <li class="item">
-      <div>
-        <img src="../../../../assets/img/avatar/avatar0.svg" alt="" />
-        <img class="status" src="../../../../assets/icons/Online.jpg" alt="" />
-      </div>
-      <p>Frederik Beck (Du)</p>
-    </li>
-    <li class="item">
-      <div>
-        <img src="../../../../assets/img/avatar/avatar1.svg" alt="" />
-        <img class="status" src="../../../../assets/icons/Online.jpg" alt="" />
-      </div>
-      <p>Sofia Müller</p>
-    </li>
-    <li class="item">
-      <div>
-        <img src="../../../../assets/img/avatar/avatar2.svg" alt="" />
-        <img class="status" src="../../../../assets/icons/Offline.jpg" alt="" />
-      </div>
-      <p>Noah Braun</p>
-    </li>
-  
-    
-  </ul>
-
-
+<div class="members-list">
+  <app-userlistitem
+    (click)="onItemClick()"
+    *ngFor="let user of users"
+    [user]="user"
+    [checked]="false"
+  ></app-userlistitem>
+  <!-- Hier kannst du den Wert für die checked-Eigenschaft festlegen -->
+</div>

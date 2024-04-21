@@ -1,7 +1,7 @@
 <div class="user-list-item-wrapper" [class.checked]="checked">
-    <div class="img-wrapper">
-        <img src="{{ user.imgPath }}" alt="avatar">
-        <div class="status-lamp" [class.active]="user.status == 'Aktiv'"></div>
-    </div>
-    <span>{{user.name}} @if (signedInUser == user) {(Du)}</span>
+  <div class="img-wrapper">
+    <img [src]="user.imgPath" alt="avatar" />
+    <div class="status-lamp" [class.active]="user.status === 'Aktiv'"></div>
+  </div>
+  <span>{{ user.name }} <span *ngIf="signedInUser === user">(Du)</span></span>
 </div>

@@ -1,29 +1,46 @@
 <div class="main-container">
-    <div class="header">
-        <div class="logo"></div>
-        <input type="search" placeholder="Code learning durchsuchen" [(ngModel)]="search" class="search-bar">
-        <div class="user">
-            <div>{{this.activeUser.name}}</div>
-            <div> <img src="{{this.activeUser.imgPath}}" alt=""> </div>
-            <div><img class="user-menu" src="../../assets/img/keyboard_arrow_down.png" (click)="overlayCtrlService.showOverlay('dropDownUserMenu')"></div>
-        </div>
-
-
+  <div class="header">
+    <div class="logo"></div>
+    <input
+      type="search"
+      placeholder="Code learning durchsuchen"
+      [(ngModel)]="search"
+      class="search-bar"
+    />
+    <div class="user">
+      <div>{{ this.activeUser.name }}</div>
+      <div><img src="{{ this.activeUser.imgPath }}" alt="" /></div>
+      <div>
+        <img
+          class="user-menu"
+          src="../../assets/img/keyboard_arrow_down.png"
+          (click)="overlayCtrlService.showOverlay('dropDownUserMenu')"
+        />
+      </div>
     </div>
-    <div class="content">
-        <div class="left-side" (buttonClick)="toggleMessageComponent(('new-message'))" ><app-left-side></app-left-side></div>
-        <button (click)="overlayCtrlService.showOverlay('editChannel')">edit Channel</button>
-        <div class="middle"> <div *ngIf="currentMessageComponent === 'channel-message'">
-            <app-channel-message></app-channel-message>
-          </div>
-          <div *ngIf="currentMessageComponent === 'direct-message'">
-           <app-direct-message></app-direct-message>
-          </div>
-          <div *ngIf="currentMessageComponent === 'new-message'">
-            <app-new-message></app-new-message>
-          </div></div>
-        <div class="right-side"><app-thread></app-thread></div>
+  </div>
+  <div class="content">
+    <div class="left-side">
+      <app-left-side
+        (toggleMessageComponent)="toggleMessageComponent('new-message')"
+      ></app-left-side>
     </div>
+    <button (click)="overlayCtrlService.showOverlay('editChannel')">
+      edit Channel
+    </button>
+    <div class="middle">
+      <div *ngIf="currentMessageComponent === 'channel-message'">
+        <app-channel-message></app-channel-message>
+      </div>
+      <div *ngIf="currentMessageComponent === 'direct-message'">
+        <app-direct-message></app-direct-message>
+      </div>
+      <div *ngIf="currentMessageComponent === 'new-message'">
+        <app-new-message></app-new-message>
+      </div>
+    </div>
+    <div class="right-side"><app-thread></app-thread></div>
+  </div>
 </div>
 
 <app-overlay></app-overlay>

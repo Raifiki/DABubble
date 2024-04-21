@@ -4,35 +4,52 @@
       <img src="./../../../../assets/icons/Workspace logo.jpg" alt="" />
       <p>Devspace</p>
     </div>
-    <img src="../../../../assets/icons/16. edit_square.jpg"  (click)="openNewMessageComponent()" />
+    <img
+      src="../../../../assets/icons/16. edit_square.jpg"
+      (click)="openNewMessageComponent('new-message')"
+    />
   </div>
   <div class="body">
     <div class="channels">
       <div class="channel-header">
-        <div>
+        <div class="hover" (click)="toggleDropdown('channels')">
           <div class="dropdown"></div>
           <img src="../../../../assets/icons/workspaces.svg" alt="" />
           <b>Channels</b>
         </div>
-        <div class="plus-icon" (click)="overlayCtrlService.showOverlay('createChannel')" ></div>
+        <div
+          class="plus-icon"
+          (click)="overlayCtrlService.showOverlay('createChannel')"
+        ></div>
       </div>
-      <div class="channels-list">
-        <p class="channels-name"># Entwicklerteam</p>
+      <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
+        <p class="channels-name" *ngFor="let channel of channels">
+          {{ channel }}
+        </p>
       </div>
       <div class="bottom">
         <img src="../../../../assets/icons/add_circle.jpg" alt="" />
-        <p (click)="overlayCtrlService.showOverlay('createChannel')">Channel hinzufügen</p>
+        <p (click)="overlayCtrlService.showOverlay('createChannel')">
+          Channel hinzufügen
+        </p>
       </div>
     </div>
     <div class="direct-messages">
       <div class="channel-header">
-        <div>
+        <div class="hover" (click)="toggleDropdown('directMessages')">
           <div class="dropdown"></div>
           <img src="../../../../assets/icons/workspaces.svg" alt="" />
           <b>Direktnachrichten</b>
         </div>
       </div>
-      <app-members-list></app-members-list>
+      <div
+        class="direct-messages-list"
+        [class.collapsed]="dropdownCollapsed.directMessages"
+      >
+        <app-members-list
+          (click)="openNewMessageComponent('direct-message')"
+        ></app-members-list>
+      </div>
     </div>
   </div>
 </div>
