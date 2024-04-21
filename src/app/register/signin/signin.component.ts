@@ -18,10 +18,6 @@ import { User } from '../../shared/models/user.class';
 export class SigninComponent {
   checkboxChecked = false;
   @Output() isShowen = new EventEmitter();
-
-  user: User = new User();
-
-
   @Output() chooseAvatar = new EventEmitter();
 
   constructor(

@@ -42,21 +42,19 @@ export class GeneralViewComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   currentMessageComponent: any = 'channel-message';
+  subscription: Subscription;
 
-  constructor() {
-    this.activeUser = new User(this.loadingUserFromStorage());
+  constructor(private userService: UserService) {
+    this.subscription =  this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = new User(userData)
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   toggleMessageComponent(nextComponent: any) {
     this.currentMessageComponent = nextComponent;
-  }
-
-  loadingUserFromStorage() {
-    const currentUserString = localStorage.getItem('user');
-    if (currentUserString) {
-      return JSON.parse(currentUserString);
-    } else {
-      return null;
-    }
   }
 }
