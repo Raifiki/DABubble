@@ -82,12 +82,12 @@ export class ChooseavatarComponent {
     if (fileList && fileList[0].type.includes('image') ) {
       this.customImage = fileList[0];
       this.customImgPath = URL.createObjectURL(this.customImage);
-      this.changeAvatarImg(this.customImage.name);
+      this.changeAvatarImg('customProfileIMG');
     }
   }
 
   uploadUserImage(userID:string){
-    if (this.customImage) this.storageService.uploadFile(this.storageService.getUserRef(userID),this.customImage);
+    if (this.customImage) this.storageService.uploadProfileIMG(userID,this.customImage);
   }
 
   clearCustomImg(){
