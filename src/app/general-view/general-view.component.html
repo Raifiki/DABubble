@@ -22,7 +22,7 @@
   <div class="content">
     <div class="left-side">
       <app-left-side
-        (toggleMessageComponent)="toggleMessageComponent('new-message')"
+        (toggleMessageComponent)="toggleMessageComponent($event)"
       ></app-left-side>
     </div>
     <button (click)="overlayCtrlService.showOverlay('editChannel')">

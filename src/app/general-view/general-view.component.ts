@@ -41,18 +41,13 @@ export class GeneralViewComponent {
   search!: string;
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
-  currentMessageComponent:
-    | 'channel-message'
-    | 'direct-message'
-    | 'new-message' = 'channel-message';
+  currentMessageComponent: any = 'channel-message';
 
   constructor() {
     this.activeUser = new User(this.loadingUserFromStorage());
   }
 
-  toggleMessageComponent(
-    nextComponent: 'channel-message' | 'direct-message' | 'new-message'
-  ) {
+  toggleMessageComponent(nextComponent: any) {
     this.currentMessageComponent = nextComponent;
   }
 
