@@ -7,6 +7,7 @@ import { MessageService } from '../../services/message.service';
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { StorageService } from '../../services/storage.service';
 import { user } from '@angular/fire/auth';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-left-side',
@@ -23,9 +24,11 @@ export class LeftSideComponent implements OnInit {
     channels: false,
     directMessages: false,
   };
+
   channels: string[] = ['# Entwicklerteam', '# Marketing', '# Vertrieb']; // Beispiel-Array mit Kanalnamen
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
+  channelService = inject(ChannelService);
   storageService = inject(StorageService);
 
   constructor() {
