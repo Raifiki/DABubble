@@ -82,7 +82,8 @@ export class ChooseavatarComponent {
     if (fileList && fileList[0].type.includes('image') ) {
       this.customImage = fileList[0];
       this.customImgPath = URL.createObjectURL(this.customImage);
-      this.changeAvatarImg('customProfileIMG');
+      let fileName = 'customProfileIMG.' + this.customImage.name.split('.').slice(-1);
+      this.changeAvatarImg(fileName);
     }
   }
 

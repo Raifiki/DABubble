@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 // import firebase
-import { StorageReference, deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { StorageReference, deleteObject, getBlob, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -27,18 +27,17 @@ export class StorageService {
   }
 
   async uploadProfileIMG(userID:string, file: File){
-    await uploadBytes(ref(this.getUserRef(userID),'customProfileIMG'), file)
+    let fileName = 'customProfileIMG.' + file.name.split('.').slice(-1);
+    await uploadBytes(ref(this.getUserRef(userID),fileName), file)
     .then(() => {console.log(file.name, 'uploaded', 'to user storage');})
     .catch((err) => {alert('upload failed:' + err);});
   }
 
   async getFileURL(storageRef: StorageReference, fileName: string){
-    getDownloadURL(ref(storageRef, fileName))
-    .then((url) => {
-      console.log(url);
-      return url;
-    })
-    .catch((err) => {alert('download file URL not possible:' + err)});
+    let url;
+    try {url = await getDownloadURL(ref(storageRef, fileName));} 
+    catch (error) {alert('File URL Error:' + error)}
+    return url;
   }
 
   async deleteFile(storageRef: StorageReference, fileName: string){
@@ -67,5 +66,9 @@ export class StorageService {
     return ref(this.storage,'Users/' + userID);
   }
 
+  async downloadFile(storageRef: StorageReference, fileName: string){
+   let fileURL = await this.getFileURL(storageRef,fileName);
+    // cors muss configuriert werden um Files herunterzuladen
+  }
 
 }

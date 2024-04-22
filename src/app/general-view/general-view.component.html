@@ -25,9 +25,6 @@
         (toggleMessageComponent)="toggleMessageComponent($event)"
       ></app-left-side>
     </div>
-    <button (click)="overlayCtrlService.showOverlay('editChannel')">
-      edit Channel
-    </button>
     <div class="middle">
       <div *ngIf="currentMessageComponent === 'channel-message'">
         <app-channel-message></app-channel-message>
