@@ -23,6 +23,6 @@ export class UserlistitemComponent {
   signedInUser!: User;
 
   constructor() {
-    this.userService.user.subscribe((user) => (this.signedInUser = user));
+    this.userService.user$.subscribe((user) => (this.signedInUser = user));
   }
 }

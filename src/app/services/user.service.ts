@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
@@ -9,17 +9,18 @@ import { doc, collection,  onSnapshot, addDoc, setDoc } from "firebase/firestore
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  user$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   enteredPassword!: string;
   usersList: User[] = [];
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-
+  
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUsersList()
   }
@@ -31,7 +32,7 @@ export class UserService {
         email,
         password
       );
-      this.user.value.id = userCredential.user.uid
+      this.user$.value.id = userCredential.user.uid
       this.saveUser()
     } catch (error: any) {
       alert(
@@ -61,6 +62,15 @@ export class UserService {
       console.log(error);
     }
   }
+
+
+  async logInTestUser() {
+      await this.loadUser('lT5yqLbBxXb2Jj0wgEy5FRGbBKA3')
+      setTimeout(() => {
+        this.router.navigate(['/generalView'])
+      }, 1000);
+  }
+
 
   private getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users')
@@ -98,7 +108,7 @@ export class UserService {
     } 
    
   async saveUser() {
-    let user = this.user.value
+    let user = this.user$.value
     let docId = user.id
     let newUser = user.toJSON()
     await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
@@ -123,6 +133,8 @@ export class UserService {
       return null
     }
   }
+
+
 
 }
 
