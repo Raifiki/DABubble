@@ -20,10 +20,17 @@ export class UserService {
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  private userIsLoggedIn: boolean = false
+
   
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUsersList()
   }
+
+  public isLoggedIn(): boolean {
+    return this.userIsLoggedIn
+  }
+
 
   async createAcc(email: string, password: string) {
     try {
@@ -50,6 +57,7 @@ export class UserService {
         email,
         password
       );
+      this.userIsLoggedIn = true
       await this.loadUser(userCredential.user.uid)
       setTimeout(() => {
         this.router.navigate(['/generalView'])
@@ -66,11 +74,11 @@ export class UserService {
 
   async logInTestUser() {
       await this.loadUser('lT5yqLbBxXb2Jj0wgEy5FRGbBKA3')
+      this.userIsLoggedIn = true
       setTimeout(() => {
         this.router.navigate(['/generalView'])
       }, 1000);
   }
-
 
   private getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users')
@@ -139,6 +147,10 @@ export class UserService {
     }
   }
 
+  userLogOut() {
+    localStorage.setItem('user', '')
+    this.userIsLoggedIn = false
+  }
 
 
 }

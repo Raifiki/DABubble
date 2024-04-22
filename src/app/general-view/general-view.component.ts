@@ -45,6 +45,8 @@ export class GeneralViewComponent {
   subscription: Subscription;
 
   constructor(private userService: UserService) {
+    this.activeUser = this.userService.loadingUserFromStorage()
+    this.userService.activeUser$.next(this.activeUser)
     this.subscription =  this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = new User(userData)
     });
