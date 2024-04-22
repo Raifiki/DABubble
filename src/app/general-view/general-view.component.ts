@@ -1,13 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
 // import services
-import { UserService } from '../services/user.service';
 import { OverlaycontrolService } from '../services/overlaycontrol.service';
 import { ChannelService } from '../services/channel.service';
-import { MessageService } from '../services/message.service';
+import { StorageService } from '../services/storage.service';
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
@@ -42,6 +40,8 @@ export class GeneralViewComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   currentMessageComponent: any = 'channel-message';
+
+  storageService = inject(StorageService);
 
   constructor() {
     this.activeUser = new User(this.loadingUserFromStorage());
