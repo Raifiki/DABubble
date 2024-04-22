@@ -1,4 +1,10 @@
-
-export type OverlayType = 'hide' | 'dropDownUserMenu' | 'registeredUserProfile' | 'editProfile' | 'userProfile' | 'createChannel' | 'editChannel';
-
-
+export type OverlayType =
+  | 'hide'
+  | 'dropDownUserMenu'
+  | 'registeredUserProfile'
+  | 'editProfile'
+  | 'userProfile'
+  | 'createChannel'
+  | 'editChannel'
+  | 'members'
+  | 'add-members';

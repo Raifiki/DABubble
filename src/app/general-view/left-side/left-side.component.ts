@@ -6,7 +6,7 @@ import { MembersListComponent } from '../overlay/members-list/members-list.compo
 import { MessageService } from '../../services/message.service';
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { StorageService } from '../../services/storage.service';
-import { user } from '@angular/fire/auth';
+import { User } from '../../shared/models/user.class';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
@@ -16,8 +16,8 @@ import { ChannelService } from '../../services/channel.service';
   templateUrl: './left-side.component.html',
   styleUrl: './left-side.component.scss',
 })
-export class LeftSideComponent implements OnInit {
-  userData?: any[];
+export class LeftSideComponent {
+  activeUser!: User;
 
   @Output() toggleMessageComponent = new EventEmitter<string>();
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
@@ -25,7 +25,7 @@ export class LeftSideComponent implements OnInit {
     directMessages: false,
   };
 
-  channels: string[] = ['# Entwicklerteam', '# Marketing', '# Vertrieb']; // Beispiel-Array mit Kanalnamen
+  channels: string[] = ['Entwicklerteam', 'Marketing', 'Vertrieb']; // Beispiel-Array mit Kanalnamen
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
@@ -33,6 +33,10 @@ export class LeftSideComponent implements OnInit {
 
   constructor() {
     this.messageService.getDirectMessagesList();
+    this.activeUser = new User(this.loadingUserFromStorage());
+    console.log('active User: ', this.activeUser);
+
+    //this.channels = getChannelNames(this.activeUser.channelIds);
   }
 
   toggleDropdown(dropdownType: 'channels' | 'directMessages') {
@@ -40,15 +44,26 @@ export class LeftSideComponent implements OnInit {
       !this.dropdownCollapsed[dropdownType];
   }
 
-  ngOnInit(): void {
-    this.getDataFromLocalStorage('user');
-    console.log('signed user Data: ', this.userData);
-  }
   openNewMessageComponent(component: string) {
     this.toggleMessageComponent.emit(component);
   }
 
-  getDataFromLocalStorage(key: string): void {
-    this.userData = this.storageService.getLocalStorageData(key);
+  loadingUserFromStorage() {
+    const currentUserString = localStorage.getItem('user');
+    if (currentUserString) {
+      return JSON.parse(currentUserString);
+    } else {
+      return null;
+    }
+  }
+
+  getChannelNames(channelIds: string[]): string[] {
+    let channelNames: any = [];
+
+    this.activeUser.channelIDs?.forEach((id) => {
+      let channel = this.channelService.getSingleChannel(id);
+      channelNames.push(channel);
+    });
+    return channelNames;
   }
 }

@@ -8,6 +8,8 @@
   <app-members-list></app-members-list>
   <div class="bottom">
     <img src="../../../../assets/icons/person_add.svg" alt="" />
-    <p>Mitglieder hinzufügen</p>
+    <p (click)="overlayCtrlService.showOverlay('add-members')">
+      Mitglieder hinzufügen
+    </p>
   </div>
 </div>

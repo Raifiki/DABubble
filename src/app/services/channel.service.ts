@@ -8,6 +8,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   updateDoc,
 } from 'firebase/firestore';
@@ -138,5 +139,20 @@ export class ChannelService {
       });
       console.log('channel Messages List: ', this.channelsList);
     });
+  }
+
+  async getSingleChannel(channelId: string) {
+    getDocs(collection(this.firestore, 'Channels')).then((snapshot) => {
+      let mychannels: any[] = [];
+      snapshot.docs.forEach((doc) => {
+        mychannels.push({ ...doc.data(), id: doc.id });
+      });
+      for (let i = 0; i < mychannels.length; i++) {
+        if (mychannels[i].id === channelId) {
+          return mychannels[i];
+        }
+      }
+    });
+    return {} as Channel; // Falls keine Übereinstimmung gefunden wurde
   }
 }
