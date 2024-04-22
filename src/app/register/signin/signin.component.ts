@@ -18,10 +18,6 @@ import { User } from '../../shared/models/user.class';
 export class SigninComponent {
   checkboxChecked = false;
   @Output() isShowen = new EventEmitter();
-
-  user: User = new User();
-
-
   @Output() chooseAvatar = new EventEmitter();
 
   constructor(
@@ -41,7 +37,7 @@ export class SigninComponent {
       imgPath: 'assets/img/avatar/profile.svg',
       status: 'Aktiv',
     });
-    this.userService.user.next(user);
+    this.userService.user$.next(user);
     this.chooseAvatar.emit(true);
   }
 

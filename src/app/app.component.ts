@@ -17,7 +17,6 @@ export class AppComponent {
   title = 'DABubble';
 
   constructor() {
-    localStorage.setItem('user', '')
   }
   
 }

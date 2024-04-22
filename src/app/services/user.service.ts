@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
@@ -9,21 +9,21 @@ import { doc, collection,  onSnapshot, addDoc, setDoc } from "firebase/firestore
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  user: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  user$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   enteredPassword!: string;
-  usersList: any[] = [];
+  usersList: User[] = [];
   unsubUserList: any;
   unsubUser: any;
-  activeUser!: User;
-
+  activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
-    this.getUserListRef()
     this.getUsersList()
-    }
+  }
 
   async createAcc(email: string, password: string) {
     try {
@@ -32,10 +32,8 @@ export class UserService {
         email,
         password
       );
-      console.log(userCredential.user);
-      this.user.value.id = userCredential.user.uid
+      this.user$.value.id = userCredential.user.uid
       this.saveUser()
-
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -65,6 +63,15 @@ export class UserService {
     }
   }
 
+
+  async logInTestUser() {
+      await this.loadUser('lT5yqLbBxXb2Jj0wgEy5FRGbBKA3')
+      setTimeout(() => {
+        this.router.navigate(['/generalView'])
+      }, 1000);
+  }
+
+
   private getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users')
   }
@@ -79,9 +86,8 @@ export class UserService {
       list.forEach((element) => {
         let id = element.id
         let data = element.data()
-        let user = {id, data}
+        let user = new User({id, data})
         this.usersList.push(user)
-        console.log(this.usersList)
       });
     })
   }
@@ -96,21 +102,28 @@ export class UserService {
      this.unsubUser = onSnapshot(userRef, (data) => {
         const userData = data.data();
         const user = new User(userData)
+        this.activeUser$.next(user)
         this.saveUserToLocalStorage(user)
-        console.log(user)
       })
     } 
    
   async saveUser() {
-    let user = this.user.value
+    let user;
+    if (this.activeUser$) {
+       user = this.activeUser$.value
+    } else {
+      user = this.user$.value
+    }
     let docId = user.id
     let newUser = user.toJSON()
-    console.log(user)
     await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
+    this.activeUser$.next(user)
     }
 
-    saveUserToLocalStorage(user:any) {
-    localStorage.setItem('user',(JSON.stringify(user)))
+    saveUserToLocalStorage(user:User) {
+      let newUser = new User(user)
+      newUser.password = ''
+      localStorage.setItem('user',(JSON.stringify(newUser)))
     }
 
   getUserImgPath(user: User){
@@ -125,6 +138,8 @@ export class UserService {
       return null
     }
   }
+
+
 
 }
 

@@ -22,8 +22,8 @@ export class LoginComponent {
     this.userService.logUserIn(f.value.userEmail, f.value.password)
   }
 
-  goTo() {
-      this.router.navigate(['/generalView']);
+  logInTestUser() {
+      this.userService.logInTestUser();
   }
 
   forgotPw() {

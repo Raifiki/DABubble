@@ -39,24 +39,24 @@ export class ChooseavatarComponent {
   subscription;
 
   constructor(private userService: UserService){
-   this.subscription = this.userService.user.subscribe(userData => {
+   this.subscription = this.userService.user$.subscribe(userData => {
       this.user = userData;
     });
-    this.userService.user.next(this.user);
+    this.userService.user$.next(this.user);
     console.log(this.user);
     
   }
 
   changeAvatarImg(imgPath:string){
     this.user.imgPath = imgPath;
-    this.userService.user.next(this.user);
+    this.userService.user$.next(this.user);
   }
 
   async createAccount(){
     if(this.user.password){
       await this.userService.createAcc(this.user.email, this.user.password);
       this.toggleOverlay = !this.toggleOverlay;
-      this.uploadUserImage(this.userService.user.value.id);
+      this.uploadUserImage(this.userService.user$.value.id);
       this.deleteUserData();
       this.goBack();
     };

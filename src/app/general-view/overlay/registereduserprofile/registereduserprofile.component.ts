@@ -6,6 +6,7 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 // import classes
 import { User } from '../../../shared/models/user.class';
 import { UserService } from '../../../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-registereduserprofile',
@@ -17,13 +18,17 @@ import { UserService } from '../../../services/user.service';
 export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   userService = inject(UserService)
-
-  user!: User
+  subscription: Subscription;
+  activeUser!: User;
 
   constructor() {
-    this.user = new User(this.userService.loadingUserFromStorage())
+    this.subscription =  this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = new User(userData)
+  })
+}
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
-
 
 
   

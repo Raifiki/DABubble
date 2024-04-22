@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 // import services
+import { UserService } from '../services/user.service';
 import { OverlaycontrolService } from '../services/overlaycontrol.service';
 import { ChannelService } from '../services/channel.service';
-import { StorageService } from '../services/storage.service';
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
@@ -40,23 +41,19 @@ export class GeneralViewComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   currentMessageComponent: any = 'channel-message';
+  subscription: Subscription;
 
-  storageService = inject(StorageService);
+  constructor(private userService: UserService) {
+    this.subscription =  this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = new User(userData)
+    });
+  }
 
-  constructor() {
-    this.activeUser = new User(this.loadingUserFromStorage());
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   toggleMessageComponent(nextComponent: any) {
     this.currentMessageComponent = nextComponent;
-  }
-
-  loadingUserFromStorage() {
-    const currentUserString = localStorage.getItem('user');
-    if (currentUserString) {
-      return JSON.parse(currentUserString);
-    } else {
-      return null;
-    }
   }
 }
