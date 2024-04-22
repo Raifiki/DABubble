@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { UserService } from '../../../services/user.service';
 
 // import classes
 import { User } from '../../../shared/models/user.class';
@@ -16,16 +18,12 @@ import { User } from '../../../shared/models/user.class';
   styleUrl: './editprofile.component.scss'
 })
 export class EditprofileComponent {
-  user: User = new User ({
-    id: '',
-    name: 'Leo Weiß',
-    imgPath: 'assets/img/avatar/avatar0.svg',
-    email: 'leonard_weiss@web.de',
-    status: 'Aktiv',
-    password: ''
-  });
+  user!: User;
 
   overlayCtrlService = inject(OverlaycontrolService);
+  userService = inject (UserService);
+
+  unsubscripeUser: Subscription;
 
   avatarImgPathList: string[] = [
     'assets/img/avatar/avatar0.svg',
@@ -36,9 +34,19 @@ export class EditprofileComponent {
     'assets/img/avatar/avatar5.svg',
   ];
 
+  constructor(){
+    this.unsubscripeUser = this.userService.activeUser$.subscribe((userData) => {
+      this.user = new User(userData);
+    });
+  }
+
   onSubmit(form:NgForm){
     this.overlayCtrlService.showOverlay('registeredUserProfile');
     console.log('Save edited user data - data not saved, need to implemented');
-    
   }
+
+  ngOnDestroy() {
+    this.unsubscripeUser.unsubscribe();
+  }
+
 }

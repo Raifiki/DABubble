@@ -151,13 +151,6 @@ export class UserService {
     this.activeUser$.next(user)
     }
 
-    async updateUser(user: User) {
-      let docID = user.id
-      let newUser = user.toJSON()
-      await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docID), newUser)
-      this.activeUser$.next(user)
-    }
-
     saveUserToLocalStorage(user:User) {
       let newUser = new User(user)
       newUser.password = ''
