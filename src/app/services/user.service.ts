@@ -117,7 +117,6 @@ export class UserService {
    
   async saveUser() {
     let user;
-    console.log('active: ',this.activeUser$.value,'; user: ',this.user$.value);
     if (this.activeUser$.value.email != '') {
        user = this.activeUser$.value
     } else {
@@ -125,8 +124,6 @@ export class UserService {
     }
     let docId = user.id
     let newUser = user.toJSON()
-    console.log(user);
-    
     await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)    
     this.activeUser$.next(user)
     }
