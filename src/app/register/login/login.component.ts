@@ -29,4 +29,8 @@ export class LoginComponent {
   forgotPw() {
     this.isPwForgotten.emit(true);
   }
+
+  googleLogIn() {
+    this.userService.logInWithGoogle()
+  }
 }

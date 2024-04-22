@@ -3,9 +3,11 @@ import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from 'firebase/auth';
+  GoogleAuthProvider,
+  signInWithPopup,
+  } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection,  onSnapshot, addDoc, setDoc } from "firebase/firestore";
+import { doc, collection,  onSnapshot, setDoc } from "firebase/firestore";
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
@@ -21,7 +23,7 @@ export class UserService {
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   private userIsLoggedIn: boolean = false
-
+  googleProvider = new GoogleAuthProvider()
   
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUsersList()
@@ -30,7 +32,34 @@ export class UserService {
   public isLoggedIn(): boolean {
     return this.userIsLoggedIn
   }
-
+  async logInWithGoogle() {
+    await signInWithPopup(this.firebaseInitService.getAuth(), this.googleProvider)
+    .then(async (result) => {
+        let user = new User( {
+          id: result.user.uid,
+          name: result.user.displayName,
+          channelIDs: [],
+          directMessagesIDs: [],
+          email: result.user.email,
+          imgPath: result.user.photoURL,
+          status: 'Aktiv',
+          password: ''
+          })
+        this.activeUser$.next(user)
+        await this.saveUser(user);
+        this.saveUserToLocalStorage(user)
+        this.router.navigate(['/generalView']) 
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log('code' + errorCode + 'message' + errorMessage)
+    });
+  }
 
   async createAcc(email: string, password: string) {
     try {
@@ -40,7 +69,7 @@ export class UserService {
         password
       );
       this.user$.value.id = userCredential.user.uid
-      this.saveUser()
+      this.saveUser(this.user$.value)
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -115,17 +144,18 @@ export class UserService {
       })
     } 
    
-  async saveUser() {
-    let user;
-    if (this.activeUser$) {
-       user = this.activeUser$.value
-    } else {
-      user = this.user$.value
-    }
+  async saveUser(user:User) {
     let docId = user.id
     let newUser = user.toJSON()
     await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
     this.activeUser$.next(user)
+    }
+
+    async updateUser(user: User) {
+      let docID = user.id
+      let newUser = user.toJSON()
+      await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docID), newUser)
+      this.activeUser$.next(user)
     }
 
     saveUserToLocalStorage(user:User) {
