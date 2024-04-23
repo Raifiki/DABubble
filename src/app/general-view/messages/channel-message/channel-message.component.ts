@@ -26,12 +26,5 @@ export class ChannelMessageComponent implements OnInit {
     this.user = this.userService.loadingUserFromStorage();
   }
 
-  ngOnInit(): void {
-    this.channelService
-      .getSingleChannel('g8KmdaQT9UTtUcgzgAqp')
-      .then((result) => {
-        this.channel = result;
-        console.log('ich bin der single Channel: ', this.channel);
-      });
-  }
+  ngOnInit(): void {}
 }

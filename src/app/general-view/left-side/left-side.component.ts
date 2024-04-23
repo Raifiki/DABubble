@@ -8,6 +8,8 @@ import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { StorageService } from '../../services/storage.service';
 import { User } from '../../shared/models/user.class';
 import { ChannelService } from '../../services/channel.service';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-left-side',
@@ -18,25 +20,27 @@ import { ChannelService } from '../../services/channel.service';
 })
 export class LeftSideComponent {
   activeUser!: User;
+  subscription: Subscription;
 
   @Output() toggleMessageComponent = new EventEmitter<string>();
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
     directMessages: false,
   };
-
-  channels: string[] = ['Entwicklerteam', 'Marketing', 'Vertrieb']; // Beispiel-Array mit Kanalnamen
+  activeUserchannels: any[] = [];
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   storageService = inject(StorageService);
 
-  constructor() {
-    this.messageService.getDirectMessagesList();
-    this.activeUser = new User(this.loadingUserFromStorage());
-    console.log('active User: ', this.activeUser);
-
-    //this.channels = getChannelNames(this.activeUser.channelIds);
+  constructor(private userService: UserService) {
+    this.activeUser = this.userService.loadingUserFromStorage();
+    this.userService.activeUser$.next(this.activeUser);
+    this.subscription = this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = new User(userData);
+      this.getChannelNames(userData.channelIDs);
+      console.log(userData.channelIDs);
+    });
   }
 
   toggleDropdown(dropdownType: 'channels' | 'directMessages') {
@@ -57,13 +61,13 @@ export class LeftSideComponent {
     }
   }
 
-  getChannelNames(channelIds: string[]): string[] {
+  getChannelNames(channelIds: any) {
     let channelNames: any = [];
 
     this.activeUser.channelIDs?.forEach((id) => {
       let channel = this.channelService.getSingleChannel(id);
       channelNames.push(channel);
     });
-    return channelNames;
+    this.activeUserchannels = channelNames;
   }
 }
