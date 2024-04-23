@@ -6,8 +6,10 @@ import { MembersListComponent } from '../overlay/members-list/members-list.compo
 import { MessageService } from '../../services/message.service';
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { StorageService } from '../../services/storage.service';
-import { user } from '@angular/fire/auth';
+import { User } from '../../shared/models/user.class';
 import { ChannelService } from '../../services/channel.service';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-left-side',
@@ -16,23 +18,29 @@ import { ChannelService } from '../../services/channel.service';
   templateUrl: './left-side.component.html',
   styleUrl: './left-side.component.scss',
 })
-export class LeftSideComponent implements OnInit {
-  userData?: any[];
+export class LeftSideComponent {
+  activeUser!: User;
+  subscription: Subscription;
 
   @Output() toggleMessageComponent = new EventEmitter<string>();
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
     directMessages: false,
   };
-
-  channels: string[] = ['# Entwicklerteam', '# Marketing', '# Vertrieb']; // Beispiel-Array mit Kanalnamen
+  activeUserchannels: any[] = [];
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   storageService = inject(StorageService);
 
-  constructor() {
-    this.messageService.getDirectMessagesList();
+  constructor(private userService: UserService) {
+    this.activeUser = this.userService.loadingUserFromStorage();
+    this.userService.activeUser$.next(this.activeUser);
+    this.subscription = this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = new User(userData);
+      this.getChannelNames(userData.channelIDs);
+      console.log(userData.channelIDs);
+    });
   }
 
   toggleDropdown(dropdownType: 'channels' | 'directMessages') {
@@ -40,15 +48,26 @@ export class LeftSideComponent implements OnInit {
       !this.dropdownCollapsed[dropdownType];
   }
 
-  ngOnInit(): void {
-    this.getDataFromLocalStorage('user');
-    console.log('signed user Data: ', this.userData);
-  }
   openNewMessageComponent(component: string) {
     this.toggleMessageComponent.emit(component);
   }
 
-  getDataFromLocalStorage(key: string): void {
-    this.userData = this.storageService.getLocalStorageData(key);
+  loadingUserFromStorage() {
+    const currentUserString = localStorage.getItem('user');
+    if (currentUserString) {
+      return JSON.parse(currentUserString);
+    } else {
+      return null;
+    }
+  }
+
+  getChannelNames(channelIds: any) {
+    let channelNames: any = [];
+
+    this.activeUser.channelIDs?.forEach((id) => {
+      let channel = this.channelService.getSingleChannel(id);
+      channelNames.push(channel);
+    });
+    this.activeUserchannels = channelNames;
   }
 }

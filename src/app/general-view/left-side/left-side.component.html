@@ -26,9 +26,9 @@
         <p
           class="channels-name"
           (click)="openNewMessageComponent('channel-message')"
-          *ngFor="let channel of channels"
+          *ngFor="let channel of activeUserchannels"
         >
-          {{ channel }}
+          # {{ channel }}
         </p>
       </div>
       <div class="bottom">

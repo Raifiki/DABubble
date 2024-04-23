@@ -10,6 +10,8 @@ import { EditchannelComponent } from './editchannel/editchannel.component';
 
 // import services
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
+import { AddMembersComponent } from './add-members/add-members.component';
+import { MembersComponent } from './members/members.component';
 
 @Component({
   selector: 'app-overlay',
@@ -20,16 +22,17 @@ import { OverlaycontrolService } from '../../services/overlaycontrol.service';
     RegistereduserprofileComponent,
     DropdownusermenuComponent,
     UserprofileComponent,
-    EditchannelComponent],
+    EditchannelComponent,
+    AddMembersComponent,
+    MembersComponent,
+  ],
   templateUrl: './overlay.component.html',
-  styleUrl: './overlay.component.scss'
+  styleUrl: './overlay.component.scss',
 })
 export class OverlayComponent {
-
   overlayCtrlService = inject(OverlaycontrolService);
 
-  stopHideOvly(event: Event){
+  stopHideOvly(event: Event) {
     event.stopPropagation();
   }
-
 }

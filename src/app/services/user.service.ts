@@ -5,12 +5,11 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  } from 'firebase/auth';
+} from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection,  onSnapshot, setDoc } from "firebase/firestore";
+import { doc, collection, onSnapshot, setDoc } from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root',
@@ -29,12 +28,16 @@ export class UserService {
     this.loadingUserFromStorage()
     }
 
-
-
+  public isLoggedIn(): boolean {
+    return this.userIsLoggedIn
+  }
   async logInWithGoogle() {
-    await signInWithPopup(this.firebaseInitService.getAuth(), this.googleProvider)
-    .then(async (result) => {
-        let user = new User( {
+    await signInWithPopup(
+      this.firebaseInitService.getAuth(),
+      this.googleProvider
+    )
+      .then(async (result) => {
+        let user = new User({
           id: result.user.uid,
           name: result.user.displayName,
           channelIDs: [],
@@ -63,8 +66,8 @@ export class UserService {
         email,
         password
       );
-      this.user$.value.id = userCredential.user.uid
-      this.saveUser(this.user$.value)
+      this.user$.value.id = userCredential.user.uid;
+      this.saveUser(this.user$.value);
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -93,34 +96,34 @@ export class UserService {
     }
   }
 
-
   async logInTestUser() {
       await this.logUserIn('TestEmail@test.de', '123456Test!')
   }
 
   private getUserListRef() {
-    return collection(this.firebaseInitService.getDatabase(), 'users')
+    return collection(this.firebaseInitService.getDatabase(), 'users');
   }
 
-  private getUserRef(id:string) {
-    return doc(this.getUserListRef(), id)
+  private getUserRef(id: string) {
+    return doc(this.getUserListRef(), id);
   }
 
-   async getUsersList() {
+  async getUsersList() {
     this.unsubUserList = await onSnapshot(this.getUserListRef(), (list) => {
       this.usersList = [];
       list.forEach((element) => {
-        let id = element.id
-        let data = element.data()
-        let user = new User({id, data})
-        this.usersList.push(user)
+        let id = element.id;
+        let data = element.data();
+        let user = new User({ id, data });
+        this.usersList.push(user);
       });
-    })
+      console.log(this.usersList);
+    });
   }
 
   ngOnDestroy(): void {
-    this.unsubUserList.unsubscribe()
-    this.unsubUser.unsubscribe()
+    this.unsubUserList.unsubscribe();
+    this.unsubUser.unsubscribe();
   }
 
   async loadUser(userID: string) {
@@ -147,7 +150,13 @@ export class UserService {
       localStorage.setItem('user', userId)
     }
 
-  getUserImgPath(user: User){
+  saveUserToLocalStorage(user: User) {
+    let newUser = new User(user);
+    newUser.password = '';
+    localStorage.setItem('user', JSON.stringify(newUser));
+  }
+
+  getUserImgPath(user: User) {
     // Pfad des User img setzten wenn ein custom IMG verwendet wird. Sonst keine Änderung nötig. Erkennung durch 'assets' im Pfad. custom img pfad beinhalet nur den IMG-Namen
   }
 
@@ -167,8 +176,4 @@ export class UserService {
     this.saveUser(user)
     this.router.navigate(['/'])
   }
-
-
 }
-
-

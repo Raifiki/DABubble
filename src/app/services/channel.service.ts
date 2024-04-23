@@ -2,12 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 // import firebase
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, collectionData } from '@angular/fire/firestore';
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   updateDoc,
 } from 'firebase/firestore';
@@ -21,6 +22,8 @@ import { Unsubscribe } from 'firebase/auth';
 })
 export class ChannelService {
   channels: Channel[] = [];
+  channels$;
+  channel;
   activeChannel: Channel = {} as Channel;
   channelsList: string[] = [];
 
@@ -30,6 +33,13 @@ export class ChannelService {
 
   constructor() {
     this.unsubChannels = this.subChannels();
+    this.channels$ = collectionData(this.getChannelsRef());
+    this.channel = this.channels$.subscribe((list) => {
+      list.forEach((channel) => {
+        console.log(channel);
+      });
+      this.channel.unsubscribe();
+    });
   }
 
   subChannels() {
@@ -138,5 +148,20 @@ export class ChannelService {
       });
       console.log('channel Messages List: ', this.channelsList);
     });
+  }
+
+  async getSingleChannel(channelId: string) {
+    getDocs(collection(this.firestore, 'Channels')).then((snapshot) => {
+      let mychannels: any[] = [];
+      snapshot.docs.forEach((doc) => {
+        mychannels.push({ ...doc.data(), id: doc.id });
+      });
+      for (let i = 0; i < mychannels.length; i++) {
+        if (mychannels[i].id === channelId) {
+          return mychannels[i];
+        }
+      }
+    });
+    return {} as Channel; // Falls keine Übereinstimmung gefunden wurde
   }
 }
