@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
@@ -22,16 +22,15 @@ export class UserService {
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-  private userIsLoggedIn: boolean = false
   googleProvider = new GoogleAuthProvider()
   
   constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
     this.getUsersList()
-  }
+    this.loadingUserFromStorage()
+    }
 
-  public isLoggedIn(): boolean {
-    return this.userIsLoggedIn
-  }
+
+
   async logInWithGoogle() {
     await signInWithPopup(this.firebaseInitService.getAuth(), this.googleProvider)
     .then(async (result) => {
@@ -43,21 +42,17 @@ export class UserService {
           email: result.user.email,
           imgPath: result.user.photoURL,
           status: 'Aktiv',
-          password: ''
+          password: '',
+          isAuth: true,
           })
         this.activeUser$.next(user)
         await this.saveUser(user);
-        this.saveUserToLocalStorage(user)
         this.router.navigate(['/generalView']) 
     }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log('code' + errorCode + 'message' + errorMessage)
+      alert(
+        'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
+          error.message
+      )
     });
   }
 
@@ -73,7 +68,7 @@ export class UserService {
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error
+          error.message
       );
       console.log(error);
     }
@@ -86,27 +81,21 @@ export class UserService {
         email,
         password
       );
-      this.userIsLoggedIn = true
       await this.loadUser(userCredential.user.uid)
+      this.saveIdToLocalStorate(userCredential.user.uid)
       setTimeout(() => {
-        this.router.navigate(['/generalView'])
       }, 1000);
     } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error
+          error.message
       );
-      console.log(error);
     }
   }
 
 
   async logInTestUser() {
-      await this.loadUser('lT5yqLbBxXb2Jj0wgEy5FRGbBKA3')
-      this.userIsLoggedIn = true
-      setTimeout(() => {
-        this.router.navigate(['/generalView'])
-      }, 1000);
+      await this.logUserIn('TestEmail@test.de', '123456Test!')
   }
 
   private getUserListRef() {
@@ -139,8 +128,11 @@ export class UserService {
      this.unsubUser = onSnapshot(userRef, (data) => {
         const userData = data.data();
         const user = new User(userData)
+        user.isAuth = true
         this.activeUser$.next(user)
-        this.saveUserToLocalStorage(user)
+        this.saveUser(user)
+        this.router.navigate(['/generalView'])
+        console.log(user)
       })
     } 
    
@@ -151,28 +143,29 @@ export class UserService {
     this.activeUser$.next(user)
     }
 
-    saveUserToLocalStorage(user:User) {
-      let newUser = new User(user)
-      newUser.password = ''
-      localStorage.setItem('user',(JSON.stringify(newUser)))
+    saveIdToLocalStorate(userId:string) {
+      localStorage.setItem('user', userId)
     }
 
   getUserImgPath(user: User){
     // Pfad des User img setzten wenn ein custom IMG verwendet wird. Sonst keine Änderung nötig. Erkennung durch 'assets' im Pfad. custom img pfad beinhalet nur den IMG-Namen
   }
 
-  loadingUserFromStorage() {
-    let currentUser = localStorage.getItem('user')
-    if (currentUser) {
-      return (JSON.parse(currentUser))
+  async loadingUserFromStorage() {
+    let currentUserId = localStorage.getItem('user')
+    if (currentUserId) {
+     await this.loadUser(currentUserId)
     } else {
-      return null
+      return undefined
     }
   }
 
   userLogOut() {
-    localStorage.setItem('user', '')
-    this.userIsLoggedIn = false
+    localStorage.removeItem('user')
+    this.activeUser$.value.isAuth = false
+    let user = new User(this.activeUser$.value)
+    this.saveUser(user)
+    this.router.navigate(['/'])
   }
 
 

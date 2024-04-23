@@ -43,8 +43,6 @@ export class ChooseavatarComponent {
       this.user = userData;
     });
     this.userService.user$.next(this.user);
-    console.log(this.user);
-    
   }
 
   changeAvatarImg(imgPath:string){
