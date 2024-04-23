@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-dropdownusermenu',
@@ -13,12 +14,11 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 })
 export class DropdownusermenuComponent {
   overlayCtrlService = inject(OverlaycontrolService);
+  userService = inject(UserService)
 
   constructor(private router: Router){}
 
   logOut() {
-    this.router.navigate(['/'])
-    localStorage.setItem('user', '')
-    this.overlayCtrlService.hideOverlay();
+    this.userService.userLogOut()
   }
 }

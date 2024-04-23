@@ -7,6 +7,7 @@ export class User {
     imgPath: string;
     status?: 'Aktiv' | 'Abwesend';
     password?:string;
+    isAuth: boolean;
     
 
   
@@ -19,6 +20,7 @@ export class User {
       this.imgPath = obj ? obj.imgPath : '';
       this.status = obj ? obj.status : 'Abwesend';
       this.password = obj ? obj.password : '';
+      this.isAuth = obj ? obj.isAuth: false;
     }
 
     public toJSON() {
@@ -30,6 +32,8 @@ export class User {
             email: this.email,
             imgPath: this.imgPath,
             status: this.status,
+            isAuth: this.isAuth,
+            password: this.password ? this.password : '',
         }
     }
 

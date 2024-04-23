@@ -1,7 +1,7 @@
-import { Component, HostListener, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import {  RouterOutlet } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
-import { UserService } from './services/user.service';
+
 
 
 
@@ -17,8 +17,8 @@ import { UserService } from './services/user.service';
 export class AppComponent {
   title = 'DABubble';
 
-  constructor() {
-  }
-
-
 }
+
+
+
+

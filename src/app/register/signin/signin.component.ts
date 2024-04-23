@@ -36,6 +36,7 @@ export class SigninComponent {
       password: form.value.password,
       imgPath: 'assets/img/avatar/profile.svg',
       status: 'Aktiv',
+      isAuth: false,
     });
     this.userService.user$.next(user);
     this.chooseAvatar.emit(true);
