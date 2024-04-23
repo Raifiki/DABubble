@@ -21,13 +21,15 @@ export class UserService {
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-  googleProvider = new GoogleAuthProvider()
-  
-  constructor(private firebaseInitService: FirebaseInitService, private router: Router) {
-    this.getUsersList()
-    this.loadingUserFromStorage()
-    }
+  googleProvider = new GoogleAuthProvider();
 
+  constructor(
+    private firebaseInitService: FirebaseInitService,
+    private router: Router
+  ) {
+    this.getUsersList();
+    this.loadingUserFromStorage();
+  }
 
   async logInWithGoogle() {
     await signInWithPopup(
@@ -45,16 +47,17 @@ export class UserService {
           status: 'Aktiv',
           password: '',
           isAuth: true,
-          })
-        this.activeUser$.next(user)
+        });
+        this.activeUser$.next(user);
         await this.saveUser(user);
-        this.router.navigate(['/generalView']) 
-    }).catch((error) => {
-      alert(
-        'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error.message
-      )
-    });
+        this.router.navigate(['/generalView']);
+      })
+      .catch((error) => {
+        alert(
+          'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
+            error.message
+        );
+      });
   }
 
   async createAcc(email: string, password: string) {
@@ -82,10 +85,9 @@ export class UserService {
         email,
         password
       );
-      await this.loadUser(userCredential.user.uid)
-      this.saveIdToLocalStorate(userCredential.user.uid)
-      setTimeout(() => {
-      }, 1000);
+      await this.loadUser(userCredential.user.uid);
+      this.saveIdToLocalStorate(userCredential.user.uid);
+      setTimeout(() => {}, 1000);
     } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -95,7 +97,7 @@ export class UserService {
   }
 
   async logInTestUser() {
-      await this.logUserIn('TestEmail@test.de', '123456Test!')
+    await this.logUserIn('TestEmail@test.de', '123456Test!');
   }
 
   private getUserListRef() {
@@ -126,27 +128,30 @@ export class UserService {
 
   async loadUser(userID: string) {
     let userRef = this.getUserRef(userID);
-     this.unsubUser = onSnapshot(userRef, (data) => {
-        const userData = data.data();
-        const user = new User(userData)
-        user.isAuth = true
-        this.activeUser$.next(user)
-        this.saveUser(user)
-        this.router.navigate(['/generalView'])
-        console.log(user)
-      })
-    } 
-   
-  async saveUser(user:User) {
-    let docId = user.id
-    let newUser = user.toJSON()
-    await setDoc(doc(this.firebaseInitService.getDatabase(), 'users', docId), newUser)
-    this.activeUser$.next(user)
-    }
+    this.unsubUser = onSnapshot(userRef, (data) => {
+      const userData = data.data();
+      const user = new User(userData);
+      user.isAuth = true;
+      this.activeUser$.next(user);
+      this.saveUser(user);
+      this.router.navigate(['/generalView']);
+      console.log(user);
+    });
+  }
 
-    saveIdToLocalStorate(userId:string) {
-      localStorage.setItem('user', userId)
-    }
+  async saveUser(user: User) {
+    let docId = user.id;
+    let newUser = user.toJSON();
+    await setDoc(
+      doc(this.firebaseInitService.getDatabase(), 'users', docId),
+      newUser
+    );
+    this.activeUser$.next(user);
+  }
+
+  saveIdToLocalStorate(userId: string) {
+    localStorage.setItem('user', userId);
+  }
 
   saveUserToLocalStorage(user: User) {
     let newUser = new User(user);
@@ -159,19 +164,19 @@ export class UserService {
   }
 
   async loadingUserFromStorage() {
-    let currentUserId = localStorage.getItem('user')
+    let currentUserId = localStorage.getItem('user');
     if (currentUserId) {
-     await this.loadUser(currentUserId)
+      await this.loadUser(currentUserId);
     } else {
-      return undefined
+      return undefined;
     }
   }
 
   userLogOut() {
-    localStorage.removeItem('user')
-    this.activeUser$.value.isAuth = false
-    let user = new User(this.activeUser$.value)
-    this.saveUser(user)
-    this.router.navigate(['/'])
+    localStorage.removeItem('user');
+    this.activeUser$.value.isAuth = false;
+    let user = new User(this.activeUser$.value);
+    this.saveUser(user);
+    this.router.navigate(['/']);
   }
 }
