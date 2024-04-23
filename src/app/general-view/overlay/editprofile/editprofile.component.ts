@@ -36,13 +36,13 @@ export class EditprofileComponent {
 
   constructor(){
     this.unsubscripeUser = this.userService.activeUser$.subscribe((userData) => {
-      this.user = new User(userData);
+      this.user = userData;
     });
   }
 
   onSubmit(form:NgForm){
     this.overlayCtrlService.showOverlay('registeredUserProfile');
-    console.log('Save edited user data - data not saved, need to implemented');
+    this.userService.saveUser(this.user)
   }
 
   ngOnDestroy() {
