@@ -28,9 +28,7 @@ export class UserService {
     this.loadingUserFromStorage()
     }
 
-  public isLoggedIn(): boolean {
-    return this.userIsLoggedIn
-  }
+
   async logInWithGoogle() {
     await signInWithPopup(
       this.firebaseInitService.getAuth(),
