@@ -1,12 +1,15 @@
 <div class="content">
   <div>
     <h3>Leute hinzufügen</h3>
-    <button class="btn-default icon-btn back-btn">
+    <button
+      class="btn-default icon-btn back-btn"
+      (click)="overlayCtrlService.hideOverlay()"
+    >
       <div class="back-btn-icon"></div>
     </button>
   </div>
   <p># Entwicklerteam</p>
-  <div class="form-field-ipt-style2 ">
+  <div class="form-field-ipt-style2">
     <div class="ipt-field-wrapper field">
       <input type="text" placeholder="Name eingeben" />
     </div>

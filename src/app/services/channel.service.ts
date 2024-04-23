@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 // import firebase
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, collectionData } from '@angular/fire/firestore';
 import {
   addDoc,
   collection,
@@ -22,6 +22,8 @@ import { Unsubscribe } from 'firebase/auth';
 })
 export class ChannelService {
   channels: Channel[] = [];
+  channels$;
+  channel;
   activeChannel: Channel = {} as Channel;
   channelsList: string[] = [];
 
@@ -31,6 +33,13 @@ export class ChannelService {
 
   constructor() {
     this.unsubChannels = this.subChannels();
+    this.channels$ = collectionData(this.getChannelsRef());
+    this.channel = this.channels$.subscribe((list) => {
+      list.forEach((channel) => {
+        console.log(channel);
+      });
+      this.channel.unsubscribe();
+    });
   }
 
   subChannels() {
