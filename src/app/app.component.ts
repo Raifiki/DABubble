@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {  RouterOutlet } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
-
-
+import { AnimationService } from './services/animation.service';
 
 
 @Component({
@@ -17,6 +16,8 @@ import { RegisterComponent } from './register/register.component';
 export class AppComponent {
   title = 'DABubble';
 
+
+  constructor() {}
 }
 
 

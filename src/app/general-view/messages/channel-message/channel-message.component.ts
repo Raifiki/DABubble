@@ -6,7 +6,7 @@ import { ChannelService } from '../../../services/channel.service';
 import { Channel } from '../../../shared/models/channel.class';
 import { User } from '../../../shared/models/user.class';
 import { UserService } from '../../../services/user.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-channel-message',
@@ -19,12 +19,19 @@ export class ChannelMessageComponent implements OnInit {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   userService = inject(UserService);
-  user: User;
+  user!: User;
   channel: Channel = {} as Channel;
+  userUnsub: Subscription
 
   constructor() {
-    this.user = this.userService.loadingUserFromStorage();
+    this.userUnsub = this.userService.activeUser$.subscribe((userData) => {
+      this.user = userData
+    });
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.userUnsub.unsubscribe()
+  }
 }

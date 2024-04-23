@@ -1,23 +1,15 @@
 <div class="create-account">
     <div>Neu bei DABubble ?</div>
-    <div (click)="goToSignIn()" class="create">
-        Konto erstellen
-    </div>
+    <div (click)="goToSignIn()" class="create">Konto erstellen</div>
 </div>
 
 @if (isLoginShowen) {
 <app-login (isPwForgotten)="showPwComponent($event)"></app-login>
-}
-
-@if (isSignIsShowen) {
+} @if (isSignIsShowen) {
 <app-signin (isShowen)="showSignInComponent($event)" (chooseAvatar)="showAvatar($event)"></app-signin>
-}
-
-@if (isResetPwIsShowen) {
+} @if (isResetPwIsShowen) {
 <app-sendemail (isShowen)="showMain($event)"></app-sendemail>
-}
-
-@if (chooseAvatar) {
+} @if (chooseAvatar) {
 <app-chooseavatar (isShowen)="showMain($event)"></app-chooseavatar>
 }
 
@@ -27,11 +19,10 @@
 </div>
 
 @if (animationPlayed === 0) {
-<img src="../../../assets/img/Logo.png" alt="" class="first-logo">
-<img src="../../../assets/img/Logo name.png" alt="" class="second-logo">
+<img src="../../../assets/img/Logo.png" alt="" class="first-logo" />
+<img src="../../../assets/img/Logo name.png" alt="" class="second-logo" />
 <div class="overlay-intro"></div>
-}
-@if (animationPlayed != 0){
-<img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation">
-<img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation">
+} @if (animationPlayed >= 0){
+<img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation" />
+<img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation" />
 }

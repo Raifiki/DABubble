@@ -2,13 +2,12 @@ import { Component, inject } from '@angular/core';
 import { MessageService } from '../../../services/message.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-new-message',
   standalone: true,
-  imports: [CommonModule, BrowserModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './new-message.component.html',
   styleUrl: './new-message.component.scss',
 })

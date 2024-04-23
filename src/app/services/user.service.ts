@@ -172,11 +172,11 @@ export class UserService {
     }
   }
 
-  userLogOut() {
+  async userLogOut() {
     localStorage.removeItem('user');
     this.activeUser$.value.isAuth = false;
-    let user = new User(this.activeUser$.value);
-    this.saveUser(user);
+    let user = this.activeUser$.value;
+    await this.saveUser(user);
     this.router.navigate(['/']);
   }
 }

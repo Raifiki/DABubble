@@ -22,6 +22,7 @@ export class LeftSideComponent {
   activeUser!: User;
   subscription: Subscription;
 
+
   @Output() toggleMessageComponent = new EventEmitter<string>();
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
@@ -34,10 +35,8 @@ export class LeftSideComponent {
   storageService = inject(StorageService);
 
   constructor(private userService: UserService) {
-    this.activeUser = this.userService.loadingUserFromStorage();
-    this.userService.activeUser$.next(this.activeUser);
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
-      this.activeUser = new User(userData);
+      this.activeUser = userData;
       this.getChannelNames(userData.channelIDs);
       console.log(userData.channelIDs);
     });
@@ -70,4 +69,5 @@ export class LeftSideComponent {
     });
     this.activeUserchannels = channelNames;
   }
+ 
 }

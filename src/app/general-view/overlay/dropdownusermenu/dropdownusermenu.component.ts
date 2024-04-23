@@ -20,5 +20,6 @@ export class DropdownusermenuComponent {
 
   logOut() {
     this.userService.userLogOut()
+    this.overlayCtrlService.hideOverlay()
   }
 }
