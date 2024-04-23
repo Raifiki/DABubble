@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnInit, inject } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
 import { Observable } from 'rxjs';
 import {
@@ -7,47 +7,59 @@ import {
   collection,
   onSnapshot,
   addDoc,
+  collectionData,
 } from '@angular/fire/firestore';
+import { DirektMessage } from '../shared/models/direct-message.class';
+import { deleteDoc, updateDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MessageService {
-  unsubDirectMessages: any;
+export class MessageService implements OnInit {
+  firebaseInitService = inject(FirebaseInitService);
+  unsubDirectMessagesList;
   directMessagesList: any[] = [];
 
-  constructor(private firebaseInitService: FirebaseInitService) {
-    this.getDirectMessagesRef();
+  constructor() {
+    this.unsubDirectMessagesList = this.subDirectMessagesList();
   }
 
-  getDirectMessagesRef() {
-    return collection(this.firebaseInitService.getDatabase(), 'directMessages');
-  }
-  getSingleDocRef(id: string) {
-    return doc(this.getDirectMessagesRef(), id);
+  ngOnDestroy() {
+    this.unsubDirectMessagesList();
   }
 
-  async getDirectMessagesList() {
-    this.unsubDirectMessages = await onSnapshot(
-      this.getDirectMessagesRef(),
-      (list) => {
-        this.directMessagesList = [];
-        list.forEach((element) => {
-          let id = element.id;
-          this.directMessagesList.push(id);
-          console.log('direct Messages List: ', this.directMessagesList);
-        });
-      }
-    );
+  ngOnInit(): void {}
+
+  getDirectMessagesRef(coldId: string) {
+    return collection(this.firebaseInitService.getDatabase(), 'coldId');
+  }
+  getSingleDocRef(coldId: string, id: string) {
+    return doc(this.getDirectMessagesRef(coldId), id);
   }
 
-  async createDirectMessage(
+  setDirectMessageObj(obj: any, id: string) {
+    return {
+      id: id,
+      messages: obj.messages,
+      userIds: obj.userIds,
+    };
+  }
+
+  subDirectMessagesList() {
+    return onSnapshot(this.getDirectMessagesRef('directMessages'), (list) => {
+      list.forEach((element) => {
+        this.directMessagesList.push(
+          this.setDirectMessageObj(element.data(), element.id)
+        );
+      });
+    });
+  }
+
+  async createNewDirectMessage(
     userIds: string[],
     content: string,
     creatorId: string,
-    date: any,
-    files: string[],
-    reactions: any[]
+    files: string[]
   ): Promise<void> {
     const newDirectMessage = {
       userIds: userIds,
@@ -55,7 +67,7 @@ export class MessageService {
     };
     try {
       const docRef = await addDoc(
-        this.getDirectMessagesRef(),
+        this.getDirectMessagesRef('directMessages'),
         newDirectMessage
       );
       const messageId = docRef.id;
@@ -63,9 +75,9 @@ export class MessageService {
       const newMessage = {
         content: content,
         creatorId: creatorId,
-        date: date,
+        date: new Date().getTime(),
         files: files,
-        reactions: reactions,
+        reactions: [],
       };
 
       await this.addMessageToDirectMessage(messageId, newMessage);
@@ -75,15 +87,40 @@ export class MessageService {
     }
   }
 
-  async addMessageToDirectMessage(directMessageId: string, message: any): Promise<void> {
+  async addMessageToDirectMessage(
+    directMessageId: string,
+    message: any
+  ): Promise<void> {
     try {
       const database = this.firebaseInitService.getDatabase();
-      const messageRef = collection(database, 'directMessages', directMessageId, 'messages');
+      const messageRef = collection(
+        database,
+        'directMessages',
+        directMessageId,
+        'messages'
+      );
       await addDoc(messageRef, message);
       console.log('Message added to direct message successfully');
     } catch (error) {
       console.error('Error adding message to direct message: ', error);
     }
   }
-  
+
+  async updateMessage(colId: string, docId: string, msg: any) {
+    await updateDoc(this.getSingleDocRef(colId, docId), msg).catch((error) => {
+      console.log(
+        'Es ist ein Fehle aufgetreten bei updaten der Nachricht:',
+        error
+      );
+    });
+  }
+
+  async deleteMessage(colId: string, docId: string) {
+    await deleteDoc(this.getSingleDocRef(colId, docId)).catch((error) => {
+      console.log(
+        'Es ist ein Fehler aufgetreten bei löschen der Nachricht:',
+        error
+      );
+    });
+  }
 }

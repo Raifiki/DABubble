@@ -35,9 +35,7 @@ export class ChannelService {
     this.unsubChannels = this.subChannels();
     this.channels$ = collectionData(this.getChannelsRef());
     this.channel = this.channels$.subscribe((list) => {
-      list.forEach((channel) => {
-        console.log(channel);
-      });
+      list.forEach((channel) => {});
       this.channel.unsubscribe();
     });
   }
