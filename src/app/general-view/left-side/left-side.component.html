@@ -46,13 +46,13 @@
           <b>Direktnachrichten</b>
         </div>
       </div>
-      <div
-        class="direct-messages-list"
-        [class.collapsed]="dropdownCollapsed.directMessages"
-      >
-        <app-members-list
-          (click)="openNewMessageComponent('direct-message')"
-        ></app-members-list>
+      <div class="direct-messages-list" [class.collapsed]="dropdownCollapsed.directMessages">
+        <app-members-list (click)="openNewMessageComponent('direct-message')"></app-members-list>
+        @for (directMessage of messageService.directMessagesList; track directMessage) {
+          @if (getUser(directMessage.users).id != '') {
+            <app-userlistitem [user]="getUser(directMessage.users)" [checked]="false"></app-userlistitem>
+          }
+        }
       </div>
     </div>
   </div>

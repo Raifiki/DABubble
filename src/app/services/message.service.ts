@@ -11,6 +11,9 @@ import {
 } from '@angular/fire/firestore';
 import { DirektMessage } from '../shared/models/direct-message.class';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
+import { UserService } from './user.service';
+import { User } from '../shared/models/user.class';
+import { Message } from '../shared/models/message.class';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +21,13 @@ import { deleteDoc, updateDoc } from 'firebase/firestore';
 export class MessageService implements OnInit {
   firebaseInitService = inject(FirebaseInitService);
   unsubDirectMessagesList;
-  directMessagesList: any[] = [];
+
+  directMessagesList!: {id: string ; users: User[];}[];
+
+  userService = inject(UserService);
 
   constructor() {
-    this.unsubDirectMessagesList = this.subDirectMessagesList();
+    this.unsubDirectMessagesList = this.subDirectMessagesList();    
   }
 
   ngOnDestroy() {
@@ -31,27 +37,34 @@ export class MessageService implements OnInit {
   ngOnInit(): void {}
 
   getDirectMessagesRef(coldId: string) {
-    return collection(this.firebaseInitService.getDatabase(), 'coldId');
+    return collection(this.firebaseInitService.getDatabase(), coldId);
   }
   getSingleDocRef(coldId: string, id: string) {
     return doc(this.getDirectMessagesRef(coldId), id);
   }
 
   setDirectMessageObj(obj: any, id: string) {
+    let userList: User[] = [];
+    obj.userIds.forEach((userId:string) => {
+      let user = this.userService.getUser(userId);
+      if(user) userList.push(user);
+    });
     return {
       id: id,
-      messages: obj.messages,
-      userIds: obj.userIds,
+      users: userList,
     };
   }
 
   subDirectMessagesList() {
     return onSnapshot(this.getDirectMessagesRef('directMessages'), (list) => {
+      this.directMessagesList = [];
       list.forEach((element) => {
-        this.directMessagesList.push(
-          this.setDirectMessageObj(element.data(), element.id)
-        );
+        let messageData = element.data();
+        if (messageData['userIds'].includes(this.userService.activeUser$.value.id)) {
+          this.directMessagesList.push(this.setDirectMessageObj(messageData, element.id));
+        }
       });
+      console.log('message List: ',this.directMessagesList);
     });
   }
 
@@ -61,10 +74,7 @@ export class MessageService implements OnInit {
     creatorId: string,
     files: string[]
   ): Promise<void> {
-    const newDirectMessage = {
-      userIds: userIds,
-      messages: [],
-    };
+    const newDirectMessage = {userIds: userIds};
     try {
       const docRef = await addDoc(
         this.getDirectMessagesRef('directMessages'),

@@ -112,13 +112,21 @@ export class UserService {
     this.unsubUserList = await onSnapshot(this.getUserListRef(), (list) => {
       this.usersList = [];
       list.forEach((element) => {
-        let id = element.id;
-        let data = element.data();
-        let user = new User({ id, data });
+        let userData = {...element.data(),...{id:element.id}};
+        let user = new User(userData);
         this.usersList.push(user);
       });
       console.log(this.usersList);
     });
+  }
+
+  getUser(userID:string): User | undefined{
+    return this.usersList.find( user => user.id == userID)
+  }
+
+  getFilterdUserList(): User[]{
+    let user = new User;
+    return [user]
   }
 
   ngOnDestroy(): void {

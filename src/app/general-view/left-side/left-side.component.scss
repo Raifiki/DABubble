@@ -172,6 +172,10 @@
 }
 
 .direct-messages-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
   &.collapsed {
     display: none;
   }

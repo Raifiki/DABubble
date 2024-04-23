@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
+
+// customer components
 import { MembersListComponent } from '../overlay/members-list/members-list.component';
+import { UserlistitemComponent } from '../../shared/components/userlistitem/userlistitem.component';
 
 //services
 import { MessageService } from '../../services/message.service';
@@ -14,14 +17,13 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-left-side',
   standalone: true,
-  imports: [CommonModule, MembersListComponent],
+  imports: [CommonModule, MembersListComponent, UserlistitemComponent],
   templateUrl: './left-side.component.html',
   styleUrl: './left-side.component.scss',
 })
 export class LeftSideComponent {
   activeUser!: User;
   subscription: Subscription;
-
 
   @Output() toggleMessageComponent = new EventEmitter<string>();
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
@@ -68,6 +70,9 @@ export class LeftSideComponent {
       channelNames.push(channel);
     });
     this.activeUserchannels = channelNames;
+  } 
+
+  getUser(users:User[]):User{
+    return users.find(user => user.id!=this.activeUser.id) || new User();
   }
- 
 }
