@@ -26,13 +26,13 @@
       ></app-left-side>
     </div>
     <div class="middle">
-      <div *ngIf="currentMessageComponent === 'channel-message'">
+      <div *ngIf="currentMessageComponent === 'channel'">
         <app-channel-message></app-channel-message>
       </div>
-      <div *ngIf="currentMessageComponent === 'direct-message'">
+      <div *ngIf="currentMessageComponent === 'directMessage'">
         <app-direct-message></app-direct-message>
       </div>
-      <div *ngIf="currentMessageComponent === 'new-message'">
+      <div *ngIf="currentMessageComponent === 'newMessage'">
         <app-new-message></app-new-message>
       </div>
     </div>

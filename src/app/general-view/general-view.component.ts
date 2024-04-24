@@ -19,6 +19,9 @@ import { ThreadComponent } from './thread/thread.component';
 // import classes
 import { User } from '../shared/models/user.class';
 
+// import types
+import { MassageComponent } from '../shared/interfaces/interfaces';
+
 @Component({
   selector: 'app-general-view',
   standalone: true,
@@ -38,9 +41,11 @@ import { User } from '../shared/models/user.class';
 export class GeneralViewComponent {
   activeUser!: User;
   search!: string;
+
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
-  currentMessageComponent: any = 'channel-message';
+
+  currentMessageComponent: MassageComponent= 'newMessage';
   subscription: Subscription;
 
   constructor(private userService: UserService) {
@@ -53,7 +58,7 @@ export class GeneralViewComponent {
     this.subscription.unsubscribe();
   }
 
-  toggleMessageComponent(nextComponent: any) {
+  toggleMessageComponent(nextComponent: MassageComponent) {
     this.currentMessageComponent = nextComponent;
   }
 }
