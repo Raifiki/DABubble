@@ -14,7 +14,7 @@
     </div>
     <div class="massages-wrapper">
       @for (msg of messages; track msg) {
-        <div style="background-color: red;">{{ msg.content }} <br> {{ msg.creator.name}}</div>
+        <div>{{ msg.content }} <br> {{ msg.creator.name}}</div>
       }
     </div>
     <div>
@@ -30,7 +30,9 @@
         placeholder="Starte eine neue Nachricht"
         name="description"
         #textarea
+        [(ngModel)]="newMessage.content" 
       ></textarea>
+      <button (click)="sendNewMassage()">send Message</button>
     </div>
   </div>
 </div>

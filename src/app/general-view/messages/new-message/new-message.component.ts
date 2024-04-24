@@ -20,11 +20,6 @@ export class NewMessageComponent {
   files = [''];
 
   async createNewDirectMessage() {
-    await this.messageService.createNewDirectMessage(
-      this.userIds,
-      this.content,
-      this.creatorId,
-      this.files
-    );
+    await this.messageService.createNewDirectMessage(this.userIds);
   }
 }

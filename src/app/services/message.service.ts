@@ -83,12 +83,7 @@ export class MessageService implements OnInit {
     });
   }
 
-  async createNewDirectMessage(
-    userIds: string[],
-    content: string,
-    creatorId: string,
-    files: string[]
-  ): Promise<void> {
+  async createNewDirectMessage(userIds: string[], message?: Message): Promise<void> {
     const newDirectMessage = {userIds: userIds};
     try {
       const docRef = await addDoc(
@@ -97,24 +92,16 @@ export class MessageService implements OnInit {
       );
       const messageId = docRef.id;
 
-      const newMessage = {
-        content: content,
-        creatorId: creatorId,
-        date: new Date().getTime(),
-        files: files,
-        reactions: [],
-      };
-
-      await this.addMessageToDirectMessage(messageId, newMessage);
+      if(message) await this.addMessageToDirectMessage(messageId, message);
       console.log('Direct message added successfully');
     } catch (error) {
       console.error('Error adding direct message: ', error);
     }
   }
 
-  async addMessageToDirectMessage(directMsgId: string, message: any): Promise<void> {
+  async addMessageToDirectMessage(directMsgId: string, message: Message): Promise<void> {
     try {
-      await addDoc(this.getMessagesRef(directMsgId), message);
+      await addDoc(this.getMessagesRef(directMsgId), message.getCleanBEJSON());
       console.log('Message added to direct message successfully');
     } catch (error) {
       console.error('Error adding message to direct message: ', error);
@@ -148,7 +135,7 @@ export class MessageService implements OnInit {
           let user = this.userService.getUser(userId);       
           if(user) this.activeDirectMessage?.users.push(user);
         });
-        this.subMessages(directMsgId);
+        this.subMessages(directMsgId);        
         this.activeDirectMessage$.next(this.activeDirectMessage);
       }
     });
