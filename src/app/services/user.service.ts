@@ -137,7 +137,7 @@ export class UserService {
 
   async loadUser(userID: string) {
     let userRef = this.getUserRef(userID);
-    this.unsubUser = await getDoc(userRef).then((data) => {
+     await getDoc(userRef).then((data) => {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
@@ -145,9 +145,13 @@ export class UserService {
       this.activeUser$.value.status = 'Aktiv'
       this.router.navigate(['/generalView']);
       this.saveUser(this.activeUser$.value)
-    });
-
-    
+    });  
+    this.unsubUser = onSnapshot(userRef, (data:any) => {
+      const userData = data.data();
+      const user = new User(userData);
+      user.isAuth = true;
+      this.activeUser$.next(user);
+    })
   }
 
   async saveUser(user: User) {
