@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { UserService } from '../../../services/user.service';
+import { User } from '../../../shared/models/user.class';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dropdownusermenu',
@@ -15,11 +17,22 @@ import { UserService } from '../../../services/user.service';
 export class DropdownusermenuComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   userService = inject(UserService)
+  user!: User;
+  unsubscripeUser: Subscription;
 
-  constructor(private router: Router){}
+  constructor(){
+    this.unsubscripeUser = this.userService.activeUser$.subscribe((userData) => {
+      this.user = userData;
+    });
+  }
 
-  logOut() {
-    this.userService.userLogOut()
+    async logOut() {
+    localStorage.removeItem('user');
+    await this.userService.userLogOut()
     this.overlayCtrlService.hideOverlay()
+  }
+
+  ngOnDestroy() {
+    this.unsubscripeUser.unsubscribe();
   }
 }
