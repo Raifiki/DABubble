@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, SimpleChanges, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
@@ -28,8 +28,11 @@ export class UserService {
     private router: Router
   ) {
     this.getUsersList();
-    this.loadingUserFromStorage();
+    if (!this.activeUser$.value.isAuth) {
+      this.loadingUserFromStorage();
+    }
   }
+
 
   async logInWithGoogle() {
     await signInWithPopup(
@@ -139,32 +142,24 @@ export class UserService {
     this.unsubUser = onSnapshot(userRef, (data) => {
       const userData = data.data();
       const user = new User(userData);
-      user.isAuth = true;
       this.activeUser$.next(user);
-      this.saveUser(user);
+      this.activeUser$.value.isAuth = true;
+      this.activeUser$.value.status = 'Aktiv'
       this.router.navigate(['/generalView']);
-      console.log(user);
+      this.saveUser(this.activeUser$.value)
     });
+
   }
 
   async saveUser(user: User) {
-    let docId = user.id;
-    let newUser = user.toJSON();
-    await setDoc(
-      doc(this.firebaseInitService.getDatabase(), 'users', docId),
-      newUser
+    await updateDoc(
+      doc(this.firebaseInitService.getDatabase(), 'users', user.id),
+      user.toJSON()
     );
-    this.activeUser$.next(user);
   }
 
   saveIdToLocalStorate(userId: string) {
     localStorage.setItem('user', userId);
-  }
-
-  saveUserToLocalStorage(user: User) {
-    let newUser = new User(user);
-    newUser.password = '';
-    localStorage.setItem('user', JSON.stringify(newUser));
   }
 
   getUserImgPath(user: User) {
@@ -181,10 +176,11 @@ export class UserService {
   }
 
   async userLogOut() {
-    localStorage.removeItem('user');
-    this.activeUser$.value.isAuth = false;
-    let user = this.activeUser$.value;
-    await this.saveUser(user);
-    this.router.navigate(['/']);
+    this.activeUser$.value.isAuth = false
+    this.activeUser$.value.status = 'Abwesend'
+    const user = this.activeUser$.value
+    await this.saveUser(user).then(() => {
+      this.router.navigate(['/']);
+    });
   }
 }

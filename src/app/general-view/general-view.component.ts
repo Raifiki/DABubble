@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -43,10 +43,17 @@ export class GeneralViewComponent {
   currentMessageComponent: any = 'channel-message';
   subscription: Subscription;
 
+ 
   constructor(private userService: UserService) {
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = userData;
     });
+  }
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnload(event: Event) {
+    this.activeUser.status = 'Abwesend'
+    this.userService.activeUser$.next(this.activeUser)
+    this.userService.saveUser(this.activeUser)
   }
 
   ngOnDestroy() {
