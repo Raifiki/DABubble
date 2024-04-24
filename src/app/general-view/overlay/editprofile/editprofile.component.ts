@@ -23,7 +23,7 @@ export class EditprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   userService = inject (UserService);
 
-  unsubscripeUser: Subscription;
+  unsubscribeUser: Subscription;
 
   avatarImgPathList: string[] = [
     'assets/img/avatar/avatar0.svg',
@@ -35,18 +35,19 @@ export class EditprofileComponent {
   ];
 
   constructor(){
-    this.unsubscripeUser = this.userService.activeUser$.subscribe((userData) => {
+    this.unsubscribeUser = this.userService.activeUser$.subscribe((userData) => {
       this.user = userData;
     });
   }
 
-  onSubmit(form:NgForm){
+  async onSubmit(form:NgForm){
     this.overlayCtrlService.showOverlay('registeredUserProfile');
-    this.userService.saveUser(this.user)
+    this.userService.activeUser$.next(this.user)
+    await this.userService.saveUser(this.userService.activeUser$.value)
   }
 
   ngOnDestroy() {
-    this.unsubscripeUser.unsubscribe();
+    this.unsubscribeUser.unsubscribe();
   }
 
 }

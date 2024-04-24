@@ -12,27 +12,29 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [],
   templateUrl: './dropdownusermenu.component.html',
-  styleUrl: './dropdownusermenu.component.scss'
+  styleUrl: './dropdownusermenu.component.scss',
 })
 export class DropdownusermenuComponent {
   overlayCtrlService = inject(OverlaycontrolService);
-  userService = inject(UserService)
+  userService = inject(UserService);
   user!: User;
-  unsubscripeUser: Subscription;
+  unsubscribeUser: Subscription;
 
-  constructor(){
-    this.unsubscripeUser = this.userService.activeUser$.subscribe((userData) => {
-      this.user = userData;
-    });
+  constructor() {
+    this.unsubscribeUser = this.userService.activeUser$.subscribe(
+      (userData) => {
+        this.user = userData;
+      }
+    );
   }
 
-    async logOut() {
+  async logOut() {
     localStorage.removeItem('user');
-    await this.userService.userLogOut()
-    this.overlayCtrlService.hideOverlay()
+    await this.userService.userLogOut();
+    this.overlayCtrlService.hideOverlay();
   }
 
   ngOnDestroy() {
-    this.unsubscripeUser.unsubscribe();
+    this.unsubscribeUser.unsubscribe();
   }
 }

@@ -23,7 +23,7 @@ export class RegistereduserprofileComponent {
 
   constructor() {
     this.subscription =  this.userService.activeUser$.subscribe((userData) => {
-      this.activeUser = new User(userData)
+      this.activeUser = userData
   })
 }
   ngOnDestroy() {

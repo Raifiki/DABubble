@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -28,6 +28,7 @@ export class UserService {
     private firebaseInitService: FirebaseInitService,
     private router: Router
   ) {
+    this.getUsersList()
     if (!this.activeUser$.value.isAuth) {
       this.loadingUserFromStorage();
     }
@@ -52,7 +53,6 @@ export class UserService {
           isAuth: true,
         });
         this.activeUser$.next(user);
-        this.getUsersList();
         await this.saveUser(user);
         this.router.navigate(['/generalView']);
       })
@@ -72,13 +72,12 @@ export class UserService {
         password
       );
       this.user$.value.id = userCredential.user.uid;
-      this.saveUser(this.user$.value);
+      await this.saveUser(this.user$.value);
     } catch (error: any) {
       alert(
         'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
           error.message
       );
-      console.log(error);
     }
   }
 
@@ -90,7 +89,6 @@ export class UserService {
         password
       );
       await this.loadUser(userCredential.user.uid);
-      this.getUsersList();
       this.saveIdToLocalStorate(userCredential.user.uid);
     } catch (error: any) {
       alert(
@@ -146,8 +144,11 @@ export class UserService {
       this.activeUser$.value.isAuth = true;
       this.activeUser$.value.status = 'Aktiv'
       this.router.navigate(['/generalView']);
-      this.saveUser(this.activeUser$.value)
     });
+    setTimeout(() => {
+      this.saveUser(this.activeUser$.value)
+    }, 1000);
+    
   }
 
   async saveUser(user: User) {
@@ -179,7 +180,6 @@ export class UserService {
     await this.firebaseInitService.getAuth().signOut()
     this.activeUser$.value.isAuth = false
     this.activeUser$.value.status = 'Abwesend'
-    console.log(this.activeUser$.value)
     await this.saveUser(this.activeUser$.value).then(() => {
       this.router.navigate(['/']);
     });

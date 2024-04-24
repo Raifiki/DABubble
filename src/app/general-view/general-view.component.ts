@@ -52,13 +52,14 @@ export class GeneralViewComponent {
   constructor(private userService: UserService) {
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = userData;
+
     });
   }
   @HostListener('window:beforeunload', ['$event'])
-  beforeUnload(event: Event) {
+  async beforeUnload(event: Event) {
     this.activeUser.status = 'Abwesend'
     this.userService.activeUser$.next(this.activeUser)
-    this.userService.saveUser(this.activeUser)
+   await this.userService.saveUser(this.userService.activeUser$.value)
   }
 
   ngOnDestroy() {
