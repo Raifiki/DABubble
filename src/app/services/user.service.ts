@@ -149,7 +149,6 @@ export class UserService {
     this.unsubUser = onSnapshot(userRef, (data:any) => {
       const userData = data.data();
       const user = new User(userData);
-      user.isAuth = true;
       this.activeUser$.next(user);
     })
   }
