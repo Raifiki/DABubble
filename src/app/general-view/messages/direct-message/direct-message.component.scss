@@ -70,3 +70,17 @@
 .pad20 {
   padding: 20px;
 }
+
+.massages-wrapper{
+  flex-direction: column;
+  align-items: flex-start !important;
+  gap: 10px;
+  >div{
+    &:nth-child(odd){
+      background-color: greenyellow;
+    }
+    &:nth-child(even){
+      background-color: red;
+    }
+  }
+}

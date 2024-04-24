@@ -11,5 +11,10 @@ export class DirektMessage {
     this.users = users || [];
     this.id = id || '';
     this.messages = messages || [];
+    this.sortMessagesChronologically();
+  }
+
+  sortMessagesChronologically(){
+    this.messages.sort((a,b) => a.date.getTime() - b.date.getTime());
   }
 }
