@@ -6,7 +6,7 @@
     </div>
     <img
       src="../../../../assets/icons/16. edit_square.jpg"
-      (click)="openNewMessageComponent('new-message')"
+      (click)="openMessageComponent('newMessage')"
     />
   </div>
   <div class="body">
@@ -25,7 +25,7 @@
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
         <p
           class="channels-name"
-          (click)="openNewMessageComponent('channel-message')"
+          (click)="openMessageComponent('channel')"
           *ngFor="let channel of activeUserchannels"
         >
           # {{ channel }}
@@ -47,12 +47,11 @@
         </div>
       </div>
       <div class="direct-messages-list" [class.collapsed]="dropdownCollapsed.directMessages">
-        <app-members-list (click)="openNewMessageComponent('direct-message')"></app-members-list>
-        @for (directMessage of messageService.directMessagesList; track directMessage) {
-          @if (getUser(directMessage.users).id != '') {
-            <app-userlistitem [user]="getUser(directMessage.users)" [checked]="false"></app-userlistitem>
+          @for (directMessage of messageService.directMessagesList; track directMessage) {
+            @if (getUser(directMessage.users).id != '') {
+              <app-userlistitem [user]="getUser(directMessage.users)" [checked]="false" (click)="openMessageComponent('directMessage', directMessage.id)"></app-userlistitem>
+            }
           }
-        }
       </div>
     </div>
   </div>

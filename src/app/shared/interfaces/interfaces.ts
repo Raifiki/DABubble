@@ -8,3 +8,5 @@ export type OverlayType =
   | 'editChannel'
   | 'members'
   | 'add-members';
+
+  export type MassageComponent = 'channel' | 'directMessage' | 'newMessage';

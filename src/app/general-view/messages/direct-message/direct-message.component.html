@@ -1,22 +1,26 @@
 <div class="content">
   <div class="header">
     <div>
-      <img src="../../../../assets/img/avatar/avatar2.svg" alt="" />
+      <img src="{{ secondUser.imgPath }}" alt="" />
       <img class="status" src="../../../../assets/icons/Offline.jpg" alt="" />
     </div>
-    <b>Noah Braun</b>
+    <b>{{ secondUser.name }}</b>
   </div>
 
   <div class="messages pad20">
     <div>
-      <img src="../../../../assets/img/avatar/avatar2.svg" alt="" />
-      <b>Noah Braun</b>
+      <img src="{{ secondUser.imgPath }}" alt="" />
+      <b>{{ secondUser.name }}</b>
     </div>
-
+    <div class="massages-wrapper">
+      @for (msg of messages; track msg) {
+        <div style="background-color: red;">{{ msg.content }} <br> {{ msg.creator.name}}</div>
+      }
+    </div>
     <div>
       <p class="info">
         Diese Unterhaltung findet nur zwischen
-        <span class="info-span">&commat;Sofia Müller</span> und dir statt.
+        <span class="info-span">&commat;{{ secondUser.name }}</span> und dir statt.
       </p>
     </div>
   </div>

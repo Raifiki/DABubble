@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { MembersListComponent } from '../members-list/members-list.component';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [MembersListComponent],
+  imports: [],
   templateUrl: './members.component.html',
   styleUrl: './members.component.scss',
 })

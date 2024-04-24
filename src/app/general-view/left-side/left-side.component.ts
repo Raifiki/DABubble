@@ -1,23 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 // customer components
-import { MembersListComponent } from '../overlay/members-list/members-list.component';
 import { UserlistitemComponent } from '../../shared/components/userlistitem/userlistitem.component';
 
 //services
 import { MessageService } from '../../services/message.service';
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { StorageService } from '../../services/storage.service';
-import { User } from '../../shared/models/user.class';
 import { ChannelService } from '../../services/channel.service';
-import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
+
+// import classes
+import { User } from '../../shared/models/user.class';
+
+// impoort types
+import { MassageComponent } from '../../shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-left-side',
   standalone: true,
-  imports: [CommonModule, MembersListComponent, UserlistitemComponent],
+  imports: [CommonModule, UserlistitemComponent],
   templateUrl: './left-side.component.html',
   styleUrl: './left-side.component.scss',
 })
@@ -25,12 +29,15 @@ export class LeftSideComponent {
   activeUser!: User;
   subscription: Subscription;
 
-  @Output() toggleMessageComponent = new EventEmitter<string>();
+  @Output() toggleMessageComponent = new EventEmitter<MassageComponent>();
+
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
     directMessages: false,
   };
+
   activeUserchannels: any[] = [];
+
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
@@ -49,9 +56,22 @@ export class LeftSideComponent {
       !this.dropdownCollapsed[dropdownType];
   }
 
-  openNewMessageComponent(component: string) {
+  openMessageComponent(component: MassageComponent, id?: string) {
     this.toggleMessageComponent.emit(component);
+    if(id){
+      switch (component) {
+        case 'directMessage':
+          this.messageService.subDirectMessage(id);
+          break;
+        case ('channel'):{
+          // sub single channel
+          break;
+        }
+      }
+    }
   }
+
+
 
   loadingUserFromStorage() {
     const currentUserString = localStorage.getItem('user');
