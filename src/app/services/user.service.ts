@@ -1,4 +1,4 @@
-import { Injectable, SimpleChanges, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
   createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc } from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
@@ -23,11 +23,11 @@ export class UserService {
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   googleProvider = new GoogleAuthProvider();
 
+
   constructor(
     private firebaseInitService: FirebaseInitService,
     private router: Router
   ) {
-    this.getUsersList();
     if (!this.activeUser$.value.isAuth) {
       this.loadingUserFromStorage();
     }
@@ -52,6 +52,7 @@ export class UserService {
           isAuth: true,
         });
         this.activeUser$.next(user);
+        this.getUsersList();
         await this.saveUser(user);
         this.router.navigate(['/generalView']);
       })
@@ -89,8 +90,8 @@ export class UserService {
         password
       );
       await this.loadUser(userCredential.user.uid);
+      this.getUsersList();
       this.saveIdToLocalStorate(userCredential.user.uid);
-      setTimeout(() => {}, 1000);
     } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
@@ -119,7 +120,6 @@ export class UserService {
         let user = new User(userData);
         this.usersList.push(user);
       });
-      console.log(this.usersList);
     });
   }
 
@@ -148,11 +148,10 @@ export class UserService {
       this.router.navigate(['/generalView']);
       this.saveUser(this.activeUser$.value)
     });
-
   }
 
   async saveUser(user: User) {
-    await updateDoc(
+    await setDoc(
       doc(this.firebaseInitService.getDatabase(), 'users', user.id),
       user.toJSON()
     );
@@ -175,11 +174,13 @@ export class UserService {
     }
   }
 
+ 
   async userLogOut() {
+    await this.firebaseInitService.getAuth().signOut()
     this.activeUser$.value.isAuth = false
     this.activeUser$.value.status = 'Abwesend'
-    const user = this.activeUser$.value
-    await this.saveUser(user).then(() => {
+    console.log(this.activeUser$.value)
+    await this.saveUser(this.activeUser$.value).then(() => {
       this.router.navigate(['/']);
     });
   }
