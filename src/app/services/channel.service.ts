@@ -21,11 +21,11 @@ import { Unsubscribe } from 'firebase/auth';
   providedIn: 'root',
 })
 export class ChannelService {
-  channels: Channel[] = [];
-  channels$;
-  channel;
+  channels: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
+  //channels$;
+  //channel;
   activeChannel: Channel = {} as Channel;
-  channelsList: string[] = [];
+  channelsList: string[] = []; // ist doppelt channels = channellist
 
   firestore: Firestore = inject(Firestore);
   unsubChannels;
@@ -33,18 +33,20 @@ export class ChannelService {
 
   constructor() {
     this.unsubChannels = this.subChannels();
-    this.channels$ = collectionData(this.getChannelsRef());
-    this.channel = this.channels$.subscribe((list) => {
-      list.forEach((channel) => {});
-      this.channel.unsubscribe();
-    });
+    
+    
+    //this.channels$ = collectionData(this.getChannelsRef());
+    //this.channel = this.channels$.subscribe((list) => {
+    //  list.forEach((channel) => {});
+    //  this.channel.unsubscribe();
+    //});
   }
 
   subChannels() {
     return onSnapshot(this.getChannelsRef(), (channels) => {
-      this.channels = [];
+      let channelList: Channel[] = [];
       channels.forEach((channel) => {
-        this.channels.push(
+        channelList.push(
           new Channel(
             channel.id,
             channel.data()['name'],
@@ -54,11 +56,13 @@ export class ChannelService {
           )
         );
       });
-      this.subChannel('LbzEitGqaO3A2U8Jl6lj');
+      this.channels.next(channelList);
+      //this.subChannel('LbzEitGqaO3A2U8Jl6lj');
     });
   }
 
   async createChannel(channel: Channel) {
+    let newId;
     await addDoc(this.getChannelsRef(), channel.getCleanBEJSON())
       .catch((err) => {
         alert([
@@ -72,7 +76,9 @@ export class ChannelService {
           docRef?.id,
           'new Channel ID muss noch zu allen usern/membern hinzugefügt werden'
         );
+        newId = docRef?.id;
       });
+    return newId;
   }
 
   async deleteChannel(channelID: string) {
@@ -137,7 +143,7 @@ export class ChannelService {
     });
   }
 
-  async getChannelList() {
+  async getChannelList() { // ist schon in subChannels implementiert => daten liegen in channels
     this.unsubChannels = await onSnapshot(this.getChannelsRef(), (list) => {
       this.channelsList = [];
       list.forEach((element) => {
@@ -148,7 +154,7 @@ export class ChannelService {
     });
   }
 
-  async getSingleChannel(channelId: string) {
+  async getSingleChannel(channelId: string) { // ist schon in subChannel implementiert --> activeChannel sind die Daten gespeichert
     getDocs(collection(this.firestore, 'Channels')).then((snapshot) => {
       let mychannels: any[] = [];
       snapshot.docs.forEach((doc) => {
@@ -161,5 +167,9 @@ export class ChannelService {
       }
     });
     return {} as Channel; // Falls keine Übereinstimmung gefunden wurde
+  }
+
+  getChannelsNameList(){
+    return this.channels.value.map(channel => channel.name);
   }
 }

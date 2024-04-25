@@ -1,7 +1,7 @@
 export class User {
     id: string;
     name: string;
-    channelIDs?: string[];
+    channelIDs: string[];
     directMessagesIDs?: string[];
     email: string;
     imgPath: string;

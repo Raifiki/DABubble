@@ -11,6 +11,7 @@ import { User } from '../../../shared/models/user.class';
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { ChannelService } from '../../../services/channel.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-createchannel',
@@ -27,46 +28,16 @@ export class CreatechannelComponent {
 
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
+  userService = inject(UserService);
 
-  users: User[] = [
-    new User ({
-      id: 'dummyID0',
-      name: 'User0',
-      imgPath: 'assets/img/avatar/avatar0.svg',
-      email: 'user0@DABubble.com',
-      status: 'Aktiv',
-    }), 
-    new User ({
-      id: 'dummyID1',
-      name: 'User1',
-      imgPath: 'assets/img/avatar/avatar2.svg',
-      email: 'user1@DABubble.com',
-      status: 'Abwesend',
-    }),
-    new User ({
-      id: 'dummyID2',
-      name: 'User2',
-      imgPath: 'assets/img/avatar/avatar3.svg',
-      email: 'user2@DABubble.com',
-      status: 'Aktiv',
-    }),
-    new User ({
-      id: 'dummyID3',
-      name: 'User3',
-      imgPath: 'assets/img/avatar/avatar4.svg',
-      email: 'user3@DABubble.com',
-      status: 'Abwesend',
-    }),
-    new User ({
-      id: 'dummyID4',
-      name: 'User4',
-      imgPath: 'assets/img/avatar/avatar5.svg',
-      email: 'user4@DABubble.com',
-      status: 'Aktiv',
-    })
-  ];
+  users: User[];
 
-  filteredUser: User[] = this.users;
+  filteredUsers: User[];
+
+  constructor(){
+    this.users = this.userService.usersList;
+    this.filteredUsers = this.users;
+  }
 
   onSubmitName(form:NgForm){
     if (form.valid) {
@@ -78,7 +49,8 @@ export class CreatechannelComponent {
     if(form.valid){
       if(this.memberSelection == 'all') this.addAllUsers2Channel();
       this.addCreator2Channel();
-      await this.channelService.createChannel(this.channel);
+      let id = await this.channelService.createChannel(this.channel);
+      if(typeof id === "string") this.addChannelId2Users(id);
       this.overlayCtrlService.hideOverlay();
       console.log('channel created event - save data not implemented', this.channel.getCleanBEJSON());
     }
@@ -89,8 +61,8 @@ export class CreatechannelComponent {
   }
 
   addUser(idx:number){
-    if (!this.channel.members.find(user => user == this.filteredUser[idx])){
-      this.channel.members.push(this.filteredUser[idx]);
+    if (!this.channel.members.find(user => user == this.filteredUsers[idx])){
+      this.channel.members.push(this.filteredUsers[idx]);
     }
   }
 
@@ -102,20 +74,31 @@ export class CreatechannelComponent {
   }
 
   filterUsers(prompt:string){
-    this.filteredUser = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
+    this.filteredUsers = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
   }
 
   addCreator2Channel(){
-    // signedIn USer ID missing --> Dummy user in channel class defined
-    //if (!this.channel.members.find(user => user == 'sinedInUser'){
-    //  this.channel.members.push('sinedInUser');
-    //}
-    //this.channel.creator = this.getUserData(signedIN_User_ID); 
+    let activeUser = this.userService.activeUser$.value;
+    if (!this.channel.members.find(user => user.id == activeUser.id)){
+      this.channel.members.push(activeUser);
+    }
+    this.channel.creator = activeUser; 
   }
 
   addAllUsers2Channel(){
     this.channel.members = [];
     this.users.forEach( user => this.channel.members.push(user));
+  }
+
+  addChannelId2Users(channelId:string){
+    this.channel.members.forEach(user => {
+      user.channelIDs.push(channelId);
+      this.userService.saveUser(user);
+    });
+  }
+
+  channelNameExists(){
+    return this.channelService.getChannelsNameList().includes(this.channel.name)
   }
 
 }
