@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, collection, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
@@ -137,18 +137,20 @@ export class UserService {
 
   async loadUser(userID: string) {
     let userRef = this.getUserRef(userID);
-    this.unsubUser = onSnapshot(userRef, (data) => {
+     await getDoc(userRef).then((data) => {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
       this.activeUser$.value.isAuth = true;
       this.activeUser$.value.status = 'Aktiv'
       this.router.navigate(['/generalView']);
-    });
-    setTimeout(() => {
       this.saveUser(this.activeUser$.value)
-    }, 1000);
-    
+    });  
+    this.unsubUser = onSnapshot(userRef, (data:any) => {
+      const userData = data.data();
+      const user = new User(userData);
+      this.activeUser$.next(user);
+    })
   }
 
   async saveUser(user: User) {

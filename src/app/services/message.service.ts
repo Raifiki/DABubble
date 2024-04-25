@@ -149,6 +149,7 @@ export class MessageService implements OnInit {
           const MASSAGE = new Message(this.getCleanMessageObj(msg.data()),msg.id);
           this.activeDirectMessage?.messages.push(MASSAGE);
         });
+        this.activeDirectMessage.sortMessagesChronologically();
         this.activeDirectMessage$.next(this.activeDirectMessage);
       }
     })
