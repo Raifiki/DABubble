@@ -21,6 +21,7 @@ export class EditchannelComponent {
   channelService = inject(ChannelService);
 
   channel!: Channel;
+
   newName: string;
   editName: boolean = false;
   editDetails  : boolean = false;
@@ -28,7 +29,8 @@ export class EditchannelComponent {
   @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
 
   constructor(){
-    this.channel = this.channelService.activeChannel;
+
+    this.channel = this.channelService.activeChannel$.value;
     this.newName = this.channel.name;
   }
   

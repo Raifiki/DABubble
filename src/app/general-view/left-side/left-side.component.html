@@ -25,10 +25,10 @@
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
         <p
           class="channels-name"
-          (click)="openMessageComponent('channel')"
-          *ngFor="let channel of activeUserchannels"
+          (click)="openMessageComponent('channel',channel.id)"
+          *ngFor="let channel of channels"
         >
-          # {{ channel }}
+          # {{ channel.name }}
         </p>
       </div>
       <div class="bottom">

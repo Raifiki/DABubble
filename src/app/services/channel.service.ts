@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 // import firebase
-import { Firestore, collectionData } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import {
   addDoc,
   collection,
@@ -12,52 +12,55 @@ import {
   onSnapshot,
   updateDoc,
 } from 'firebase/firestore';
+import { Unsubscribe } from 'firebase/auth';
 
 // import classes
 import { Channel } from '../shared/models/channel.class';
-import { Unsubscribe } from 'firebase/auth';
+import { User } from '../shared/models/user.class';
+
+// import services
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelService {
-  channels: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
-  //channels$;
-  //channel;
-  activeChannel: Channel = {} as Channel;
-  channelsList: string[] = []; // ist doppelt channels = channellist
-
   firestore: Firestore = inject(Firestore);
+
+  userService = inject(UserService);
+
+  activeUser!: User;
+  unsubActiveUser: Subscription;
+
+  channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
   unsubChannels;
+ 
+  activeChannel$: BehaviorSubject<Channel> = new BehaviorSubject<Channel>(new Channel('','',''));;
   unsubChannel!: Unsubscribe;
 
   constructor() {
+    this.unsubActiveUser = this.userService.activeUser$.subscribe(activeUser => {this.activeUser = activeUser});
     this.unsubChannels = this.subChannels();
-    
-    
-    //this.channels$ = collectionData(this.getChannelsRef());
-    //this.channel = this.channels$.subscribe((list) => {
-    //  list.forEach((channel) => {});
-    //  this.channel.unsubscribe();
-    //});
   }
 
   subChannels() {
     return onSnapshot(this.getChannelsRef(), (channels) => {
       let channelList: Channel[] = [];
       channels.forEach((channel) => {
-        channelList.push(
-          new Channel(
-            channel.id,
-            channel.data()['name'],
-            channel.data()['creatorID'],
-            channel.data()['description'],
-            channel.data()['userID']
-          )
-        );
+        let data = channel.data();
+        if(data['userID'].includes(this.activeUser.id)) {
+          channelList.push(
+            new Channel(
+              channel.id,
+              data['name'],
+              data['creatorID'],
+              data['description'],
+              data['userID']
+            )
+          );
+        }
       });
-      this.channels.next(channelList);
-      //this.subChannel('LbzEitGqaO3A2U8Jl6lj');
+      this.channels$.next(channelList);
     });
   }
 
@@ -126,50 +129,25 @@ export class ChannelService {
   ngOnDestroy() {
     this.unsubChannels();
     this.unsubChannel();
+    this.unsubActiveUser.unsubscribe();
   }
 
   subChannel(channelID: string) {
     this.unsubChannel = onSnapshot(this.getChannelRef(channelID), (channel) => {
       let data = channel.data();
+      let activeChannel = new Channel('','','');
       if (data) {
-        this.activeChannel = new Channel(
-          channel.id,
-          data['name'],
-          data['creatorID'],
-          data['description'],
-          data['userID']
-        );
+          activeChannel.id = channel.id;
+          activeChannel.name = data['name'];
+          activeChannel.creator = data['creatorID'];
+          activeChannel.description = data['description'];
+          activeChannel.members = data['userID'];
       }
+      this.activeChannel$.next(activeChannel);
     });
-  }
-
-  async getChannelList() { // ist schon in subChannels implementiert => daten liegen in channels
-    this.unsubChannels = await onSnapshot(this.getChannelsRef(), (list) => {
-      this.channelsList = [];
-      list.forEach((element) => {
-        let id = element.id;
-        this.channelsList.push(id);
-      });
-      console.log('channel Messages List: ', this.channelsList);
-    });
-  }
-
-  async getSingleChannel(channelId: string) { // ist schon in subChannel implementiert --> activeChannel sind die Daten gespeichert
-    getDocs(collection(this.firestore, 'Channels')).then((snapshot) => {
-      let mychannels: any[] = [];
-      snapshot.docs.forEach((doc) => {
-        mychannels.push({ ...doc.data(), id: doc.id });
-      });
-      for (let i = 0; i < mychannels.length; i++) {
-        if (mychannels[i].id === channelId) {
-          return mychannels[i];
-        }
-      }
-    });
-    return {} as Channel; // Falls keine Übereinstimmung gefunden wurde
   }
 
   getChannelsNameList(){
-    return this.channels.value.map(channel => channel.name);
+    return this.channels$.value.map(channel => channel.name);
   }
 }
