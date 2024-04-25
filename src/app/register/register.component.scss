@@ -72,7 +72,7 @@ html {
   justify-content: center;
   align-items: center;
   opacity: 1;
-  animation: fading-out 2s linear;
+  animation: fading-out 3s linear;
   z-index: -1;
 
 }
@@ -168,6 +168,10 @@ html {
     transform: rotate(360deg) translateX(100px) rotate(-360deg);
     z-index: 3;
   }
+}
+
+.first-logo, .second-logo {
+  animation-delay: 1s; 
 }
 
 .first-logo-without-animation {
