@@ -5,7 +5,12 @@ import { Injectable, signal } from '@angular/core';
 })
 export class AnimationService {
 
-  constructor() { }
+  animationPlayed = signal(true)
 
-  amountPlayed = signal(0)
+  constructor() {
+    sessionStorage.setItem('animationPlayed', 'false')
+    setTimeout(() => {
+      sessionStorage.setItem('animationPlayed', 'true')
+    }, 2000);
+  }
 }

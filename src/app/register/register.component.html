@@ -18,11 +18,11 @@
     <a routerLink="/privacy">Datenschutz</a>
 </div>
 
-@if (animationPlayed === 0) {
+@if (animationPlayed === false) {
 <img src="../../../assets/img/Logo.png" alt="" class="first-logo" />
 <img src="../../../assets/img/Logo name.png" alt="" class="second-logo" />
 <div class="overlay-intro"></div>
-} @if (animationPlayed >= 0){
+} @if (animationPlayed === true ){
 <img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation" />
 <img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation" />
 }
