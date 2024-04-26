@@ -29,7 +29,7 @@ import { DirektMessage } from '../../shared/models/direct-message.class';
   styleUrl: './left-side.component.scss',
 })
 export class LeftSideComponent {
-  @Output() toggleMessageComponent = new EventEmitter<MassageComponent>();
+  @Output() toggleMessageComponent = new EventEmitter<object>();
 
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
@@ -72,7 +72,11 @@ export class LeftSideComponent {
   }
 
   openMessageComponent(component: MassageComponent, id?: string) {
-    this.toggleMessageComponent.emit(component);
+    let obj = {
+      component,
+      id,
+    };
+    this.toggleMessageComponent.emit(obj);
     if (id) this.subscripeMessageComponentContent(component, id);
   }
 

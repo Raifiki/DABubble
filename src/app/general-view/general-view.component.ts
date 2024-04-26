@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -21,6 +21,9 @@ import { User } from '../shared/models/user.class';
 
 // import types
 import { MassageComponent } from '../shared/interfaces/interfaces';
+import { Channel } from '../shared/models/channel.class';
+import { Message } from '../shared/models/message.class';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-general-view',
@@ -42,31 +45,53 @@ export class GeneralViewComponent {
   activeUser!: User;
   search!: string;
 
+  activeChannelId: string = '';
+  channels?: Channel[];
+  activeChannel!: Channel;
+  unsubChannel: Subscription;
+
+  messages: Message[] = [];
+  unsubMessages: Subscription;
+
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
+  messageService = inject(MessageService);
 
-  currentMessageComponent: MassageComponent= 'newMessage';
+  currentMessageComponent: MassageComponent = 'newMessage';
   subscription: Subscription;
 
- 
   constructor(private userService: UserService) {
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = userData;
+    });
 
+    this.unsubChannel = this.channelService.activeChannel$.subscribe(
+      (channel) => {
+        if (channel) {
+          this.activeChannel = channel;
+          console.log(channel);
+        }
+      }
+    );
+
+    this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
+      this.messages = messages;
     });
   }
   @HostListener('window:beforeunload', ['$event'])
   async beforeUnload(event: Event) {
-    this.activeUser.status = 'Abwesend'
-    this.userService.activeUser$.next(this.activeUser)
-   await this.userService.saveUser(this.userService.activeUser$.value)
+    this.activeUser.status = 'Abwesend';
+    this.userService.activeUser$.next(this.activeUser);
+    await this.userService.saveUser(this.userService.activeUser$.value);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  toggleMessageComponent(nextComponent: MassageComponent) {
-    this.currentMessageComponent = nextComponent;
+  toggleMessageComponent(obj: any) {
+    this.currentMessageComponent = obj.component;
+    this.activeChannelId = obj.id;
+    this.channelService.subChannel(this.activeChannelId);
   }
 }

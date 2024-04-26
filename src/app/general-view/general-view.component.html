@@ -29,7 +29,7 @@
     </div>
     <div class="middle">
       <div *ngIf="currentMessageComponent === 'channel'">
-        <app-channel-message></app-channel-message>
+        <app-channel-message [channel]="activeChannel"></app-channel-message>
       </div>
       <div *ngIf="currentMessageComponent === 'directMessage'">
         <app-direct-message></app-direct-message>

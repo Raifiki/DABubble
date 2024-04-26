@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { CommonModule } from '@angular/common';
 import { ChannelService } from '../../../services/channel.service';
@@ -20,18 +20,19 @@ export class ChannelMessageComponent implements OnInit {
   channelService = inject(ChannelService);
   userService = inject(UserService);
   user!: User;
-  channel: Channel = {} as Channel;
-  userUnsub: Subscription
+  @Input() channel: Channel = {} as Channel;
+
+  userUnsub: Subscription;
 
   constructor() {
     this.userUnsub = this.userService.activeUser$.subscribe((userData) => {
-      this.user = userData
+      this.user = userData;
     });
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy() {
-    this.userUnsub.unsubscribe()
+    this.userUnsub.unsubscribe();
   }
 }

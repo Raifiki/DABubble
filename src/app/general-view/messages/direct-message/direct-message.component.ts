@@ -30,7 +30,7 @@ export class DirectMessageComponent {
   directMessagesService = inject(DirectMessageService);
 
   directMessage!: DirektMessage;
-  unsubDirectMessage;
+  unsubDirectMessage: Subscription;
 
   messages: Message[] = [];
   unsubMessages: Subscription;

@@ -13,7 +13,7 @@
           <img src="../../../../assets/img/avatar/avatar2.svg" alt="" />
           <img src="../../../../assets/img/avatar/avatar3.svg" alt="" />
         </div>
-        <p id="counter">3</p>
+        <p id="counter">{{ channel.members.length }}</p>
       </div>
       <div
         (click)="overlayCtrlService.showOverlay('add-members')"
