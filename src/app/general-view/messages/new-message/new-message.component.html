@@ -6,7 +6,6 @@
         <input
           type="text"
           placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
-          [(ngModel)]="userIds[0]"
           name="userIds"
         />
       </div>
@@ -22,7 +21,7 @@
         [(ngModel)]="content"
         #textarea
       ></textarea>
-      <button (click)="createNewDirectMessage()">Create Message</button>
+      <button (click)="submitMessage()">Create Message</button>
     </div>
   </div>
 </div>

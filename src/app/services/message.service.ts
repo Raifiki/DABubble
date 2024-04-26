@@ -1,18 +1,9 @@
 import { Injectable, OnInit, inject } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  Firestore,
-  doc,
-  collection,
-  onSnapshot,
-  addDoc,
-  collectionData,
-} from '@angular/fire/firestore';
-import { DirektMessage } from '../shared/models/direct-message.class';
+import { BehaviorSubject } from 'rxjs';
+import { doc, collection, onSnapshot, addDoc } from '@angular/fire/firestore';
 import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { UserService } from './user.service';
-import { User } from '../shared/models/user.class';
 import { Message } from '../shared/models/message.class';
 import { Unsubscribe } from 'firebase/auth';
 
@@ -21,144 +12,113 @@ import { Unsubscribe } from 'firebase/auth';
 })
 export class MessageService implements OnInit {
   firebaseInitService = inject(FirebaseInitService);
-  
-  unsubDirectMessagesList;
-  directMessagesList!: {id: string ; users: User[];}[];
 
   userService = inject(UserService);
 
-  unsubDirectMessage!: Unsubscribe;
-
-  activeDirectMessage$: BehaviorSubject<DirektMessage | undefined> = new BehaviorSubject<DirektMessage | undefined>(undefined);
-  private activeDirectMessage: DirektMessage | undefined;
-
+  messages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
   unsubMessages!: Unsubscribe;
 
-  constructor() {
-    this.unsubDirectMessagesList = this.subDirectMessagesList();    
-  }
+  constructor() {}
 
   ngOnDestroy() {
-    this.unsubDirectMessagesList();
-    this.unsubDirectMessage();
     this.unsubMessages();
   }
 
   ngOnInit(): void {}
 
-  getDirectMessagesRef() {
-    return collection(this.firebaseInitService.getDatabase(), 'directMessages');
-  }
-  getSingleDocRef(id: string) {
-    return doc(this.getDirectMessagesRef(), id);
+  async addMessageToCollection(
+    colId: 'directMessages' | 'Channels' | undefined,
+    docId: string,
+    message: Message
+  ): Promise<void> {
+    if (colId) {
+      try {
+        await addDoc(
+          this.getMessageRef(colId, docId),
+          message.getCleanBEJSON()
+        );
+        console.log('Message added to direct message successfully');
+      } catch (error) {
+        console.error('Error adding message to direct message: ', error);
+      }
+    }
   }
 
-  getMessagesRef(directMsgId:string){
-    return collection(this.getSingleDocRef(directMsgId),'messages')
+  getMessageRef(colId: string, docId: string) {
+    return collection(this.getSingleDocRef(colId, docId), 'messages');
   }
 
-  setCleanDirectMessageObj(obj: any, id: string) {
+  getCollectionRef(colId: string) {
+    return collection(this.firebaseInitService.getDatabase(), colId);
+  }
+
+  getSingleDocRef(colId: string, docId: string) {
+    return doc(this.getCollectionRef(colId), docId);
+  }
+
+  getSingleMessageRef(colId: string, docId: string, msgId: string) {
+    return doc(this.getMessageRef(colId, docId), msgId);
+  }
+
+  async updateMessage(
+    colId: string,
+    docId: string,
+    msgId: string,
+    msg: Message
+  ) {
+    await updateDoc(
+      this.getSingleMessageRef(colId, docId, msgId),
+      msg.getCleanBEJSON()
+    ).catch((error) => {
+      console.log(
+        'Es ist ein Fehler aufgetreten bei updaten der Nachricht:',
+        error
+      );
+    });
+  }
+
+  async deleteMessage(colId: string, docId: string, msgId: string) {
+    await deleteDoc(this.getSingleMessageRef(colId, docId, msgId)).catch(
+      (error) => {
+        console.log(
+          'Es ist ein Fehler aufgetreten bei löschen der Nachricht:',
+          error
+        );
+      }
+    );
+  }
+
+  subMessages(colId: string, docId: string) {
+    if (this.unsubMessages) this.unsubMessages();
+    this.unsubMessages = onSnapshot(
+      this.getMessageRef(colId, docId),
+      (msgList) => {
+        let messages: Message[] = [];
+        msgList.forEach((msg) => {
+          const MASSAGE = new Message(
+            this.getCleanMessageObj(msg.data()),
+            msg.id
+          );
+          messages.push(MASSAGE);
+        });
+        messages = this.sortMessagesChronologically(messages);
+        this.messages$.next(messages);
+      }
+    );
+  }
+
+  sortMessagesChronologically(massageArray: Message[]) {
+    return massageArray.sort((a, b) => a.date.getTime() - b.date.getTime());
+  }
+
+  getCleanMessageObj(obj: any) {
     return {
-      id: id,
-      users: this.userService.getFilterdUserList(obj.userIds),
+      creator: this.userService.getUser(obj.creatorId),
+      date: obj.date,
+      content: obj.content,
+      answers: obj.answers,
+      reactions: obj.Reaction,
+      files: obj.files,
     };
   }
-
-  subDirectMessagesList() {
-    return onSnapshot(this.getDirectMessagesRef(), (list) => {
-      this.directMessagesList = [];
-      list.forEach((element) => {
-        let messageData = element.data();
-        // if Abfrage in snapshot durch filter integrieren
-        if (messageData['userIds'].includes(this.userService.activeUser$.value.id)) {
-          this.directMessagesList.push(this.setCleanDirectMessageObj(messageData, element.id));
-        }
-      });
-      console.log('message List: ',this.directMessagesList);
-    });
-  }
-
-  async createNewDirectMessage(userIds: string[], message?: Message): Promise<void> {
-    const newDirectMessage = {userIds: userIds};
-    try {
-      const docRef = await addDoc(
-        this.getDirectMessagesRef(),
-        newDirectMessage
-      );
-      const messageId = docRef.id;
-
-      if(message) await this.addMessageToDirectMessage(messageId, message);
-      console.log('Direct message added successfully');
-    } catch (error) {
-      console.error('Error adding direct message: ', error);
-    }
-  }
-
-  async addMessageToDirectMessage(directMsgId: string, message: Message): Promise<void> {
-    try {
-      await addDoc(this.getMessagesRef(directMsgId), message.getCleanBEJSON());
-      console.log('Message added to direct message successfully');
-    } catch (error) {
-      console.error('Error adding message to direct message: ', error);
-    }
-  }
-
-  async updateDirectMessage(docId: string, msg: any) {
-    await updateDoc(this.getSingleDocRef(docId), msg).catch((error) => {
-      console.log(
-        'Es ist ein Fehle aufgetreten bei updaten der Nachricht:',
-        error
-      );
-    });
-  }
-
-  async deleteDirectMessage(docId: string) {
-    await deleteDoc(this.getSingleDocRef(docId)).catch((error) => {
-      console.log(
-        'Es ist ein Fehler aufgetreten bei löschen der Nachricht:',
-        error
-      );
-    });
-  }
-
-  subDirectMessage(directMsgId: string){
-    this.unsubDirectMessage = onSnapshot(this.getSingleDocRef(directMsgId), (directMessage) => {
-      let data = directMessage.data();      
-      if (data) {
-        this.activeDirectMessage = new DirektMessage([],directMsgId,[]);
-        data['userIds'].forEach((userId:string) => { 
-          let user = this.userService.getUser(userId);       
-          if(user) this.activeDirectMessage?.users.push(user);
-        });
-        this.subMessages(directMsgId);        
-        this.activeDirectMessage$.next(this.activeDirectMessage);
-      }
-    });
-  }
-
-  subMessages(directMsgId: string){
-    this.unsubMessages = onSnapshot(this.getMessagesRef(directMsgId), (msgList) => {
-      if (this.activeDirectMessage) {
-        this.activeDirectMessage.messages = [];
-        msgList.forEach(msg => {
-          const MASSAGE = new Message(this.getCleanMessageObj(msg.data()),msg.id);
-          this.activeDirectMessage?.messages.push(MASSAGE);
-        });
-        this.activeDirectMessage.sortMessagesChronologically();
-        this.activeDirectMessage$.next(this.activeDirectMessage);
-      }
-    })
-  }
-
-  getCleanMessageObj(obj:any){
-    return {
-      creator : this.userService.getUser(obj.creatorId),
-      date : obj.date,
-      content : obj.content,
-      answers : obj.answers,
-      reactions : obj.Reaction,
-      files : obj.files,
-    }
-  }
-
 }

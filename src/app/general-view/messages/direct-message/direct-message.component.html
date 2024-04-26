@@ -14,13 +14,17 @@
     </div>
     <div class="massages-wrapper">
       @for (msg of messages; track msg) {
-        <div>{{ msg.content }} <br> {{ msg.creator.name}}</div>
+      <div>
+        {{ msg.content }} <br />
+        {{ msg.creator.name }}
+      </div>
       }
     </div>
     <div>
       <p class="info">
         Diese Unterhaltung findet nur zwischen
-        <span class="info-span">&commat;{{ secondUser.name }}</span> und dir statt.
+        <span class="info-span">&commat;{{ secondUser.name }}</span> und dir
+        statt.
       </p>
     </div>
   </div>
@@ -30,9 +34,9 @@
         placeholder="Starte eine neue Nachricht"
         name="description"
         #textarea
-        [(ngModel)]="newMessage.content" 
+        [(ngModel)]="newMessage.content"
       ></textarea>
-      <button (click)="sendNewMassage()">send Message</button>
+      <button (click)="sendNewMessage()">send Message</button>
     </div>
   </div>
 </div>

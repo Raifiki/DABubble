@@ -25,7 +25,7 @@
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
         <p
           class="channels-name"
-          (click)="openMessageComponent('channel',channel.id)"
+          (click)="openMessageComponent('channel', channel.id)"
           *ngFor="let channel of channels"
         >
           # {{ channel.name }}
@@ -46,12 +46,18 @@
           <b>Direktnachrichten</b>
         </div>
       </div>
-      <div class="direct-messages-list" [class.collapsed]="dropdownCollapsed.directMessages">
-          @for (directMessage of messageService.directMessagesList; track directMessage) {
-            @if (getUser(directMessage.users).id != '') {
-              <app-userlistitem [user]="getUser(directMessage.users)" [checked]="false" (click)="openMessageComponent('directMessage', directMessage.id)"></app-userlistitem>
-            }
-          }
+      <div
+        class="direct-messages-list"
+        [class.collapsed]="dropdownCollapsed.directMessages"
+      >
+        @for (directMessage of directMessages; track directMessage) { @if
+        (getUser(directMessage.users).id != '') {
+        <app-userlistitem
+          [user]="getUser(directMessage.users)"
+          [checked]="false"
+          (click)="openMessageComponent('directMessage', directMessage.id)"
+        ></app-userlistitem>
+        } }
       </div>
     </div>
   </div>

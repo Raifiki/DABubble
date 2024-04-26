@@ -34,12 +34,18 @@ export class ChannelService {
 
   channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
   unsubChannels;
- 
-  activeChannel$: BehaviorSubject<Channel> = new BehaviorSubject<Channel>(new Channel());;
+
+  activeChannel$: BehaviorSubject<Channel> = new BehaviorSubject<Channel>(
+    new Channel()
+  );
   unsubChannel!: Unsubscribe;
 
   constructor() {
-    this.unsubActiveUser = this.userService.activeUser$.subscribe(activeUser => {this.activeUser = activeUser});
+    this.unsubActiveUser = this.userService.activeUser$.subscribe(
+      (activeUser) => {
+        this.activeUser = activeUser;
+      }
+    );
     this.unsubChannels = this.subChannels();
   }
 
@@ -48,9 +54,10 @@ export class ChannelService {
       let channelList: Channel[] = [];
       channels.forEach((channel) => {
         let data = channel.data();
-        if(data['userID'].includes(this.activeUser.id)) {
+        // if Abfrage in snapshot durch filter integrieren
+        if (data['userID'].includes(this.activeUser.id)) {
           let cleanObj = this.setCleanChannelObj(data);
-          let newChannel = new Channel(cleanObj,channel.id);
+          let newChannel = new Channel(cleanObj, channel.id);
           channelList.push(newChannel);
         }
       });
@@ -59,25 +66,28 @@ export class ChannelService {
   }
 
   subChannel(channelID: string) {
-    if(this.unsubChannel)this.unsubChannel();
+    if (this.unsubChannel) this.unsubChannel();
     this.unsubChannel = onSnapshot(this.getChannelRef(channelID), (channel) => {
       let data = channel.data();
       if (data) {
         let cleanObj = this.setCleanChannelObj(data);
-        let activeChannel = new Channel(cleanObj,channel.id);
+        let activeChannel = new Channel(cleanObj, channel.id);
         this.activeChannel$.next(activeChannel);
       }
     });
   }
-  
+
   async createChannel(channel: Channel) {
     let newId;
     await addDoc(this.getChannelsRef(), channel.getCleanBEJSON())
       .catch((err) => {
-        alert(['Channel konnte nicht erstellt werden aufgrund folgenden Fehlers: ' + err]);
+        alert([
+          'Channel konnte nicht erstellt werden aufgrund folgenden Fehlers: ' +
+            err,
+        ]);
       })
       .then((docRef) => {
-        console.log('Channel wurde mit der folgenden ID erstellt:',docRef?.id);
+        console.log('Channel wurde mit der folgenden ID erstellt:', docRef?.id);
         newId = docRef?.id;
       });
     return newId;
@@ -87,35 +97,39 @@ export class ChannelService {
     await deleteDoc(this.getChannelRef(channelID))
       .catch((err) => {
         alert([
-          'Channel konnte nicht gelöscht werden aufgrund folgenden Fehlers: ' + err]);
+          'Channel konnte nicht gelöscht werden aufgrund folgenden Fehlers: ' +
+            err,
+        ]);
       })
       .then((docRef) => {
-        console.log('channel mit folgender ID wurde gelöscht: ',channelID);
+        console.log('channel mit folgender ID wurde gelöscht: ', channelID);
       });
   }
 
   async updateChannel(channel: Channel) {
     await updateDoc(this.getChannelRef(channel.id), channel.getCleanBEJSON())
       .catch((err) => {
-        alert(['Channel konnte nicht geupdatet werden aufgrund folgenden Fehlers: ' + err]);
+        alert([
+          'Channel konnte nicht geupdatet werden aufgrund folgenden Fehlers: ' +
+            err,
+        ]);
       })
       .then((docRef) => {
-        console.log('channel mit folgender ID wurde geupdatet: ',channel.id);
+        console.log('channel mit folgender ID wurde geupdatet: ', channel.id);
       });
   }
 
-
   setCleanChannelObj(obj: any) {
     return {
-      name : obj.name,
-      creator : this.userService.getUser(obj.creatorID),
-      description : obj.description,
-      members : this.userService.getFilterdUserList(obj.userID),
-    }
+      name: obj.name,
+      creator: this.userService.getUser(obj.creatorID),
+      description: obj.description,
+      members: this.userService.getFilterdUserList(obj.userID),
+    };
   }
 
-  getChannelsNameList(){
-    return this.channels$.value.map(channel => channel.name);
+  getChannelsNameList() {
+    return this.channels$.value.map((channel) => channel.name);
   }
 
   getChannelsRef() {

@@ -7,14 +7,22 @@ export class DirektMessage {
   id: string;
   messages: Message[];
 
-  constructor(users: User[], id: string, messages: Message[]){
-    this.users = users || [];
+  constructor(obj?: any, id?: string) {
+    this.users = obj ? obj.users : '';
     this.id = id || '';
-    this.messages = messages || [];
+    this.messages = obj ? obj.messages : '';
     this.sortMessagesChronologically();
   }
 
-  sortMessagesChronologically(){
-    this.messages.sort((a,b) => a.date.getTime() - b.date.getTime());
+  sortMessagesChronologically() {
+    if (this.messages) {
+      this.messages.sort((a, b) => a.date.getTime() - b.date.getTime());
+    }
+  }
+
+  toCleanBEJSON() {
+    return {
+      userIds: this.users.map((user) => user.id),
+    };
   }
 }
