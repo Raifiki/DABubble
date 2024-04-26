@@ -21,7 +21,7 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './createchannel.component.scss'
 })
 export class CreatechannelComponent {
-  channel: Channel = new Channel('','','');
+  channel: Channel = new Channel();
 
   formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';

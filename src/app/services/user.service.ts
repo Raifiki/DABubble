@@ -125,9 +125,13 @@ export class UserService {
     return this.usersList.find( user => user.id == userID)
   }
 
-  getFilterdUserList(): User[]{
-    let user = new User;
-    return [user]
+  getFilterdUserList(userIDs: string[]): User[]{
+    let list: User[] = []; 
+    userIDs.forEach(userID => {
+      let user = this.getUser(userID);
+      if(user) list.push(user);
+    });
+    return list;
   }
 
   ngOnDestroy(): void {

@@ -57,15 +57,10 @@ export class MessageService implements OnInit {
     return collection(this.getSingleDocRef(directMsgId),'messages')
   }
 
-  setDirectMessageObj(obj: any, id: string) {
-    let userList: User[] = [];
-    obj.userIds.forEach((userId:string) => {
-      let user = this.userService.getUser(userId);
-      if(user) userList.push(user);
-    });
+  setCleanDirectMessageObj(obj: any, id: string) {
     return {
       id: id,
-      users: userList,
+      users: this.userService.getFilterdUserList(obj.userIds),
     };
   }
 
@@ -76,7 +71,7 @@ export class MessageService implements OnInit {
         let messageData = element.data();
         // if Abfrage in snapshot durch filter integrieren
         if (messageData['userIds'].includes(this.userService.activeUser$.value.id)) {
-          this.directMessagesList.push(this.setDirectMessageObj(messageData, element.id));
+          this.directMessagesList.push(this.setCleanDirectMessageObj(messageData, element.id));
         }
       });
       console.log('message List: ',this.directMessagesList);
