@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.toolbar {
+  display: none;
+}
+
+.profile {
+  padding-right: 20px;
+  > img {
+    width: 70px;
+    height: 80px;
+  }
+}
+
+.header {
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.name {
+  white-space: nowrap;
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24.55px;
+  text-align: left;
+  color: black;
+}
+
+.time {
+  white-space: nowrap;
+  font-family: "Nunito";
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 19.1px;
+  text-align: left;
+  color: #686868;
+}
+
+.content {
+  background-color: #eceefe;
+  padding: 15px;
+  border-radius: 0 30px 30px 30px;
+  gap: 8px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.replies {
+  font-family: "Nunito";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24.55px;
+  text-align: left;
+  color: #535af1;
+}
+
+.footer-time {
+  font-family: "Nunito";
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 19.1px;
+  text-align: left;
+  color: #686868;
+}

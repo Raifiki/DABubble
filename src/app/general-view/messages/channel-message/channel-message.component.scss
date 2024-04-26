@@ -137,6 +137,8 @@
   flex-direction: column;
   align-items: flex-start !important;
   gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
   > div {
     &:nth-child(odd) {
       background-color: greenyellow;

@@ -13,11 +13,12 @@ import { FormsModule } from '@angular/forms';
 import { Channel } from '../../../shared/models/channel.class';
 import { User } from '../../../shared/models/user.class';
 import { Message } from '../../../shared/models/message.class';
+import { MessageContainerComponent } from '../../../shared/components/message-container/message-container.component';
 
 @Component({
   selector: 'app-channel-message',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MessageContainerComponent],
   templateUrl: './channel-message.component.html',
   styleUrl: './channel-message.component.scss',
 })
@@ -34,6 +35,8 @@ export class ChannelMessageComponent implements OnInit {
   unsubscribeActiveUser;
 
   @Input() channel: Channel = {} as Channel;
+  unsubChannels: Subscription;
+  channels: Channel[] = [];
 
   messages: Message[] = [];
   unsubMessages: Subscription;
@@ -45,6 +48,13 @@ export class ChannelMessageComponent implements OnInit {
       this.user = userData;
     });
 
+    this.unsubChannels = this.channelService.channels$.subscribe(
+      (channelList) => (this.channels = channelList)
+    );
+
+    setTimeout(() => {
+      this.messageService.subMessages('Channels', this.channel.id);
+    }, 1000);
     this.unsubscribeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {
         this.activeUser = user;
@@ -65,7 +75,6 @@ export class ChannelMessageComponent implements OnInit {
       this.newMessage
     );
     this.newMessage = new Message();
-    this.messageService.subMessages('Channels', this.channel.id);
   }
 
   ngOnInit(): void {}

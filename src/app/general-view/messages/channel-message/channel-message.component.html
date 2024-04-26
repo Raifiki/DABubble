@@ -26,10 +26,7 @@
 
   <div class="massages-wrapper">
     @for (msg of messages; track msg) {
-    <div>
-      {{ msg.content }} <br />
-      {{ msg.creator.name }}
-    </div>
+    <app-message-container [message]="msg"></app-message-container>
     }
   </div>
 </div>
