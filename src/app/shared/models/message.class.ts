@@ -13,8 +13,8 @@ export class Message {
 
   constructor(obj?: any, id?: string) {
     this.id = id ? id : '';
-    this.creator = obj ? obj.creator : '';
-    this.date = obj ? this.getDate(obj.date) : ({} as Date);
+    this.creator = obj ? obj.creator : new User();
+    this.date = obj ? this.getDate(obj.date) : new Date();
     this.content = obj ? obj.content : '';
     this.answers = obj ? obj.answers : [];
     this.reactions = obj ? obj.Reaction : [];

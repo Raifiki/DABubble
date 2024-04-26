@@ -39,7 +39,7 @@ export class MessageService implements OnInit {
         );
         console.log('Message added to direct message successfully');
       } catch (error) {
-        console.error('Error adding message to direct message: ', error);
+        console.error('Error adding message: ', error);
       }
     }
   }
