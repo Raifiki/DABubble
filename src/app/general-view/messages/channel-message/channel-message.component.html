@@ -24,14 +24,23 @@
     </div>
   </div>
 
-  <div class="messages pad20"></div>
-  <div class="form-field-textarea-style2 pad20">
-    <div class="textarea-field-wrapper">
-      <textarea
-        placeholder="Starte eine neue Nachricht"
-        name="description"
-        #textarea
-      ></textarea>
+  <div class="massages-wrapper">
+    @for (msg of messages; track msg) {
+    <div>
+      {{ msg.content }} <br />
+      {{ msg.creator.name }}
     </div>
+    }
+  </div>
+</div>
+<div class="form-field-textarea-style2 pad20">
+  <div class="textarea-field-wrapper">
+    <textarea
+      [(ngModel)]="newMessage.content"
+      placeholder="Starte eine neue Nachricht"
+      name="description"
+      #textarea
+    ></textarea>
+    <button (click)="sendNewMessage()">Create Message</button>
   </div>
 </div>

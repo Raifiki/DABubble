@@ -133,12 +133,18 @@
   height: 30px;
 }
 
-.messages {
-  display: flex;
+.massages-wrapper {
   flex-direction: column;
-  flex-grow: 1;
-  align-items: start;
-  justify-content: end;
+  align-items: flex-start !important;
+  gap: 10px;
+  > div {
+    &:nth-child(odd) {
+      background-color: greenyellow;
+    }
+    &:nth-child(even) {
+      background-color: red;
+    }
+  }
 }
 
 .pad20 {
