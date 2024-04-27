@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 // import services
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { DirectMessageService } from '../../../services/direct-message.service';
+import { UserService } from '../../../services/user.service';
 
 // import classes
 import { User } from '../../../shared/models/user.class';
-import { DirectMessageService } from '../../../services/direct-message.service';
-import { UserService } from '../../../services/user.service';
-import { Subscription } from 'rxjs';
 import { DirektMessage } from '../../../shared/models/direct-message.class';
-import { MessageComponent } from '../../../shared/interfaces/interfaces';
+import { Message } from '../../../shared/models/message.class';
 
 @Component({
   selector: 'app-userprofile',
@@ -38,24 +38,11 @@ export class UserprofileComponent {
     this.user = this.overlayCtrlService.selectedUser || new User();
   }
 
-  sendMessage() {
-    // noch nicht fertig !!!!!!!!!!!!!!!!!!!
-    console.log('test ', this.existDirectMessage());
+  async sendMessage() {
     let directMsg = this.existDirectMessage();
-    if (directMsg) {
-      this.overlayCtrlService.showMessageComponent(
-        'directMessage',
-        directMsg.id
-      );
-    } else {
-    }
-    // ist DM vorhanden?
-    //--> sub DirectMessage and open
-    // else
-    // new DM erstteln --> ID --> open
-
+    let idDM = (directMsg)? directMsg.id : await this.createNewDirectMessage([this.activeUser, this.user]);
+    this.overlayCtrlService.showMessageComponent('directMessage',idDM);
     this.overlayCtrlService.hideOverlay();
-    this.overlayCtrlService.showMessageComponent('directMessage', this.user.id);
   }
 
   existDirectMessage(): DirektMessage | undefined {
@@ -64,5 +51,13 @@ export class UserprofileComponent {
       if (directMessage.users.includes(this.user)) directMsg = directMessage;
     });
     return directMsg;
+  }
+
+  async createNewDirectMessage(users: User[]) {
+    let id = '';
+    let messages: Message[] = [];
+    let obj = { users, messages };
+    let directMessage = new DirektMessage(obj, id);
+    return await this.directMessageService.createNewDirectMessage(directMessage);
   }
 }

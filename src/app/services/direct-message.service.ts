@@ -72,23 +72,18 @@ export class DirectMessageService implements OnInit {
     });
   }
 
-  async createNewDirectMessage(directMessage: DirektMessage): Promise<void> {
+  async createNewDirectMessage(directMessage: DirektMessage) {
     let newDirectMessageId;
     try {
-      const docRef = await addDoc(
-        this.getDirectMessagesRef(),
-        directMessage.toCleanBEJSON()
-      );
+      const docRef = await addDoc(this.getDirectMessagesRef(),directMessage.toCleanBEJSON());
       newDirectMessageId = docRef.id;
-      await this.messageService.addMessageToCollection(
-        'directMessages',
-        newDirectMessageId,
-        directMessage.messages[0]
-      );
+      if(directMessage.messages.length>0) 
+        await this.messageService.addMessageToCollection('directMessages',newDirectMessageId, directMessage.messages[0]);
       console.log('Direct message added successfully');
     } catch (error) {
       console.error('Error adding direct message: ', error);
     }
+    return newDirectMessageId;
   }
 
   setCleanDirectMsgObject(obj: any) {
@@ -113,6 +108,7 @@ export class DirectMessageService implements OnInit {
         }
       }
     );
+    console.log('alles gut start');
     this.messageService.subMessages('directMessages', directMsgId);
   }
 }
