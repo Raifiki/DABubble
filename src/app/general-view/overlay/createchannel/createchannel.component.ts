@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 // import customer component
 import { UserlistitemComponent } from '../../../shared/components/userlistitem/userlistitem.component';
+import { UserSelectComponent } from '../../../shared/components/user-select/user-select.component';
 
 // import classes
 import { Channel } from '../../../shared/models/channel.class';
@@ -16,7 +17,10 @@ import { UserService } from '../../../services/user.service';
 @Component({
   selector: 'app-createchannel',
   standalone: true,
-  imports: [FormsModule,UserlistitemComponent],
+  imports: [
+    FormsModule,
+    UserlistitemComponent,
+    UserSelectComponent],
   templateUrl: './createchannel.component.html',
   styleUrl: './createchannel.component.scss'
 })
@@ -32,11 +36,8 @@ export class CreatechannelComponent {
 
   users: User[];
 
-  filteredUsers: User[];
-
   constructor(){
     this.users = this.userService.usersList;
-    this.filteredUsers = this.users;
   }
 
   onSubmitName(form:NgForm){
@@ -56,25 +57,11 @@ export class CreatechannelComponent {
     }
   }
 
-  removeUser(idx:number){
-    this.channel.members.splice(idx,1);
-  }
-
-  addUser(idx:number){
-    if (!this.channel.members.find(user => user == this.filteredUsers[idx])){
-      this.channel.members.push(this.filteredUsers[idx]);
-    }
-  }
-
-  getUserData(userID: string): User{
-    let user: User = {} as User;
-    let idx = this.users.findIndex(user => user.id == userID);
-    if(idx >= 0) user = this.users[idx];
-    return user;
-  }
-
-  filterUsers(prompt:string){
-    this.filteredUsers = this.users.filter(user => user.name.toLowerCase().includes(prompt.toLowerCase()))
+  addMembers2Channel(members:User[]){
+    this.channel.members = [];
+    members.forEach(member => {
+      this.channel.members.push(member);
+    });
   }
 
   addCreator2Channel(){

@@ -46,31 +46,7 @@
                     <input type="radio" id="select"  name="addMember" value="select" [(ngModel)]="memberSelection">
                     <label for="select">Bestimmte Leute hinzufügen</label><br>
                 </div>
-                @if (memberSelection == 'select') {
-                    <div class="form-field-ipt-style2">
-                        <div class="ipt-field-wrapper user-search">
-                            <div class="selected-user-list">
-                                @for (member of channel.members; track member; let idx = $index) {
-                                    <div class="user-chip">
-                                        <img src="{{ member.imgPath }}" alt="avatar">
-                                        <span>{{ member.name }}</span>
-                                        <button class="btn-default icon-btn remove-user-btn" (click)="removeUser(idx)">
-                                            <div class="back-btn-icon"></div>
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                            <input type="text" placeholder="Namen eingeben" name="selectMember" #selectMember (keyup)="filterUsers(selectMember.value)">
-                        </div>
-                    </div>
-                    @if (selectMember.value.length>0) {
-                        <div class="user-list-dropdown">
-                            @for (user of filteredUsers; track user; let idx = $index) {
-                                <app-userlistitem [user]="user" [checked]="false" (click)="addUser(idx); selectMember.value=''"></app-userlistitem>
-                            }
-                        </div>
-                    }
-                }
+                 @if (memberSelection == 'select') {<app-user-select (selectedUsersOut)="addMembers2Channel($event)"></app-user-select>}
                 <div class="btn-group">
                     <button class="btn-default secondary-btn" type="button" (click)="formState='channelName'">
                         <span>Zurück</span>
