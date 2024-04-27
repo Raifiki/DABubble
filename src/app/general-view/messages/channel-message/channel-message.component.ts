@@ -29,7 +29,6 @@ export class ChannelMessageComponent implements OnInit {
   messageService = inject(MessageService);
 
   user!: User;
-  userUnsub: Subscription;
 
   activeUser: User = new User();
   unsubscribeActiveUser;
@@ -44,17 +43,10 @@ export class ChannelMessageComponent implements OnInit {
   newMessage: Message = new Message();
 
   constructor() {
-    this.userUnsub = this.userService.activeUser$.subscribe((userData) => {
-      this.user = userData;
-    });
-
     this.unsubChannels = this.channelService.channels$.subscribe(
       (channelList) => (this.channels = channelList)
     );
 
-    setTimeout(() => {
-      this.messageService.subMessages('Channels', this.channel.id);
-    }, 1000);
     this.unsubscribeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {
         this.activeUser = user;
@@ -80,7 +72,6 @@ export class ChannelMessageComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnDestroy() {
-    this.userUnsub.unsubscribe();
     this.unsubMessages.unsubscribe();
     this.unsubscribeActiveUser.unsubscribe();
   }

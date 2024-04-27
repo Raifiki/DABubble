@@ -20,6 +20,7 @@ import { User } from '../shared/models/user.class';
 
 // import services
 import { UserService } from './user.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,7 @@ export class ChannelService {
   firestore: Firestore = inject(Firestore);
 
   userService = inject(UserService);
+  messageService = inject(MessageService);
 
   activeUser!: User;
   unsubActiveUser: Subscription;
@@ -75,6 +77,7 @@ export class ChannelService {
         this.activeChannel$.next(activeChannel);
       }
     });
+    this.messageService.subMessages('Channels', channelID);
   }
 
   async createChannel(channel: Channel) {

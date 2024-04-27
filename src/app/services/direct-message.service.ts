@@ -109,10 +109,10 @@ export class DirectMessageService implements OnInit {
             cleanDirectMsgObj,
             directMessage.id
           );
-          this.messageService.subMessages('directMessages', directMessage.id);
           this.activeDirectMessage$.next(directMsg);
         }
       }
     );
+    this.messageService.subMessages('directMessages', directMsgId);
   }
 }

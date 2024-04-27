@@ -20,7 +20,7 @@ import { ThreadComponent } from './thread/thread.component';
 import { User } from '../shared/models/user.class';
 
 // import types
-import { MassageComponent } from '../shared/interfaces/interfaces';
+import { MessageComponent } from '../shared/interfaces/interfaces';
 import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
 import { MessageService } from '../services/message.service';
@@ -57,7 +57,6 @@ export class GeneralViewComponent {
   channelService = inject(ChannelService);
   messageService = inject(MessageService);
 
-  currentMessageComponent: MassageComponent = 'newMessage';
   subscription: Subscription;
 
   constructor(private userService: UserService) {
@@ -65,11 +64,11 @@ export class GeneralViewComponent {
       this.activeUser = userData;
     });
 
+    this.channelService.subChannel(this.activeUser.channelIDs[0]);
     this.unsubChannel = this.channelService.activeChannel$.subscribe(
       (channel) => {
         if (channel) {
           this.activeChannel = channel;
-          console.log(channel);
         }
       }
     );
@@ -87,11 +86,5 @@ export class GeneralViewComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  toggleMessageComponent(obj: any) {
-    this.currentMessageComponent = obj.component;
-    this.activeChannelId = obj.id;
-    this.channelService.subChannel(this.activeChannelId);
   }
 }

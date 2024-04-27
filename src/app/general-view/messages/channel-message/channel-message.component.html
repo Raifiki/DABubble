@@ -9,9 +9,10 @@
     <div class="right-side">
       <div>
         <div (click)="overlayCtrlService.showOverlay('members')">
-          <img src="../../../../assets/img/avatar/avatar1.svg" alt="" />
-          <img src="../../../../assets/img/avatar/avatar2.svg" alt="" />
-          <img src="../../../../assets/img/avatar/avatar3.svg" alt="" />
+          @for (member of channel.members; track member; let index = $index) {
+          @if(index < 3){
+          <img src="{{ member.imgPath }}" alt="" />
+          } }
         </div>
         <p id="counter">{{ channel.members.length }}</p>
       </div>
@@ -38,6 +39,12 @@
       name="description"
       #textarea
     ></textarea>
-    <button (click)="sendNewMessage()">Create Message</button>
+
+    <img
+      class="sendBtn"
+      (click)="sendNewMessage()"
+      src="../../../../assets/icons/Send icon.svg"
+      alt=""
+    />
   </div>
 </div>

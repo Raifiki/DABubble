@@ -33,7 +33,12 @@
         #textarea
         [(ngModel)]="newMessage.content"
       ></textarea>
-      <button (click)="sendNewMessage()">send Message</button>
+      <img
+        class="sendBtn"
+        (click)="sendNewMessage()"
+        src="../../../../assets/icons/Send icon.svg"
+        alt=""
+      />
     </div>
   </div>
 </div>

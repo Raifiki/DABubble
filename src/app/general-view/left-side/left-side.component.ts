@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 // customer components
 import { UserlistitemComponent } from '../../shared/components/userlistitem/userlistitem.component';
-import { MassageComponent } from '../../shared/interfaces/interfaces';
+import { MessageComponent } from '../../shared/interfaces/interfaces';
 
 //services
 import { MessageService } from '../../services/message.service';
@@ -29,8 +29,6 @@ import { DirektMessage } from '../../shared/models/direct-message.class';
   styleUrl: './left-side.component.scss',
 })
 export class LeftSideComponent {
-  @Output() toggleMessageComponent = new EventEmitter<object>();
-
   dropdownCollapsed: { channels: boolean; directMessages: boolean } = {
     channels: false,
     directMessages: false,
@@ -71,28 +69,12 @@ export class LeftSideComponent {
       !this.dropdownCollapsed[dropdownType];
   }
 
-  openMessageComponent(component: MassageComponent, id?: string) {
-    let obj = {
-      component,
-      id,
-    };
-    this.toggleMessageComponent.emit(obj);
-    if (id) this.subscripeMessageComponentContent(component, id);
-  }
-
-  subscripeMessageComponentContent(component: MassageComponent, id: string) {
-    if (component == 'directMessage') {
-      this.directMessageService.subDirectMessage(id);
-    } else {
-      this.channelService.subChannel(id);
-    }
-  }
-
   getUser(users: User[]): User {
     return users.find((user) => user.id != this.activeUser.id) || new User();
   }
 
-  ngOnDestroay() {
+  ngOnDestroy() {
     this.unsubChannels.unsubscribe();
+    this.unsubDirectMessages.unsubscribe();
   }
 }

@@ -23,18 +23,16 @@
   </div>
   <div class="content">
     <div class="left-side">
-      <app-left-side
-        (toggleMessageComponent)="toggleMessageComponent($event)"
-      ></app-left-side>
+      <app-left-side></app-left-side>
     </div>
     <div class="middle">
-      <div *ngIf="currentMessageComponent === 'channel'">
+      <div *ngIf="overlayCtrlService.messageComponentType === 'channel'">
         <app-channel-message [channel]="activeChannel"></app-channel-message>
       </div>
-      <div *ngIf="currentMessageComponent === 'directMessage'">
+      <div *ngIf="overlayCtrlService.messageComponentType === 'directMessage'">
         <app-direct-message></app-direct-message>
       </div>
-      <div *ngIf="currentMessageComponent === 'newMessage'">
+      <div *ngIf="overlayCtrlService.messageComponentType === 'newMessage'">
         <app-new-message></app-new-message>
       </div>
     </div>

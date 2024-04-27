@@ -6,7 +6,7 @@
     </div>
     <img
       src="../../../../assets/icons/16. edit_square.jpg"
-      (click)="openMessageComponent('newMessage')"
+      (click)="overlayCtrlService.showMessageComponent('newMessage')"
     />
   </div>
   <div class="body">
@@ -25,7 +25,9 @@
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
         <p
           class="channels-name"
-          (click)="openMessageComponent('channel', channel.id)"
+          (click)="
+            overlayCtrlService.showMessageComponent('channel', channel.id)
+          "
           *ngFor="let channel of channels"
         >
           # {{ channel.name }}
@@ -55,7 +57,12 @@
         <app-userlistitem
           [user]="getUser(directMessage.users)"
           [checked]="false"
-          (click)="openMessageComponent('directMessage', directMessage.id)"
+          (click)="
+            overlayCtrlService.showMessageComponent(
+              'directMessage',
+              directMessage.id
+            )
+          "
         ></app-userlistitem>
         } }
       </div>
