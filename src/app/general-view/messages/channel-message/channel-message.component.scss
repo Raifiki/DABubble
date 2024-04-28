@@ -134,11 +134,12 @@
 }
 
 .massages-wrapper {
+  flex-grow: 1;
   flex-direction: column;
   align-items: flex-start !important;
   gap: 10px;
   max-height: 400px;
-  overflow-y: auto;
+  overflow-y: scroll;
   > div {
     &:nth-child(odd) {
       background-color: greenyellow;

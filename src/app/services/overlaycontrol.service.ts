@@ -10,6 +10,9 @@ import { UserService } from './user.service';
 
 // import classes
 import { User } from '../shared/models/user.class';
+import { Message } from '../shared/models/message.class';
+import { Channel } from '../shared/models/channel.class';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +25,11 @@ export class OverlaycontrolService {
   directMessageService = inject(DirectMessageService);
   channelService = inject(ChannelService);
   userService = inject(UserService);
+  messageService = inject(MessageService);
 
   selectedUser: User | undefined;
+  activeMessage: Message = new Message();
+  activeChannel: Channel = new Channel();
 
   constructor() {}
 
@@ -57,5 +63,18 @@ export class OverlaycontrolService {
     this.userService.usersList.forEach((userListElement) => {
       if (userListElement.id == user.id) this.selectedUser = userListElement;
     });
+  }
+
+  openThread(channel: Channel, message: Message) {
+    this.activeMessage = message;
+    this.activeChannel = channel;
+  }
+
+  getChannel(): Channel {
+    return this.activeChannel;
+  }
+
+  getMessage(): Message {
+    return this.activeMessage;
   }
 }

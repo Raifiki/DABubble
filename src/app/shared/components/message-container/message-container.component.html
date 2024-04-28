@@ -4,11 +4,13 @@
   <div class="message">
     <div class="header">
       <div class="name">{{ message.creator.name }}</div>
-      <div class="time">14:25 Uhr</div>
+      <div class="time">
+        {{ message.date.getHours() }}:{{ message.date.getMinutes() }} Uhr
+      </div>
     </div>
     <div class="content">{{ message.content }}</div>
     <div class="footer">
-      <div class="replies">2 Antworten</div>
+      <div class="replies">Antworten</div>
       <div class="footer-time">Letzte Antwort 14:56</div>
     </div>
     <div class="reactions"></div>

@@ -27,7 +27,10 @@
 
   <div class="massages-wrapper">
     @for (msg of messages; track msg) {
-    <app-message-container [message]="msg"></app-message-container>
+    <app-message-container
+      (click)="overlayCtrlService.openThread(channel, msg)"
+      [message]="msg"
+    ></app-message-container>
     }
   </div>
 </div>

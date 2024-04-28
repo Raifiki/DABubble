@@ -1,15 +1,19 @@
 <div class="content">
   <div class="header">
     <div>
-        <h2>Thread</h2>
-        <p class="channels-name"># Entwicklerteam</p>
+      <h2>Thread</h2>
+      <p class="channels-name"># {{ channel.name }}</p>
     </div>
     <button class="btn-default icon-btn back-btn">
-        <div class="back-btn-icon"></div>
-      </button>
+      <div class="back-btn-icon"></div>
+    </button>
   </div>
 
-  <div class="messages pad20"></div>
+  <div class="messages massages-wrapper">
+    @if(message.content != ""){
+    <app-message-container [message]="message"></app-message-container>
+    }
+  </div>
   <div class="form-field-textarea-style2 pad20">
     <div class="textarea-field-wrapper">
       <textarea

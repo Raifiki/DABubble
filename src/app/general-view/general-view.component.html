@@ -36,7 +36,12 @@
         <app-new-message></app-new-message>
       </div>
     </div>
-    <div class="right-side"><app-thread></app-thread></div>
+    <div class="right-side">
+      <app-thread
+        [channel]="overlayCtrlService.getChannel()"
+        [message]="overlayCtrlService.getMessage()"
+      ></app-thread>
+    </div>
   </div>
 </div>
 
