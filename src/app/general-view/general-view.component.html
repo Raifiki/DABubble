@@ -22,7 +22,11 @@
     </div>
   </div>
   <div class="content">
-    <div class="left-side">
+    <app-workspace-menu></app-workspace-menu>
+    <div
+      class="left-side"
+      *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)"
+    >
       <app-left-side></app-left-side>
     </div>
     <div class="middle">

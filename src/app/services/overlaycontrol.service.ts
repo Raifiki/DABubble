@@ -13,6 +13,7 @@ import { User } from '../shared/models/user.class';
 import { Message } from '../shared/models/message.class';
 import { Channel } from '../shared/models/channel.class';
 import { MessageService } from './message.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,13 @@ export class OverlaycontrolService {
   selectedUser: User | undefined;
   activeMessage: Message = new Message();
   activeChannel: Channel = new Channel();
+
+  private showHideLeftSide = new BehaviorSubject<boolean>(false);
+  showHideLeftSide$ = this.showHideLeftSide.asObservable();
+
+  showLeftSideMenu() {
+    this.showHideLeftSide.next(!this.showHideLeftSide.value);
+  }
 
   constructor() {}
 

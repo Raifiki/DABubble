@@ -24,6 +24,7 @@ import { MessageComponent } from '../shared/interfaces/interfaces';
 import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
 import { MessageService } from '../services/message.service';
+import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.component';
 
 @Component({
   selector: 'app-general-view',
@@ -37,6 +38,7 @@ import { MessageService } from '../services/message.service';
     DirectMessageComponent,
     ChannelMessageComponent,
     ThreadComponent,
+    WorkspaceMenuComponent,
   ],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
