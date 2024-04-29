@@ -1,4 +1,4 @@
-<div class="user-list-item-wrapper" [class.checked]="checked">
+<div class="user-list-item-wrapper" [class.checked]="isChecked()">
   <div class="img-wrapper">
     <img [src]="user.imgPath" alt="avatar" />
     <div class="status-lamp" [class.active]="user.status === 'Aktiv'"></div>

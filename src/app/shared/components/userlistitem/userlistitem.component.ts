@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 // import services
 import { UserService } from '../../../services/user.service';
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 
 // import classes
 import { User } from '../../models/user.class';
@@ -17,9 +18,9 @@ import { CommonModule } from '@angular/common';
 })
 export class UserlistitemComponent {
   userService = inject(UserService);
+  overlayCtrlService = inject(OverlaycontrolService);
 
   @Input({ required: true }) user!: User;
-  @Input({ required: true }) checked!: boolean;
 
   unsubActiveUser: Subscription;
   activeUser!: User;
@@ -30,4 +31,9 @@ export class UserlistitemComponent {
     );
     this.userService.user$.subscribe((user) => (this.user = user));
   }
+
+  isChecked(){
+    return this.user.id == this.overlayCtrlService.selectedUser?.id && this.overlayCtrlService.messageComponentType == 'directMessage';
+  }
+
 }

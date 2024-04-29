@@ -56,13 +56,7 @@
           @if(getUser(directMessage.users).id != '') {
         <app-userlistitem
           [user]="getUser(directMessage.users)"
-          [checked]="false"
-          (click)="
-            overlayCtrlService.showMessageComponent(
-              'directMessage',
-              directMessage.id
-            )
-          "
+          (click)="selectDirectMessage(directMessage)"
         ></app-userlistitem>
         } }
       </div>

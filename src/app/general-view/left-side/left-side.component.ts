@@ -73,6 +73,13 @@ export class LeftSideComponent {
     return (users.length >1)? users.find((user) => user.id != this.activeUser.id) || new User() : users[0];
   }
 
+
+  selectDirectMessage(directMsg: DirektMessage){
+    this.overlayCtrlService.selectUser(this.getUser(directMsg.users));
+    this.overlayCtrlService.showMessageComponent('directMessage',directMsg.id)
+  }
+
+
   ngOnDestroy() {
     this.unsubChannels.unsubscribe();
     this.unsubDirectMessages.unsubscribe();

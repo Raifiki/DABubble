@@ -13,7 +13,6 @@
     @for (member of activeChannel.members; track member) {
     <app-userlistitem
       [user]="member"
-      [checked]="false"
       (click)="
         overlayCtrlService.showOverlay('userProfile');
         $event.stopPropagation();

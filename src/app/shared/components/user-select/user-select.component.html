@@ -30,7 +30,6 @@
     @for (user of filteredUserList; track user; let idx = $index) {
     <app-userlistitem
       [user]="user"
-      [checked]="false"
       (click)="addUser(idx); selectMember.value = ''"
     ></app-userlistitem>
     }
