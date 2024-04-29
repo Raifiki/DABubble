@@ -76,5 +76,6 @@ export class LeftSideComponent {
   ngOnDestroy() {
     this.unsubChannels.unsubscribe();
     this.unsubDirectMessages.unsubscribe();
+    this.unsubActiveUser.unsubscribe();
   }
 }
