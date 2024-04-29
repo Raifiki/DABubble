@@ -7,8 +7,30 @@
           type="text"
           placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
           name="userIds"
+          [(ngModel)]="searchPrompt"
+          (keyup)="filterUsersAndChannels()"
+          autocomplete="off"
         />
       </div>
+      @if (sendTo == undefined) {
+        <div class="ipt-field-dropdown">
+          <div class="wrapper-users">
+            @for (user of filteredUsers; track user; let idx = $index) {
+              <div class="user-chip" (click)="setSendTo('user',idx)">
+                <img src="{{ user.imgPath }}" alt="">
+                <span> {{ user.name }} </span>
+              </div>
+            }
+          </div>
+          <div class="wrapper-channels">
+            @for (channel of filteredChannels; track channel; let idx = $index) {
+              <div class="channel-chip" (click)="setSendTo('channel',idx)">
+                <span># {{ channel.name }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
     </div>
   </div>
 
@@ -18,16 +40,15 @@
       <textarea
         placeholder="Starte eine neue Nachricht"
         name="description"
-        [(ngModel)]="content"
+        [(ngModel)]="messageContent"
         #textarea
       ></textarea>
-
-      <img
-        class="sendBtn"
-        (click)="submitMessage()"
-        src="../../../../assets/icons/Send icon.svg"
-        alt=""
-      />
+      <button class="btn-default sendBtn" (click)="submitMessage()" [disabled]="sendTo == undefined">
+        <img
+          src="../../../../assets/icons/Send icon.svg"
+          alt=""
+        />
+      </button>
     </div>
   </div>
 </div>

@@ -21,8 +21,10 @@ export class DirektMessage {
   }
 
   toCleanBEJSON() {
+    let userIDs: string[] = this.users.map((user) => user.id);
+    if(userIDs.every(id => id == userIDs[0])) userIDs =  [userIDs[0]];
     return {
-      userIds: this.users.map((user) => user.id),
+      userIds: userIDs,
     };
   }
 }

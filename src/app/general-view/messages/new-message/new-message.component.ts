@@ -1,12 +1,17 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { MessageService } from '../../../services/message.service';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DirektMessage } from '../../../shared/models/direct-message.class';
+import { Subscription } from 'rxjs';
+
+// import services
 import { DirectMessageService } from '../../../services/direct-message.service';
 import { UserService } from '../../../services/user.service';
-import { Subscription } from 'rxjs';
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { MessageService } from '../../../services/message.service';
+import { ChannelService } from '../../../services/channel.service';
+
+// import classes
+import { DirektMessage } from '../../../shared/models/direct-message.class';
 import { User } from '../../../shared/models/user.class';
 import { Channel } from '../../../shared/models/channel.class';
 import { Message } from '../../../shared/models/message.class';
@@ -21,13 +26,22 @@ import { Message } from '../../../shared/models/message.class';
 export class NewMessageComponent {
   directMessageService = inject(DirectMessageService);
   userService = inject(UserService);
+  overlayCtrlService = inject(OverlaycontrolService);
+  messageService = inject(MessageService);
+  channelService = inject(ChannelService);
 
   activeUser!: User;
   unsubActiveUser: Subscription;
 
   sendTo!: Channel | User | undefined;
+  searchPrompt: string = '';
+  users: User[];
+  filteredUsers: User[] = [];
+  unsubChannels: Subscription;
+  channels: Channel[] = [];
+  filteredChannels: Channel[] = [];
 
-  content: string = '';
+  messageContent: string = '';
 
   constructor() {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
@@ -35,18 +49,80 @@ export class NewMessageComponent {
         this.activeUser = activeUser;
       }
     );
-    this.sendTo = this.userService.getUser('Icv6CcMnu6PVBq6f2X5TE7ssF4G2');
+    this.users = this.userService.usersList;
+    this.unsubChannels = this.channelService.channels$.subscribe(channels => this.channels = channels);
   }
 
-  submitMessage() {
-    if (this.sendTo instanceof User) {
-      // add condition if directMessage already exist
-      let users: User[] = [this.activeUser, this.sendTo];
-      this.createNewDirectMessage(users);
-      // open Point: add new DirectMessageId to users
-    } else {
-      // channel needs to implemented
+  filterUsersAndChannels(){
+    this.sendTo = undefined;
+    this.filteredUsers = [];
+    this.filteredChannels = [];
+    let firstCharacter = this.searchPrompt[0];
+    if(firstCharacter){
+      let prompt = this.searchPrompt.substring(1).toLowerCase();
+      switch (firstCharacter) {
+        case '@':
+          this.filteredUsers = this.filterUsers(prompt);
+          break;
+        case '#':
+          this.filteredChannels = this.filterChannels(prompt);
+          break;
+        default:
+          this.filteredUsers = this.filterUsers(prompt);
+          this.filteredChannels = this.filterChannels(prompt);
+          break;
+      }
     }
+  }
+
+  filterChannels(prompt:string): Channel[]{
+    return this.channels.filter(channel => channel.name.toLowerCase().includes(prompt))
+  }
+
+  filterUsers(prompt:string): User[]{
+  return this.users.filter(user => user.name.toLowerCase().includes(prompt));
+  }
+
+  setSendTo(item:'channel' | 'user', idx:number){
+    if (item == 'user') {
+      this.sendTo = this.filteredUsers[idx];
+      this.searchPrompt = '@' + this.filteredUsers[idx].name;
+    } else {
+      this.sendTo = this.filteredChannels[idx];
+      this.searchPrompt = '# ' + this.filteredChannels[idx].name;
+    }
+
+  }
+
+  async submitMessage() {
+    if (this.sendTo instanceof User) {
+      let directMsg = this.existDirectMessage(this.sendTo);
+      let idDM = (directMsg)? 
+        await this.addNewMessageToDirectMessage(directMsg) 
+        : await  this.createNewDirectMessage([this.activeUser, this.sendTo]);
+      this.overlayCtrlService.showMessageComponent('directMessage',idDM);
+      // open Point: add new DirectMessageId to users
+    } else if(this.sendTo instanceof Channel){
+      let channelID = this.sendTo?.id;
+      if (channelID) {
+        await this.messageService.addMessageToCollection('Channels',channelID,this.getMessageObj());
+        this.overlayCtrlService.showMessageComponent('channel',channelID);
+      }
+    }
+  }
+
+  existDirectMessage(user:User): DirektMessage | undefined {
+    let directMsg;
+    if(user.id == this.activeUser.id){
+      this.directMessageService.directMessages$.value.forEach(directMessage => {
+        if(directMessage.users.length == 1 && directMessage.users[0].id == user.id) directMsg = directMessage;
+      });
+    } else {
+      this.directMessageService.directMessages$.value.forEach((directMessage) => {
+        if (directMessage.users.includes(user)) directMsg = directMessage;
+      });
+    }
+    return directMsg;
   }
 
   async createNewDirectMessage(users: User[]) {
@@ -54,13 +130,18 @@ export class NewMessageComponent {
     let messages = [this.getMessageObj()];
     let obj = { users, messages };
     let directMessage = new DirektMessage(obj, id);
-    await this.directMessageService.createNewDirectMessage(directMessage);
+    return await this.directMessageService.createNewDirectMessage(directMessage);
+  }
+
+  async addNewMessageToDirectMessage(directMessage: DirektMessage){
+    await this.messageService.addMessageToCollection('directMessages',directMessage.id,this.getMessageObj());
+    return directMessage.id;
   }
 
   getMessageObj() {
     let message = new Message();
     message.creator = this.activeUser;
-    message.content = this.content;
+    message.content = this.messageContent;
     message.date = new Date();
     message.files = []; // add files if function is available
     message.reactions = []; // add files if function is available
@@ -69,5 +150,6 @@ export class NewMessageComponent {
 
   ngOnDestroy() {
     this.unsubActiveUser.unsubscribe();
+    this.unsubChannels.unsubscribe();
   }
 }

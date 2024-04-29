@@ -36,9 +36,49 @@
 }
 
 .sendBtn {
-  width: 40px;
-  height: 40px;
-  &:hover {
+  > img{
+    width: 40px;
+    height: 40px;
+  }
+  &:not(:disabled):hover>img {
     content: url(../../../../assets/icons/Send\ iconhover.svg);
+  }
+}
+
+.ipt-field-dropdown{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  > .wrapper-users{
+    display: flex;
+    flex-direction: column;
+    >.user-chip{
+      cursor: pointer;
+      display: flex;
+      gap: 8px;
+      padding: 4px 20px;
+      border-radius: 30px;
+      width: fit-content;
+      >img{
+        width: 25px;
+        aspect-ratio: 1;
+      }
+      &:hover{
+        background-color: lightgreen;
+      }
+    }
+  }
+  > .wrapper-channels{
+    display: flex;
+    flex-direction: column;
+    >.channel-chip{
+      cursor: pointer;
+      padding: 4px 20px;
+      border-radius: 30px;
+      width: fit-content;
+      &:hover{
+        background-color: lightgreen;
+      }
+    }
   }
 }
