@@ -52,8 +52,8 @@
         class="direct-messages-list"
         [class.collapsed]="dropdownCollapsed.directMessages"
       >
-        @for (directMessage of directMessages; track directMessage) { @if
-        (getUser(directMessage.users).id != '') {
+        @for (directMessage of directMessages; track directMessage) { 
+          @if(getUser(directMessage.users).id != '') {
         <app-userlistitem
           [user]="getUser(directMessage.users)"
           [checked]="false"

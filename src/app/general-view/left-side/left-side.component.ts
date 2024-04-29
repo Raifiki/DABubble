@@ -70,7 +70,7 @@ export class LeftSideComponent {
   }
 
   getUser(users: User[]): User {
-    return users.find((user) => user.id != this.activeUser.id) || new User();
+    return (users.length >1)? users.find((user) => user.id != this.activeUser.id) || new User() : users[0];
   }
 
   ngOnDestroy() {
