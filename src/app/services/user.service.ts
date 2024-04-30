@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FirebaseInitService } from './firebase-init.service';
-import { doc, collection, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  collection,
+  onSnapshot,
+  setDoc,
+  getDoc,
+} from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
@@ -11,53 +17,50 @@ import { Router } from '@angular/router';
 export class UserService {
   enteredPassword!: string;
   // usersList: User[] = [];
-  usersList$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([])
+  usersList$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-
-
 
   constructor(
     private firebaseInitService: FirebaseInitService,
     private router: Router
   ) {
-    this.getUsersList()
+    this.getUsersList();
     if (!this.activeUser$.value.isAuth) {
       this.loadingUserFromStorage();
     }
   }
 
-
-  private getUserListRef() {
+   getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users');
   }
 
-  private getUserRef(id: string) {
+   getUserRef(id: string) {
     return doc(this.getUserListRef(), id);
   }
 
   async getUsersList() {
     this.unsubUserList = await onSnapshot(this.getUserListRef(), (list) => {
-      let listOfUsers:any = [];
+      let listOfUsers: any = [];
       list.forEach((element) => {
-        let userData = {...element.data(),...{id:element.id}};
+        let userData = { ...element.data(), ...{ id: element.id } };
         let user = new User(userData);
         listOfUsers.push(user);
       });
-      this.usersList$.next(listOfUsers)
+      this.usersList$.next(listOfUsers);
     });
   }
 
-  getUser(userID:string): User | undefined{
-    return this.usersList$.value.find( user => user.id == userID)
+  getUser(userID: string): User | undefined {
+    return this.usersList$.value.find((user) => user.id == userID);
   }
 
-  getFilterdUserList(userIDs: string[]): User[]{
-    let list: User[] = []; 
-    userIDs.forEach(userID => {
+  getFilterdUserList(userIDs: string[]): User[] {
+    let list: User[] = [];
+    userIDs.forEach((userID) => {
       let user = this.getUser(userID);
-      if(user) list.push(user);
+      if (user) list.push(user);
     });
     return list;
   }
@@ -69,20 +72,20 @@ export class UserService {
 
   async loadUser(userID: string) {
     let userRef = this.getUserRef(userID);
-     await getDoc(userRef).then((data) => {
+    await getDoc(userRef).then((data) => {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
       this.activeUser$.value.isAuth = true;
-      this.activeUser$.value.status = 'Aktiv'
+      this.activeUser$.value.status = 'Aktiv';
       this.router.navigate(['/generalView']);
-      this.saveUser(this.activeUser$.value)
-    });  
-    this.unsubUser = onSnapshot(userRef, (data:any) => {
+      this.saveUser(this.activeUser$.value);
+    });
+    this.unsubUser = onSnapshot(userRef, (data: any) => {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
-    })
+    });
   }
 
   async saveUser(user: User) {
@@ -109,11 +112,10 @@ export class UserService {
     }
   }
 
- 
   async userLogOut() {
-    await this.firebaseInitService.getAuth().signOut()
-    this.activeUser$.value.isAuth = false
-    this.activeUser$.value.status = 'Abwesend'
+    await this.firebaseInitService.getAuth().signOut();
+    this.activeUser$.value.isAuth = false;
+    this.activeUser$.value.status = 'Abwesend';
     await this.saveUser(this.activeUser$.value).then(() => {
       this.router.navigate(['/']);
     });

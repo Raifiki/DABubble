@@ -1,10 +1,10 @@
-<div class="content">
+<div class="content" [style.transform]="this.threadService.isShowingSig() ? 'translateX(0)' : 'translateX(500px)'">
   <div class="header">
     <div>
       <h2>Thread</h2>
       <p class="channels-name"># {{ channel.name }}</p>
     </div>
-    <button class="btn-default icon-btn back-btn">
+    <button class="btn-default icon-btn back-btn"  (click)="this.threadService.isShowingSig.set(false)">
       <div class="back-btn-icon"></div>
     </button>
   </div>

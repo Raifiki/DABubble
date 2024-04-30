@@ -92,9 +92,9 @@ export class DirectMessageService implements OnInit {
     };
   }
 
-  subDirectMessage(directMsgId: string) {
+   subDirectMessage(directMsgId: string) {
     if (this.unsubActiveDirectMessage) this.unsubActiveDirectMessage();
-    this.unsubActiveDirectMessage = onSnapshot(
+    this.unsubActiveDirectMessage =  onSnapshot(
       this.getSingleDocRef(directMsgId),
       (directMessage) => {
         let data = directMessage.data();

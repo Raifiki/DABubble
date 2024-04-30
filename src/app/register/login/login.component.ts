@@ -16,14 +16,17 @@ export class LoginComponent {
   @Output() isPwForgotten = new EventEmitter();
   @Output() isShowen = new EventEmitter();
 
-  constructor(private router: Router, private registerService: RegisterService) {}
+  constructor(
+    private router: Router,
+    private registerService: RegisterService
+  ) {}
 
   onSubmit(f: NgForm) {
-    this.registerService.logUserIn(f.value.userEmail, f.value.password)
+    this.registerService.logUserIn(f.value.userEmail, f.value.password);
   }
 
   logInTestUser() {
-      this.registerService.logInTestUser();
+    this.registerService.logInTestUser();
   }
 
   forgotPw() {
@@ -31,6 +34,6 @@ export class LoginComponent {
   }
 
   googleLogIn() {
-    this.registerService.logInWithGoogle()
+    this.registerService.logInWithGoogle();
   }
 }

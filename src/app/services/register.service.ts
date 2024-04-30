@@ -12,17 +12,19 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RegisterService {
   googleProvider = new GoogleAuthProvider();
   userToCreate$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
 
-  constructor( private firebaseInitService: FirebaseInitService,
-    private router: Router, private userService: UserService) {
-   }
+  constructor(
+    private firebaseInitService: FirebaseInitService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
-   async createAcc(email: string, password: string) {
+  async createAcc(email: string, password: string) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         this.firebaseInitService.getAuth(),
@@ -45,7 +47,6 @@ export class RegisterService {
       this.googleProvider
     )
       .then(async (result) => {
-        console.log(result)
         let user = new User({
           id: result.user.uid,
           name: result.user.displayName,
@@ -57,15 +58,22 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
-        this.userService.activeUser$.next(user);
-        debugger
-        await this.userService.saveUser(user);
-        this.router.navigate(['/generalView']);
+        let userData = await this.userService.getUserRef(user.id)
+        if (userData.id === user.id) {
+          await this.userService.loadUser(userData.id)
+        } else {
+          this.userService.activeUser$.next(user);
+          await this.userService.saveUser(user).then(() => {
+          this.router.navigate(['/generalView']);
+        });
+        }
+        
       })
       .catch((error) => {
         alert(
           'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-            error.message);
+            error.message
+        );
       });
   }
 
@@ -89,7 +97,4 @@ export class RegisterService {
   async logInTestUser() {
     await this.logUserIn('TestEmail@test.de', '123456Test!');
   }
-
-
-
 }
