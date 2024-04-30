@@ -84,13 +84,12 @@ app-left-side{
 
   .middle {
     height: 80vh;
-    width: 80%;
     background-color: white;
     border-radius: 43px;
     transition: width 0.225s ease-in-out left;
     position: relative;
     left: 0;
-
+    right: 0;
     
   }
 
