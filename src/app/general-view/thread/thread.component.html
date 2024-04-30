@@ -11,7 +11,7 @@
 
   <div class="messages massages-wrapper">
     @if(message.content != ""){
-    <app-message-container [message]="message"></app-message-container>
+    <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
     }
   </div>
   <div class="form-field-textarea-style2 pad20">

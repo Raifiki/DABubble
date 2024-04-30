@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
+
+// import classes
 import { Message } from '../../models/message.class';
+import { User } from '../../models/user.class';
+
+// import services
 import { ThreadsService } from '../../../services/threads.service';
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
+import { UserService } from '../../../services/user.service';
 
 
 
@@ -13,14 +20,31 @@ import { ThreadsService } from '../../../services/threads.service';
   styleUrl: './message-container.component.scss',
 })
 export class MessageContainerComponent {
-  threadService = inject(ThreadsService)
+  threadService = inject(ThreadsService);
+  overlayCtrlService = inject(OverlaycontrolService);
+  userService = inject(UserService);
+
   @Input() message: Message = new Message();
+  @Input({required: true}) msgType: 'channel' | 'directMsg' | 'thread' = 'channel';
 
 
-  constructor() {}
+  nrThreadMsg: Number = 2;
+  lastThreadMsgTime: Date = new Date();
+
+  constructor() {
+  }
 
   toggleThreads() {
     this.threadService.isShowingSig.set(true)
+  }
+
+  selectUser(user:User){
+    this.overlayCtrlService.selectUser(user);
+    this.overlayCtrlService.showOverlay('userProfile')
+  }
+
+  isMessageFromActiveUser(){
+    return this.userService.activeUser$.value.id == this.message.creator.id;
   }
 
 }

@@ -14,7 +14,7 @@
     </div>
     <div class="massages-wrapper">
       @for (msg of messages; track msg) {
-      <app-message-container [message]="msg"></app-message-container>
+      <app-message-container [message]="msg" [msgType]="'directMsg'"></app-message-container>
       }
     </div>
     <div>
