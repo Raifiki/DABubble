@@ -29,7 +29,6 @@ export class UserlistitemComponent {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
       (user) => (this.activeUser = user)
     );
-    this.userService.user$.subscribe((user) => (this.user = user));
   }
 
   isChecked(){

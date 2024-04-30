@@ -32,10 +32,10 @@ export class NewMessageComponent {
 
   activeUser!: User;
   unsubActiveUser: Subscription;
-
+  unsubUsersList: Subscription //
   sendTo!: Channel | User | undefined;
   searchPrompt: string = '';
-  users: User[];
+  users!: User[];//
   filteredUsers: User[] = [];
   unsubChannels: Subscription;
   channels: Channel[] = [];
@@ -49,7 +49,10 @@ export class NewMessageComponent {
         this.activeUser = activeUser;
       }
     );
-    this.users = this.userService.usersList;
+    this.unsubUsersList = this.userService.usersList$.subscribe(data =>{ //
+      this.users = data 
+    })
+    // this.users = this.userService.usersList;
     this.unsubChannels = this.channelService.channels$.subscribe(channels => this.channels = channels);
   }
 
@@ -151,5 +154,6 @@ export class NewMessageComponent {
   ngOnDestroy() {
     this.unsubActiveUser.unsubscribe();
     this.unsubChannels.unsubscribe();
+    this.unsubUsersList.unsubscribe();
   }
 }

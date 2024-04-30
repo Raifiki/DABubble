@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { UserService } from '../../services/user.service';
 import { User } from '../../shared/models/user.class';
+import { RegisterService } from '../../services/register.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class SigninComponent {
   @Output() chooseAvatar = new EventEmitter();
 
   constructor(
-    private userService: UserService
+    private registerService: RegisterService
   ) {}
 
   goBack() {
@@ -38,7 +38,7 @@ export class SigninComponent {
       status: 'Aktiv',
       isAuth: false,
     });
-    this.userService.user$.next(user);
+    this.registerService.userToCreate$.next(user);
     this.chooseAvatar.emit(true);
   }
 

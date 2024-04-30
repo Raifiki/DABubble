@@ -13,6 +13,7 @@ import { User } from '../../../shared/models/user.class';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-createchannel',
@@ -29,21 +30,27 @@ export class CreatechannelComponent {
 
   formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';
-
+  unsubUsersList!: Subscription
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   userService = inject(UserService);
 
-  users: User[];
+  users!: User[];
 
   constructor(){
-    this.users = this.userService.usersList;
+    this.unsubUsersList = this.userService.usersList$.subscribe(data => {
+      this.users = data
+    });
   }
 
   onSubmitName(form:NgForm){
     if (form.valid) {
       this.formState = 'addMember';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubUsersList.unsubscribe()
   }
 
   async onSubmitCreateChannel(form:NgForm){

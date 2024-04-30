@@ -13,7 +13,7 @@ import { User } from '../shared/models/user.class';
 import { Message } from '../shared/models/message.class';
 import { Channel } from '../shared/models/channel.class';
 import { MessageService } from './message.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class OverlaycontrolService {
   channelService = inject(ChannelService);
   userService = inject(UserService);
   messageService = inject(MessageService);
-
+  
   selectedUser: User | undefined;
   activeMessage: Message = new Message();
   activeChannel: Channel = new Channel();
@@ -35,11 +35,18 @@ export class OverlaycontrolService {
   private showHideLeftSide = new BehaviorSubject<boolean>(false);
   showHideLeftSide$ = this.showHideLeftSide.asObservable();
 
+  unsubUsersList: Subscription
+  usersList!: User[];
+
   showLeftSideMenu() {
     this.showHideLeftSide.next(!this.showHideLeftSide.value);
   }
 
-  constructor() {}
+  constructor() {
+    this.unsubUsersList = this.userService.usersList$.subscribe(data => {
+      this.usersList = data
+    }) 
+  }
 
   hideOverlay() {
     this.overlayType = 'hide';
@@ -55,6 +62,10 @@ export class OverlaycontrolService {
     if (id) this.subscripeMessageComponentContent(componentType, id);
   }
 
+  ngOnDestroy() {
+    this.unsubUsersList.unsubscribe()
+  }
+
   subscripeMessageComponentContent(
     componentType: MessageComponent,
     id: string
@@ -67,8 +78,7 @@ export class OverlaycontrolService {
   }
 
   selectUser(user: User) {
-    // rewrite function after userService is reworked
-    this.userService.usersList.forEach((userListElement) => {
+    this.usersList.forEach((userListElement) => {
       if (userListElement.id == user.id) this.selectedUser = userListElement;
     });
   }

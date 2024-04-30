@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from 'firebase/auth';
+import { BehaviorSubject } from 'rxjs';
 import { FirebaseInitService } from './firebase-init.service';
 import { doc, collection, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
 import { User } from '../shared/models/user.class';
@@ -15,13 +9,13 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class UserService {
-  user$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   enteredPassword!: string;
-  usersList: User[] = [];
+  // usersList: User[] = [];
+  usersList$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([])
   unsubUserList: any;
   unsubUser: any;
   activeUser$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-  googleProvider = new GoogleAuthProvider();
+
 
 
   constructor(
@@ -35,73 +29,6 @@ export class UserService {
   }
 
 
-  async logInWithGoogle() {
-    await signInWithPopup(
-      this.firebaseInitService.getAuth(),
-      this.googleProvider
-    )
-      .then(async (result) => {
-        let user = new User({
-          id: result.user.uid,
-          name: result.user.displayName,
-          channelIDs: [],
-          directMessagesIDs: [],
-          email: result.user.email,
-          imgPath: result.user.photoURL,
-          status: 'Aktiv',
-          password: '',
-          isAuth: true,
-        });
-        this.activeUser$.next(user);
-        await this.saveUser(user);
-        this.router.navigate(['/generalView']);
-      })
-      .catch((error) => {
-        alert(
-          'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-            error.message
-        );
-      });
-  }
-
-  async createAcc(email: string, password: string) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        this.firebaseInitService.getAuth(),
-        email,
-        password
-      );
-      this.user$.value.id = userCredential.user.uid;
-      await this.saveUser(this.user$.value);
-    } catch (error: any) {
-      alert(
-        'Es ist bei der Erstellung des Kontos etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error.message
-      );
-    }
-  }
-
-  async logUserIn(email: string, password: string) {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        this.firebaseInitService.getAuth(),
-        email,
-        password
-      );
-      await this.loadUser(userCredential.user.uid);
-      this.saveIdToLocalStorate(userCredential.user.uid);
-    } catch (error: any) {
-      alert(
-        'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error.message
-      );
-    }
-  }
-
-  async logInTestUser() {
-    await this.logUserIn('TestEmail@test.de', '123456Test!');
-  }
-
   private getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users');
   }
@@ -112,17 +39,18 @@ export class UserService {
 
   async getUsersList() {
     this.unsubUserList = await onSnapshot(this.getUserListRef(), (list) => {
-      this.usersList = [];
+      let listOfUsers:any = [];
       list.forEach((element) => {
         let userData = {...element.data(),...{id:element.id}};
         let user = new User(userData);
-        this.usersList.push(user);
+        listOfUsers.push(user);
       });
+      this.usersList$.next(listOfUsers)
     });
   }
 
   getUser(userID:string): User | undefined{
-    return this.usersList.find( user => user.id == userID)
+    return this.usersList$.value.find( user => user.id == userID)
   }
 
   getFilterdUserList(userIDs: string[]): User[]{

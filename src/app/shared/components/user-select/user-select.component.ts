@@ -8,6 +8,7 @@ import { UserlistitemComponent } from '../userlistitem/userlistitem.component';
 
 // import classes
 import { User } from '../../models/user.class';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-select',
@@ -22,11 +23,14 @@ export class UserSelectComponent {
 
   userService = inject(UserService);
 
+  unsubUsersList: Subscription
   userList: User[] = [];
   filteredUserList: User[] = [];
 
   constructor() {
-    this.userList = this.userService.usersList;
+    this.unsubUsersList = this.userService.usersList$.subscribe(data => {
+      this.userList = data
+    });
     this.filteredUserList = this.userList;
   }
 
@@ -48,5 +52,8 @@ export class UserSelectComponent {
       this.selectedUsers.push(this.filteredUserList[idx]);
       this.selectedUsersOut.emit(this.selectedUsers);
     }
+  }
+  ngOnDestroy(): void {
+    this.unsubUsersList.unsubscribe()
   }
 }
