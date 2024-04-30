@@ -29,7 +29,7 @@
     >
       <app-left-side></app-left-side>
     </div>
-    <div class="middle" [style.width]="overlayCtrlService.showHideRightSide() ? '50%' : '80%'">
+    <div class="middle" [style.width]="overlayCtrlService.showHideRightSide() ? '50%' : '100%'">
       <div *ngIf="overlayCtrlService.messageComponentType === 'channel'">
         <app-channel-message [channel]="activeChannel"></app-channel-message>
       </div>

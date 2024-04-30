@@ -66,6 +66,16 @@
     background-color: white;
     border-radius: 43px;
     display: flex;
+    animation: fadingIn 0.225s ease-in-out;
+  }
+  
+  @keyframes fadingIn {
+    0% {
+      transform: translate(-500px);
+    }
+    100% {
+      transform: translate(0px);
+    }
   }
 
 app-left-side{
