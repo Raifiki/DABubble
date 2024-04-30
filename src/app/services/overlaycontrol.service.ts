@@ -14,12 +14,14 @@ import { Message } from '../shared/models/message.class';
 import { Channel } from '../shared/models/channel.class';
 import { MessageService } from './message.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { ThreadsService } from './threads.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OverlaycontrolService {
   overlayType: OverlayType = 'hide';
+  threadService = inject(ThreadsService)
 
   messageComponentType: MessageComponent = 'channel';
 
@@ -37,6 +39,7 @@ export class OverlaycontrolService {
 
   unsubUsersList: Subscription
   usersList!: User[];
+  showHideRightSide = this.threadService.isShowingSig
 
   showLeftSideMenu() {
     this.showHideLeftSide.next(!this.showHideLeftSide.value);

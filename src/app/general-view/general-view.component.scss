@@ -2,8 +2,8 @@
     background-color: #eceefe;
     height: 100vh;
     padding: 25px 25px 25px 25px;
-    max-width: 1440px;
     overflow-x: hidden;
+
 }
 
 .header {
@@ -74,9 +74,13 @@ app-left-side{
 
   .middle {
     height: 80vh;
-    width: 50%;
+    width: 80%;
     background-color: white;
     border-radius: 43px;
+    transition: width 0.225s ease-in-out left;
+    position: relative;
+    left: 0;
+
     
   }
 

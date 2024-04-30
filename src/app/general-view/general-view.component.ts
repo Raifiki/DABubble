@@ -25,6 +25,7 @@ import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
 import { MessageService } from '../services/message.service';
 import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.component';
+import { ThreadsService } from '../services/threads.service';
 
 @Component({
   selector: 'app-general-view',
