@@ -67,7 +67,9 @@ export class MessageContainerComponent {
   
   selectUser(user:User){
     this.overlayCtrlService.selectUser(user);
-    this.overlayCtrlService.showOverlay('userProfile')
+    (user.id == this.userService.activeUser$.value.id)?
+      this.overlayCtrlService.showOverlay('registeredUserProfile')
+      : this.overlayCtrlService.showOverlay('userProfile');
   }
 
   isMessageFromActiveUser(){
