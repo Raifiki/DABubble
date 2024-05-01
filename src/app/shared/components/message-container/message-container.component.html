@@ -1,28 +1,62 @@
-<div class="msg-wrapper " [class.active-user-msg]="isMessageFromActiveUser()">
-  <div class="toolbar">Toolbar</div>
-  <img src="{{ message.creator.imgPath }}" alt="">
-  <div class="msg-content-wrapper">
-    <div class="content-header">
-      <span class="msg-creator-name" (click)="selectUser(message.creator)">{{ message.creator.name }}</span>
-      <span class="msg-time">
-        {{ message.date.getHours() }}:{{ message.date.getMinutes() }} Uhr
-      </span>
-    </div>
-    <div class="msg-content">{{ message.content }}</div>
-    <div class="msg-footer">
-      @if(msgType == 'channel'){
-        <div class="msg-thread-wrapper">
-          <span class="thread-replies" (click)="toggleThreads()"> {{ nrThreadMsg }} Antworten</span>
-          <span class="thread-last-reply-time">Letzte Antwort {{ lastThreadMsgTime.getHours() }}:{{ lastThreadMsgTime.getMinutes() }}</span>
+<div class="msg-wrapper " [class]="{'active-user-msg':isMessageFromActiveUser(),'change-bg-color':editMsg}" (click)="hideMsgMenu()">
+  @if(!editMsg){
+    <div class="toolbar">
+      <!-- add 2 additional Reactions -->
+      <button class="btn-default icon-btn">
+        <div class="btn-icon-reactions"></div>
+      </button>
+      <button class="btn-default icon-btn">
+        <div class="btn-icon-thread"></div>
+      </button>
+      @if (isMessageFromActiveUser()) {
+        <button class="btn-default icon-btn" (click)="toggleMsgMenu($event)">
+          <div class="btn-icon-menu"></div>
+        </button>
+        <div class="more-menu" [class.show]="showMsgMenu">
+          <button class="btn-default text-btn" (click)="openEditMsgField($event)">Nachricht bearbeiten</button>
+          <button class="btn-default text-btn" (click)="deleteMessage($event)">Nachricht löschen</button>
         </div>
       }
-      <div class="reaction-wrapper">
-        Reactions
+    </div>
+  }
+  <img src="{{ message.creator.imgPath }}" alt="">
+  @if (!editMsg) {
+    <div class="msg-content-wrapper">
+      <div class="content-header">
+        <span class="msg-creator-name" (click)="selectUser(message.creator)">{{ message.creator.name }}</span>
+        <span class="msg-time">
+          {{ message.date.getHours() }}:{{ message.date.getMinutes() }} Uhr
+        </span>
+      </div>
+      <div class="msg-content">{{ message.content }}</div>
+      <div class="msg-footer">
+        @if(msgType == 'channel'){
+          <div class="msg-thread-wrapper">
+            <span class="thread-replies" (click)="toggleThreads()"> {{ nrThreadMsg }} Antworten</span>
+            <span class="thread-last-reply-time">Letzte Antwort {{ lastThreadMsgTime.getHours() }}:{{ lastThreadMsgTime.getMinutes() }}</span>
+          </div>
+        }
+        <div class="reaction-wrapper">
+          Reactions
+        </div>
+      </div>
+      <div class="files-wrapper">
+        files
       </div>
     </div>
-    <div class="files-wrapper">
-      files
-    </div>
-  </div>
+    } @else {
+      <div class="wrapper-edit-msg">
+        <textarea name="messageContent"  #messageContent="ngModel" [(ngModel)]="newMsgContent" (keyup)="resizeTextarea()" #textarea></textarea>
+        <div class="edit-msg-footer">
+          <button class="btn-default icon-btn">
+            <div class="btn-icon-reactions"></div>
+          </button>
+          <div>
+            <button class="btn-default secondary-btn" (click)="editMsg = false">Abbrechen</button>
+            <button class="btn-default primary-btn" (click)="updateMessage()">Speichern</button>
+          </div>
+        </div>
+      </div>
+    }
 </div>
 

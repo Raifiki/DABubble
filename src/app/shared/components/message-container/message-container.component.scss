@@ -12,7 +12,8 @@
     top: 0;
     transform: translateY(-50%);
     opacity: 0;
-    background-color: red;
+    background-color: white;
+    border-radius: 25px 25px 0px 25px;
   }
   > img{
     width: 70px;
@@ -30,6 +31,9 @@
       color: black !important;
     }
   }
+}
+.change-bg-color{
+  background-color: $prim-color-light-hover !important;
 }
 
 .msg-content-wrapper{
@@ -111,6 +115,89 @@
   &:hover{
     .msg-content{
       background-color: $prim-color-hover;
+    }
+  }
+}
+
+.toolbar{
+  display: flex;
+  gap: 5px;
+  padding: 3px 15px 3px 20px;
+  border: 1px solid $lightblue;
+  >button{
+    width: 40px;
+    >.btn-icon-reactions{
+      mask-image: url('./../../../../assets/icons/add_reaction.svg');
+      mask-size: 130%;
+    }
+    >.btn-icon-thread{
+      mask-image: url('./../../../../assets/icons/Answer.svg');
+      mask-size: 130%;
+      }
+    >.btn-icon-menu{
+    mask-image: url('./../../../../assets/icons/more_vert.svg');
+    }
+  }
+  >.more-menu{
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    transform: translateX(100%);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: max-content;
+    border-radius: 0px 30px 30px 30px;
+    background-color: white;
+    box-shadow: 0 6px 14px 0 rgba($color: #000000, $alpha: 0.1);
+    padding: 10px;
+    > button{
+      border-radius: 100px;
+      padding: 10px 20px;
+      &:hover{
+        background-color: $prim-color-light-hover;
+        color: $prim-color-bright-hover;
+      }
+    }
+  }
+  .show{
+    display: flex !important;
+  }
+}
+
+.wrapper-edit-msg{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid $lightblue;
+  border-radius: 20px;
+  background-color: white;
+  flex-grow: 2;
+  margin-left: 150px;
+  >textarea{
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Nunito';
+    color: $dark-grey;
+    overflow: hidden;
+  }
+  >.edit-msg-footer{
+    display: flex;
+    justify-content: space-between;
+    >button{
+      width: 40px;
+      height: 40px;
+      .btn-icon-reactions{
+        mask-image: url('./../../../../assets/icons/add_reaction.svg');
+        mask-size: 130%;
+      }
+    }
+    >div{
+      display: flex;
+      gap: 32px;
     }
   }
 }
