@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -20,12 +20,11 @@ import { ThreadComponent } from './thread/thread.component';
 import { User } from '../shared/models/user.class';
 
 // import types
-import { MessageComponent } from '../shared/interfaces/interfaces';
 import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
 import { MessageService } from '../services/message.service';
 import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.component';
-import { ThreadsService } from '../services/threads.service';
+
 
 @Component({
   selector: 'app-general-view',

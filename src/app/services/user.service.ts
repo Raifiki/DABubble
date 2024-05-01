@@ -11,7 +11,7 @@ import {
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root',
 })
 export class UserService {

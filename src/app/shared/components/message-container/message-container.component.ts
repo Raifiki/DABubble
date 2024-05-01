@@ -9,8 +9,7 @@ import { User } from '../../models/user.class';
 import { ThreadsService } from '../../../services/threads.service';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { UserService } from '../../../services/user.service';
-
-
+import { Datestamp } from '../../models/datestamp.class';
 
 @Component({
   selector: 'app-message-container',
@@ -18,11 +17,14 @@ import { UserService } from '../../../services/user.service';
   imports: [CommonModule],
   templateUrl: './message-container.component.html',
   styleUrl: './message-container.component.scss',
+  providers: [Datestamp],
 })
+
 export class MessageContainerComponent {
   threadService = inject(ThreadsService);
   overlayCtrlService = inject(OverlaycontrolService);
   userService = inject(UserService);
+  timeStamp!: Date;
 
   @Input() message: Message = new Message();
   @Input({required: true}) msgType: 'channel' | 'directMsg' | 'thread' = 'channel';
@@ -46,5 +48,7 @@ export class MessageContainerComponent {
   isMessageFromActiveUser(){
     return this.userService.activeUser$.value.id == this.message.creator.id;
   }
+
+
 
 }
