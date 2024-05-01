@@ -1,26 +1,30 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
 import { UserService } from './user.service';
-import { collection } from 'firebase/firestore';
-import { Threads } from '../shared/models/thread.class';
+import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { ChannelService } from './channel.service';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreadsService {
-  allThreads!: Threads[]
+
+  channelService = inject(ChannelService)
 
   constructor(private firebaseInitService: FirebaseInitService, private userService: UserService) { }
 
   isShowingSig = signal(false)
 
-  getAllThreads() {
 
+  subThread(messageId: string) {
+    onSnapshot(collection(doc(collection(doc(collection(this.firebaseInitService.getDatabase(), 'Channels'), this.channelService.activeChannel$.value.id), 'messages'), messageId ), 'threads'), (datas) => {
+      datas.forEach((data) => console.log(data.data()))
+  })
+    
   }
 
-  getChannelRef() {
-    return collection(this.firebaseInitService.getDatabase(), 'threads' )
-  }
 
 
 }
