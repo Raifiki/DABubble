@@ -21,6 +21,7 @@ emoji-mart {
 .icons {
   background-color: white !important;
   display: flex;
+  flex-direction: row;
   width: 100% !important;
   justify-content: space-between;
 

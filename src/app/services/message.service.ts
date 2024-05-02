@@ -32,18 +32,19 @@ export class MessageService implements OnInit {
     colId: 'directMessages' | 'Channels' | undefined,
     docId: string,
     message: Message
-  ): Promise<void> {
+  ) {
+    let newId;
     if (colId) {
-      try {
-        await addDoc(
-          this.getMessageRef(colId, docId),
-          message.getCleanBEJSON()
-        );
-        console.log('Message added to direct message successfully');
-      } catch (error) {
-        console.error('Error adding message: ', error);
-      }
+      await addDoc(this.getMessageRef(colId, docId), message.getCleanBEJSON())
+        .then((docRef) => {
+          console.log('Message added to direct message successfully');
+          newId = docRef?.id;
+        })
+        .catch((err) => {
+          console.error('Error adding message: ', err);
+        });
     }
+    return newId;
   }
 
   getMessageRef(colId: string, docId: string) {

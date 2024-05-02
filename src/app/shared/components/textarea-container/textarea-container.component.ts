@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MessageService } from '../../../services/message.service';
 import { ChannelService } from '../../../services/channel.service';
 import { Message } from '../../models/message.class';
@@ -10,11 +18,21 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { UserSelectComponent } from '../user-select/user-select.component';
+import { UserlistitemComponent } from '../userlistitem/userlistitem.component';
+import { StorageService } from '../../../services/storage.service';
+import { StorageReference } from 'firebase/storage';
 
 @Component({
   selector: 'app-textarea-container',
   standalone: true,
-  imports: [FormsModule, CommonModule, PickerComponent, EmojiComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    PickerComponent,
+    EmojiComponent,
+    UserlistitemComponent,
+  ],
   templateUrl: './textarea-container.component.html',
   styleUrl: './textarea-container.component.scss',
 })
@@ -22,6 +40,7 @@ export class TextareaContainerComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   userService = inject(UserService);
+  storageService = inject(StorageService);
 
   user!: User;
 
@@ -37,6 +56,16 @@ export class TextareaContainerComponent {
   unsubMessages: Subscription;
 
   showEmojiPicker: boolean = false;
+
+  storageRef!: StorageReference;
+  files: File[] = [];
+
+  newUsers: User[] = [];
+  @Input() selectedUsers: User[] = [];
+  selectMember: boolean = false;
+  unsubUsersList: Subscription;
+  userList: User[] = [];
+  filteredUserList: User[] = [];
 
   @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
 
@@ -54,6 +83,11 @@ export class TextareaContainerComponent {
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
     });
+
+    this.unsubUsersList = this.userService.usersList$.subscribe((data) => {
+      this.userList = data;
+    });
+    this.filteredUserList = this.userList;
   }
 
   addEmoji(event: any) {
@@ -78,19 +112,79 @@ export class TextareaContainerComponent {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
-  sendNewMessage() {
+  async sendNewMessage() {
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
-    this.messageService.addMessageToCollection(
+    let msgId = await this.messageService.addMessageToCollection(
       'Channels',
       this.channel.id,
       this.newMessage
     );
+    if (msgId && this.files.length > 0) {
+      this.storageRef = this.storageService.getChannelMsgRef(
+        this.channel.id,
+        msgId
+      );
+      this.files.forEach((file) => {
+        this.storageService.uploadFile(this.storageRef, file);
+      });
+    }
     this.newMessage = new Message();
+  }
+
+  addUser(user: User) {
+    let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
+    let [caretStart, caretEnd] = [
+      textareaElement.selectionStart,
+      textareaElement.selectionEnd,
+    ];
+    this.newMessage.content =
+      this.newMessage.content.substring(0, caretStart) +
+      '@' +
+      user.name +
+      this.newMessage.content.substring(caretEnd);
+  }
+
+  toggleUserList() {
+    this.selectMember = !this.selectMember;
+  }
+
+  openFileExplorer() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.click();
+    fileInput.addEventListener('change', (event) => {
+      const fileList: any = (event.target as HTMLInputElement).files;
+      if (fileList && fileList.length > 0) {
+        const file: File = fileList[0];
+        console.log('Ausgewählte Datei:', file);
+        this.files.push(file);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.unsubMessages.unsubscribe();
     this.unsubscribeActiveUser.unsubscribe();
+  }
+
+  async downloadFile() {
+    this.storageRef = this.storageService.getChannelMsgRef(
+      this.channel.id,
+      'XhiAiZSa8eBIXzdJPdbG'
+    );
+    console.log('ref storage: ', this.storageRef);
+
+    let url = await this.storageService.getFileURL(
+      this.storageRef,
+      '/alternate_email.svg'
+    );
+    console.log(url);
+    const link = document.createElement('a');
+    if (url) {
+      link.href = url;
+      link.download = 'test.svg'; // set a name for the file
+      link.click();
+    }
   }
 }

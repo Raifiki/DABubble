@@ -1,3 +1,10 @@
+@if (selectMember) {
+<div class="user-list-dropdown">
+  @for (user of filteredUserList; track user; let idx = $index) {
+  <app-userlistitem [user]="user" (click)="addUser(user)"></app-userlistitem>
+  }
+</div>
+}
 <div class="form-field-textarea-style2 pad20">
   <div class="textarea-field-wrapper">
     @if(showEmojiPicker){<emoji-mart
@@ -11,6 +18,7 @@
     ></emoji-mart
     >}
     <div class="container">
+      <button (click)="downloadFile()">Download file</button>
       <textarea
         [(ngModel)]="newMessage.content"
         placeholder="Starte eine neue Nachricht"
@@ -19,15 +27,25 @@
       ></textarea>
       <div class="icons">
         <div class="left-side">
-          <img src="../../../../assets/icons/addgrey.svg" alt="" />
+          <img
+            (click)="openFileExplorer()"
+            src="../../../../assets/icons/addgrey.svg"
+            alt=""
+          />
 
           <img
             src="../../../../assets/icons/sentiment_satisfiedsmiley.svg"
             (click)="toggleEmojiPicker()"
             alt=""
           />
-          <img src="../../../../assets/icons/alternate_email.svg" alt="" />
+
+          <img
+            src="../../../../assets/icons/alternate_email.svg"
+            alt=""
+            (click)="toggleUserList()"
+          />
         </div>
+
         <div class="right-side">
           <img
             class="sendBtn"
