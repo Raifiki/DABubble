@@ -14,10 +14,14 @@ import { MessageService } from '../../../services/message.service';
 import { ChannelService } from '../../../services/channel.service';
 import { DirectMessageService } from '../../../services/direct-message.service';
 
+// imort customer components
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+
 @Component({
   selector: 'app-message-container',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PickerComponent, EmojiComponent ],
   templateUrl: './message-container.component.html',
   styleUrl: './message-container.component.scss',
 })
@@ -48,6 +52,9 @@ export class MessageContainerComponent {
   newMsgContent!: string;
   editMsg: boolean = false;
   showMsgMenu: boolean = false;
+
+  showEmojiPickerEditMsg: boolean = false;
+  showEmojiPickerReaction: boolean = false;
 
   constructor() {}
 
@@ -119,4 +126,35 @@ export class MessageContainerComponent {
     this.textarea.nativeElement.style.height =
       this.textarea.nativeElement.scrollHeight + 'px';
   }
+
+  addEmoji(event:any){
+    console.log(event);
+    
+    let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
+    let [caretStart, caretEnd] = [textareaElement.selectionStart, textareaElement.selectionEnd];
+    this.newMsgContent = this.newMsgContent.substring(0,caretStart) + this.getEmoji(event) + this.newMsgContent.substring(caretEnd);
+  }
+
+  getEmoji(event:any){
+    return event['emoji'].native;
+  }
+
+  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event: Event){
+    event.stopPropagation();
+    if(picker == 'editMsg'){
+      this.showEmojiPickerEditMsg = !this.showEmojiPickerEditMsg;
+    } else {
+      this.showEmojiPickerReaction = !this.showEmojiPickerReaction;
+    }
+  }
+
+  hideEmojiPicker(picker: 'editMsg' | 'reaction'){
+    if(picker == 'editMsg'){
+      this.showEmojiPickerEditMsg = false;
+    } else {
+      this.showEmojiPickerReaction = false;
+    }
+  }
+
+
 }

@@ -1,5 +1,6 @@
 @import './../../styles/includeStyles.scss';
 
+
 .msg-wrapper{
   position: relative;
   display: flex;
@@ -161,9 +162,6 @@
       }
     }
   }
-  .show{
-    display: flex !important;
-  }
 }
 
 .wrapper-edit-msg{
@@ -175,7 +173,7 @@
   border-radius: 20px;
   background-color: white;
   flex-grow: 2;
-  margin-left: 150px;
+  margin-left: 100px;
   >textarea{
     border: none;
     outline: none;
@@ -185,6 +183,7 @@
     overflow: hidden;
   }
   >.edit-msg-footer{
+    position: relative;
     display: flex;
     justify-content: space-between;
     >button{
@@ -195,9 +194,19 @@
         mask-size: 130%;
       }
     }
+    > emoji-mart{
+      display: none;
+      position: absolute;
+      bottom: 25px;
+      left: 40px;
+    }
     >div{
       display: flex;
       gap: 32px;
     }
   }
+}
+
+.show{
+  display: flex !important;
 }

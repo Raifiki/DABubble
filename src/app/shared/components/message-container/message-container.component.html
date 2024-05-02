@@ -45,12 +45,13 @@
       </div>
     </div>
     } @else {
-      <div class="wrapper-edit-msg">
+      <div class="wrapper-edit-msg" (click)="hideEmojiPicker('editMsg')">
         <textarea name="messageContent"  #messageContent="ngModel" [(ngModel)]="newMsgContent" (keyup)="resizeTextarea()" #textarea></textarea>
         <div class="edit-msg-footer">
-          <button class="btn-default icon-btn">
+          <button class="btn-default icon-btn" (click)="toggleEmojiPicker('editMsg',$event)">
             <div class="btn-icon-reactions"></div>
           </button>
+          <emoji-mart [showPreview]="false" set="google" [darkMode]="false" color="#444DF2" (emojiSelect)="addEmoji($event)" [class.show]="showEmojiPickerEditMsg"></emoji-mart>
           <div>
             <button class="btn-default secondary-btn" (click)="editMsg = false">Abbrechen</button>
             <button class="btn-default primary-btn" (click)="updateMessage()">Speichern</button>
