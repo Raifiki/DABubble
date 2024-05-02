@@ -22,7 +22,7 @@ export class Reaction {
     }
 
     toggleUser(user:User){
-        let idx = this.users.findIndex((element) => element == user );
+        let idx = this.users.findIndex((element) => element.id == user.id );
         (idx == -1)? this.users.splice(idx,1) : this.users.push(user);
     }
 
