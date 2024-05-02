@@ -8,11 +8,12 @@ import { FirebaseInitService } from '../../services/firebase-init.service';
 
 import { MessageService } from '../../services/message.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [CommonModule, MessageContainerComponent, MessageContainerComponent],
+  imports: [CommonModule, MessageContainerComponent, MessageContainerComponent, FormsModule],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
@@ -25,6 +26,7 @@ export class ThreadComponent {
   @Input() channel: Channel = new Channel();
   messages: Message[] = [];
   unsubMessage!: Subscription;
+  messageContent: any;
 
   constructor() {}
 
@@ -42,5 +44,10 @@ export class ThreadComponent {
 
   ngOnInit(): void {
     this.getMessages();
+  }
+
+  saveThreadMessage() {
+    this.threadService.saveThread(this.messageContent)
+    this.messageContent = ''
   }
 }

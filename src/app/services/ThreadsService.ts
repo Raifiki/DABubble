@@ -5,7 +5,7 @@ import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from 'fireb
 import { ChannelService } from './channel.service';
 import { MessageService } from './message.service';
 import { Message } from '../shared/models/message.class';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from '../shared/models/user.class';
 
 @Injectable({
@@ -15,10 +15,9 @@ export class ThreadsService {
   channelService = inject(ChannelService);
   messagesService = inject(MessageService);
 
-  constructor(
-    private firebaseInitService: FirebaseInitService,
-    private userService: UserService
-  ) {}
+  activeUser!: User
+
+  unsubUser!: Subscription
 
   isShowingSig = signal(false);
   messages: Message[] = [];
@@ -26,7 +25,23 @@ export class ThreadsService {
     []
   );
 
+  idOfThisThreads!: string;
+
+
+  constructor(
+    private firebaseInitService: FirebaseInitService,
+    private userService: UserService
+  ) {
+    this.unsubUser = this.userService.activeUser$.subscribe((user) => {
+      this.activeUser = user
+    })
+  }
+
+
+
+
   async getThread(messageId: string) {
+    this.idOfThisThreads = messageId
     await onSnapshot(
       collection(this.getThreadDocRef(messageId), 'threads'),
       (messages) => {
@@ -52,10 +67,7 @@ export class ThreadsService {
   }
 
   getChannelMessageDocRef() {
-    return doc(
-      this.getChannelColRef(),
-      this.channelService.activeChannel$.value.id
-    );
+    return doc(this.getChannelColRef(), this.channelService.activeChannel$.value.id);
   }
 
   getSubMessagesColRef() {
@@ -78,7 +90,20 @@ export class ThreadsService {
     await deleteDoc(this.getSingleDocRef(messageID, docID))
   }
 
-  async saveThread(messageID: string , docID: string, threadContent: any) {
-    await setDoc(this.getSingleDocRef(messageID, docID), threadContent)
+  async saveThread(threadContent: any) {
+    let threadID = this.idOfThisThreads
+    let message = {
+      date: new Date().getTime(),
+      reactions: [],
+      files: [],
+      creatorID: this.activeUser.id,
+      content: threadContent,
+    }
+    await setDoc(doc(collection(this.getThreadDocRef(threadID), 'threads')) , message)
   }
+
+  ngOnDestroy(): void {
+    this.unsubUser.unsubscribe()
+  }
+
 }

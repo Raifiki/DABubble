@@ -24,7 +24,9 @@
         placeholder="Antworten..."
         name="description"
         #textarea
+        [(ngModel)]="messageContent"
       ></textarea>
+      <button (click)="saveThreadMessage()">SPEICHERN</button>
     </div>
   </div>
 </div>
