@@ -21,6 +21,11 @@ export class Reaction {
         this.users.splice(idx,1)
     }
 
+    toggleUser(user:User){
+        let idx = this.users.findIndex((element) => element == user );
+        (idx == -1)? this.users.splice(idx,1) : this.users.push(user);
+    }
+
     getCleanBEJSON(){
         return {
             emoji: this.emoji,

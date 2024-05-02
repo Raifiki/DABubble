@@ -40,4 +40,16 @@ export class Message {
     this.reactions.forEach(reaction => reactionAryBE.push(reaction.getCleanBEJSON()));
     return reactionAryBE;
   }
+
+  updateReactions(emoji:string, user:User){
+    let idx = this.reactions.findIndex(reaction => reaction.emoji == emoji);
+    if(idx == -1){
+      this.reactions.push(new Reaction({emoji, users: [user]}))
+    } else{
+      this.reactions[idx].toggleUser(user);
+      if(this.reactions[idx].users.length == 0 ) this.reactions.splice(idx,1);
+    }
+
+  }
+
 }
