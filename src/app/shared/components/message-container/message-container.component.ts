@@ -63,6 +63,7 @@ export class MessageContainerComponent {
 
   toggleMsgMenu(event: Event) {
     event.stopPropagation();
+    this.showEmojiPickerReaction = false;
     this.showMsgMenu = !this.showMsgMenu;
   }
 
@@ -134,23 +135,15 @@ export class MessageContainerComponent {
     this.toggleEmojiPicker('editMsg');
   }
 
-  addReaction(event: any) {
-    let emoji = this.getEmoji(event);
+  addReaction(emoji:string){
     let user = this.userService.activeUser$.value;
+    this.message.updateReactions(emoji,user);
+    this.messageService.updateMessage(this.getCollectionID(),this.getDocId(),this.message.id,this.message);
+  }
 
-    let idx = this.message.reactions.findIndex(
-      (reaction) => reaction.emoji == emoji
-    );
-    idx == -1
-      ? this.message.reactions.push(new Reaction({ emoji, users: [user] }))
-      : this.message.reactions[idx].addUser(user);
-    console.log(this.message);
-    this.messageService.updateMessage(
-      this.getCollectionID(),
-      this.getDocId(),
-      this.message.id,
-      this.message
-    );
+  selectReaction(event:any){
+    let emoji = this.getEmoji(event);
+    this.addReaction(emoji);
     this.toggleEmojiPicker('reaction');
   }
 
@@ -158,9 +151,10 @@ export class MessageContainerComponent {
     return event['emoji'].native;
   }
 
-  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event) {
-    if (event) event.stopPropagation();
-    if (picker == 'editMsg') {
+  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event){
+    if(event)event.stopPropagation();
+    this.showMsgMenu = false;
+    if(picker == 'editMsg'){
       this.showEmojiPickerEditMsg = !this.showEmojiPickerEditMsg;
     } else {
       this.showEmojiPickerReaction = !this.showEmojiPickerReaction;
@@ -172,4 +166,22 @@ export class MessageContainerComponent {
     this.showEmojiPickerEditMsg = false;
     this.showEmojiPickerReaction = false;
   }
+
+  getReactionNames(emoji:string){
+    let names = '';
+    let users = this.message.reactions.filter(reaction => reaction.emoji == emoji)[0].users;
+    if (users.length > 2){
+      if(users.find(user => user.id == this.userService.activeUser$.value.id)){
+        names = users.length-1 + 'Personen' + 'und Du';  
+      } else {
+        names = users.length-1 + 'Personen'
+      }
+    } else {
+      users.forEach((user, idx, array) => {
+        names += (idx == array.length -1)? user.name : user.name + ' und ';
+      });
+    }
+    return names;
+  }
+
 }
