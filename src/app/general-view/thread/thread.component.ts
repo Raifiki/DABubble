@@ -7,6 +7,7 @@ import { ThreadsService } from '../../services/threads.service';
 import { FirebaseInitService } from '../../services/firebase-init.service';
 
 import { MessageService } from '../../services/message.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,13 +25,24 @@ export class ThreadComponent{
 
   @Input() message: Message = new Message();
   @Input() channel: Channel = new Channel();
+  messages: Message[] = []
+  unsubMessage!: Subscription
 
 
   constructor() {
-
   }
 
-  
+  ngOnDestroy(): void {
+    this.unsubMessage.unsubscribe()
+  }
 
+   async getMessages() {
+    this.unsubMessage = await this.threadService.threadMessages$.subscribe((messages) => {
+      this.messages = messages
+    })
+  }
 
+  ngOnInit(): void {
+    this.getMessages()
+  }
 }

@@ -8,6 +8,7 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
 import { CreatechannelComponent } from './createchannel/createchannel.component';
 import { EditchannelComponent } from './editchannel/editchannel.component';
 
+
 // import services
 import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 import { AddMembersComponent } from './add-members/add-members.component';
@@ -31,6 +32,7 @@ import { MembersComponent } from './members/members.component';
 })
 export class OverlayComponent {
   overlayCtrlService = inject(OverlaycontrolService);
+
 
   stopHideOvly(event: Event) {
     event.stopPropagation();

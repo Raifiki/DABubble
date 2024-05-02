@@ -61,7 +61,7 @@ export class MessageContainerComponent {
 
   toggleThreads() {
     this.threadService.isShowingSig.set(true);
-    this.threadService.subThread(this.message.id)
+    this.threadService.getThread(this.message.id)
   }
 
   toggleMsgMenu(event: Event) {
