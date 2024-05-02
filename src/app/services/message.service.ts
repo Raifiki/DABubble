@@ -6,6 +6,8 @@ import { deleteDoc, updateDoc } from 'firebase/firestore';
 import { UserService } from './user.service';
 import { Message } from '../shared/models/message.class';
 import { Unsubscribe } from 'firebase/auth';
+import { Reaction } from '../shared/models/reaction.class';
+import { User } from '../shared/models/user.class';
 
 @Injectable({
   providedIn: 'root',
@@ -95,11 +97,11 @@ export class MessageService implements OnInit {
       (msgList) => {
         let messages: Message[] = [];
         msgList.forEach((msg) => {
-          const MASSAGE = new Message(
+          const MESSAGE = new Message(
             this.getCleanMessageObj(msg.data()),
             msg.id
           );
-          messages.push(MASSAGE);
+          messages.push(MESSAGE);
         });
         messages = this.sortMessagesChronologically(messages);
         this.messages$.next(messages);
@@ -117,8 +119,17 @@ export class MessageService implements OnInit {
       date: obj.date,
       content: obj.content,
       answers: obj.answers,
-      reactions: obj.Reaction,
+      reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
     };
+  }
+
+  getCleanReactionArray(obj:any){
+    let reactions: Reaction[] = []
+    obj.forEach((reactionBEObject:any) => {
+      let users: User[] = this.userService.getFilterdUserList(reactionBEObject.users);
+      reactions.push(new Reaction({emoji:reactionBEObject['emoji'], users}))
+    })
+    return reactions;
   }
 }

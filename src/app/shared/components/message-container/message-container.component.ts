@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 // import classes
 import { Message } from '../../models/message.class';
 import { User } from '../../models/user.class';
+import { Reaction } from '../../models/reaction.class';
 
 // import services
 import { ThreadsService } from '../../../services/threads.service';
@@ -68,10 +69,6 @@ export class MessageContainerComponent {
     this.showMsgMenu = !this.showMsgMenu;
   }
 
-  hideMsgMenu() {
-    this.showMsgMenu = false;
-  }
-
   selectUser(user: User) {
     this.overlayCtrlService.selectUser(user);
     (user.id == this.userService.activeUser$.value.id)?
@@ -128,19 +125,31 @@ export class MessageContainerComponent {
   }
 
   addEmoji(event:any){
-    console.log(event);
-    
     let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
     let [caretStart, caretEnd] = [textareaElement.selectionStart, textareaElement.selectionEnd];
     this.newMsgContent = this.newMsgContent.substring(0,caretStart) + this.getEmoji(event) + this.newMsgContent.substring(caretEnd);
+    this.toggleEmojiPicker('editMsg');
+  }
+
+  addReaction(event:any){
+    let emoji = this.getEmoji(event);
+    let user = this.userService.activeUser$.value;
+    
+    let idx = this.message.reactions.findIndex(reaction => reaction.emoji == emoji);
+    (idx == -1)?
+      this.message.reactions.push(new Reaction({emoji, users: [user]}))
+      : this.message.reactions[idx].addUser(user);
+    console.log(this.message);
+    this.messageService.updateMessage(this.getCollectionID(),this.getDocId(),this.message.id,this.message);
+    this.toggleEmojiPicker('reaction');
   }
 
   getEmoji(event:any){
     return event['emoji'].native;
   }
 
-  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event: Event){
-    event.stopPropagation();
+  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event){
+    if(event)event.stopPropagation();
     if(picker == 'editMsg'){
       this.showEmojiPickerEditMsg = !this.showEmojiPickerEditMsg;
     } else {
@@ -148,13 +157,10 @@ export class MessageContainerComponent {
     }
   }
 
-  hideEmojiPicker(picker: 'editMsg' | 'reaction'){
-    if(picker == 'editMsg'){
-      this.showEmojiPickerEditMsg = false;
-    } else {
-      this.showEmojiPickerReaction = false;
-    }
+  hidePupUps(){
+    this.showMsgMenu = false;
+    this.showEmojiPickerEditMsg = false;
+    this.showEmojiPickerReaction = false;
   }
-
 
 }

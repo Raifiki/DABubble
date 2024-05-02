@@ -1,13 +1,14 @@
-<div class="msg-wrapper " [class]="{'active-user-msg':isMessageFromActiveUser(),'change-bg-color':editMsg}" (click)="hideMsgMenu()">
+<div class="msg-wrapper " [class]="{'active-user-msg':isMessageFromActiveUser(),'change-bg-color':editMsg}" (click)="hidePupUps()">
   @if(!editMsg){
     <div class="toolbar">
       <!-- add 2 additional Reactions -->
-      <button class="btn-default icon-btn">
+      <button class="btn-default icon-btn" (click)="toggleEmojiPicker('reaction',$event)">
         <div class="btn-icon-reactions"></div>
       </button>
       <button class="btn-default icon-btn">
         <div class="btn-icon-thread"></div>
       </button>
+      @if(showEmojiPickerReaction){<emoji-mart [totalFrequentLines]="1" [showPreview]="false" set="google" [darkMode]="false" color="#444DF2" (emojiSelect)="addReaction($event)" (click)="$event.stopPropagation()"></emoji-mart>}
       @if (isMessageFromActiveUser()) {
         <button class="btn-default icon-btn" (click)="toggleMsgMenu($event)">
           <div class="btn-icon-menu"></div>
@@ -37,7 +38,9 @@
           </div>
         }
         <div class="reaction-wrapper">
-          Reactions
+          @for (reaction of message.reactions; track reaction) {
+            {{  reaction.users.length + reaction.emoji }}
+          }
         </div>
       </div>
       <div class="files-wrapper">
@@ -45,13 +48,13 @@
       </div>
     </div>
     } @else {
-      <div class="wrapper-edit-msg" (click)="hideEmojiPicker('editMsg')">
+      <div class="wrapper-edit-msg">
         <textarea name="messageContent"  #messageContent="ngModel" [(ngModel)]="newMsgContent" (keyup)="resizeTextarea()" #textarea></textarea>
         <div class="edit-msg-footer">
           <button class="btn-default icon-btn" (click)="toggleEmojiPicker('editMsg',$event)">
             <div class="btn-icon-reactions"></div>
           </button>
-          <emoji-mart [showPreview]="false" set="google" [darkMode]="false" color="#444DF2" (emojiSelect)="addEmoji($event)" [class.show]="showEmojiPickerEditMsg"></emoji-mart>
+          @if(showEmojiPickerEditMsg){<emoji-mart [totalFrequentLines]="1" [showPreview]="false" [darkMode]="false" color="#444DF2" (emojiSelect)="addEmoji($event)" (click)="$event.stopPropagation()"></emoji-mart>}
           <div>
             <button class="btn-default secondary-btn" (click)="editMsg = false">Abbrechen</button>
             <button class="btn-default primary-btn" (click)="updateMessage()">Speichern</button>

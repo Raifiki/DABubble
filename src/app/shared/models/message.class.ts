@@ -17,7 +17,7 @@ export class Message {
     this.date = obj ? this.getDate(obj.date) : new Date();
     this.content = obj ? obj.content : '';
     this.answers = obj ? obj.answers : [];
-    this.reactions = obj ? obj.Reaction : [];
+    this.reactions = obj ? obj.reactions : [];
     this.files = obj ? obj.files : [];
   }
 
@@ -36,6 +36,8 @@ export class Message {
   }
 
   getReactionArray() {
-    return []; // store Reation in JSON for backend
+    let reactionAryBE:any = [];
+    this.reactions.forEach(reaction => reactionAryBE.push(reaction.getCleanBEJSON()));
+    return reactionAryBE;
   }
 }
