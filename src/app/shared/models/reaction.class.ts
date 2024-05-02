@@ -22,8 +22,10 @@ export class Reaction {
     }
 
     toggleUser(user:User){
-        let idx = this.users.findIndex((element) => element == user );
-        (idx == -1)? this.users.splice(idx,1) : this.users.push(user);
+        let idx = this.users.findIndex((element) => element.id == user.id );
+        console.log('idx: ',idx);
+        
+        (idx == -1)? this.users.push(user) : this.users.splice(idx,1);
     }
 
     getCleanBEJSON(){
