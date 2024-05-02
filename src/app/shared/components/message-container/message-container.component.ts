@@ -8,7 +8,7 @@ import { User } from '../../models/user.class';
 import { Reaction } from '../../models/reaction.class';
 
 // import services
-import { ThreadsService } from '../../../services/threads.service';
+import { ThreadsService } from '../../../services/ThreadsService';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { UserService } from '../../../services/user.service';
 import { MessageService } from '../../../services/message.service';
@@ -22,7 +22,7 @@ import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 @Component({
   selector: 'app-message-container',
   standalone: true,
-  imports: [CommonModule, FormsModule, PickerComponent, EmojiComponent ],
+  imports: [CommonModule, FormsModule, PickerComponent, EmojiComponent],
   templateUrl: './message-container.component.html',
   styleUrl: './message-container.component.scss',
 })
@@ -34,9 +34,6 @@ export class MessageContainerComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   directMessageService = inject(DirectMessageService);
-
-
-
 
   @Input() message: Message = new Message();
   @Input({ required: true }) msgType: 'channel' | 'directMsg' | 'thread' =
@@ -61,7 +58,7 @@ export class MessageContainerComponent {
 
   toggleThreads() {
     this.threadService.isShowingSig.set(true);
-    this.threadService.getThread(this.message.id)
+    this.threadService.getThread(this.message.id);
   }
 
   toggleMsgMenu(event: Event) {
@@ -71,8 +68,8 @@ export class MessageContainerComponent {
 
   selectUser(user: User) {
     this.overlayCtrlService.selectUser(user);
-    (user.id == this.userService.activeUser$.value.id)?
-      this.overlayCtrlService.showOverlay('registeredUserProfile')
+    user.id == this.userService.activeUser$.value.id
+      ? this.overlayCtrlService.showOverlay('registeredUserProfile')
       : this.overlayCtrlService.showOverlay('userProfile');
   }
 
@@ -124,43 +121,55 @@ export class MessageContainerComponent {
       this.textarea.nativeElement.scrollHeight + 'px';
   }
 
-  addEmoji(event:any){
+  addEmoji(event: any) {
     let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
-    let [caretStart, caretEnd] = [textareaElement.selectionStart, textareaElement.selectionEnd];
-    this.newMsgContent = this.newMsgContent.substring(0,caretStart) + this.getEmoji(event) + this.newMsgContent.substring(caretEnd);
+    let [caretStart, caretEnd] = [
+      textareaElement.selectionStart,
+      textareaElement.selectionEnd,
+    ];
+    this.newMsgContent =
+      this.newMsgContent.substring(0, caretStart) +
+      this.getEmoji(event) +
+      this.newMsgContent.substring(caretEnd);
     this.toggleEmojiPicker('editMsg');
   }
 
-  addReaction(event:any){
+  addReaction(event: any) {
     let emoji = this.getEmoji(event);
     let user = this.userService.activeUser$.value;
-    
-    let idx = this.message.reactions.findIndex(reaction => reaction.emoji == emoji);
-    (idx == -1)?
-      this.message.reactions.push(new Reaction({emoji, users: [user]}))
+
+    let idx = this.message.reactions.findIndex(
+      (reaction) => reaction.emoji == emoji
+    );
+    idx == -1
+      ? this.message.reactions.push(new Reaction({ emoji, users: [user] }))
       : this.message.reactions[idx].addUser(user);
     console.log(this.message);
-    this.messageService.updateMessage(this.getCollectionID(),this.getDocId(),this.message.id,this.message);
+    this.messageService.updateMessage(
+      this.getCollectionID(),
+      this.getDocId(),
+      this.message.id,
+      this.message
+    );
     this.toggleEmojiPicker('reaction');
   }
 
-  getEmoji(event:any){
+  getEmoji(event: any) {
     return event['emoji'].native;
   }
 
-  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event){
-    if(event)event.stopPropagation();
-    if(picker == 'editMsg'){
+  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event) {
+    if (event) event.stopPropagation();
+    if (picker == 'editMsg') {
       this.showEmojiPickerEditMsg = !this.showEmojiPickerEditMsg;
     } else {
       this.showEmojiPickerReaction = !this.showEmojiPickerReaction;
     }
   }
 
-  hidePupUps(){
+  hidePupUps() {
     this.showMsgMenu = false;
     this.showEmojiPickerEditMsg = false;
     this.showEmojiPickerReaction = false;
   }
-
 }
