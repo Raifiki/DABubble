@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { OverlaycontrolService } from '../services/overlaycontrol.service';
 import { ChannelService } from '../services/channel.service';
+import { RegisterService } from '../services/register.service';
 
 // import customer components
 import { OverlayComponent } from './overlay/overlay.component';
@@ -58,6 +59,7 @@ export class GeneralViewComponent {
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   messageService = inject(MessageService);
+  registerService = inject(RegisterService)
 
   subscription: Subscription;
 

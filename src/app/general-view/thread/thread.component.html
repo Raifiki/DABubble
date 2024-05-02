@@ -12,6 +12,11 @@
     @if(message.content != ""){
     <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
     }
+      @if (this.messages) {
+        @for (message of this.messages; track message) {
+          <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
+        }
+      }
   </div>
   <div class="form-field-textarea-style2 pad20">
     <div class="textarea-field-wrapper">
@@ -23,3 +28,4 @@
     </div>
   </div>
 </div>
+

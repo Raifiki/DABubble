@@ -14,14 +14,14 @@ import { Message } from '../shared/models/message.class';
 import { Channel } from '../shared/models/channel.class';
 import { MessageService } from './message.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { ThreadsService } from './threads.service';
+import { ThreadsService } from './ThreadsService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OverlaycontrolService {
   overlayType: OverlayType = 'hide';
-  threadService = inject(ThreadsService)
+  threadService = inject(ThreadsService);
 
   messageComponentType: MessageComponent = 'channel';
 
@@ -29,7 +29,7 @@ export class OverlaycontrolService {
   channelService = inject(ChannelService);
   userService = inject(UserService);
   messageService = inject(MessageService);
-  
+
   selectedUser: User | undefined;
   activeMessage: Message = new Message();
   activeChannel: Channel = new Channel();
@@ -37,18 +37,18 @@ export class OverlaycontrolService {
   private showHideLeftSide = new BehaviorSubject<boolean>(false);
   showHideLeftSide$ = this.showHideLeftSide.asObservable();
 
-  unsubUsersList: Subscription
+  unsubUsersList: Subscription;
   usersList!: User[];
-  showHideRightSide = this.threadService.isShowingSig
+  showHideRightSide = this.threadService.isShowingSig;
 
   showLeftSideMenu() {
     this.showHideLeftSide.next(!this.showHideLeftSide.value);
   }
 
   constructor() {
-    this.unsubUsersList = this.userService.usersList$.subscribe(data => {
-      this.usersList = data
-    }) 
+    this.unsubUsersList = this.userService.usersList$.subscribe((data) => {
+      this.usersList = data;
+    });
   }
 
   hideOverlay() {
@@ -66,7 +66,7 @@ export class OverlaycontrolService {
   }
 
   ngOnDestroy() {
-    this.unsubUsersList.unsubscribe()
+    this.unsubUsersList.unsubscribe();
   }
 
   subscripeMessageComponentContent(
