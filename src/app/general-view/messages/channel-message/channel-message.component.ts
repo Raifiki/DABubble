@@ -14,11 +14,18 @@ import { Channel } from '../../../shared/models/channel.class';
 import { User } from '../../../shared/models/user.class';
 import { Message } from '../../../shared/models/message.class';
 import { MessageContainerComponent } from '../../../shared/components/message-container/message-container.component';
+import { TextareaContainerComponent } from '../../../shared/components/textarea-container/textarea-container.component';
 
 @Component({
   selector: 'app-channel-message',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageContainerComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MessageContainerComponent,
+    TextareaContainerComponent,
+    FormsModule,
+  ],
   templateUrl: './channel-message.component.html',
   styleUrl: './channel-message.component.scss',
 })
@@ -40,8 +47,6 @@ export class ChannelMessageComponent implements OnInit {
   messages: Message[] = [];
   unsubMessages: Subscription;
 
-  newMessage: Message = new Message();
-
   constructor() {
     this.unsubChannels = this.channelService.channels$.subscribe(
       (channelList) => (this.channels = channelList)
@@ -56,17 +61,6 @@ export class ChannelMessageComponent implements OnInit {
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
     });
-  }
-
-  sendNewMessage() {
-    this.newMessage.creator = this.activeUser;
-    this.newMessage.date = new Date();
-    this.messageService.addMessageToCollection(
-      'Channels',
-      this.channel.id,
-      this.newMessage
-    );
-    this.newMessage = new Message();
   }
 
   ngOnInit(): void {}

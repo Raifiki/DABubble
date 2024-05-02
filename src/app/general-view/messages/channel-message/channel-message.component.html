@@ -35,20 +35,4 @@
     }
   </div>
 </div>
-<div class="form-field-textarea-style2 pad20">
-  <div class="textarea-field-wrapper">
-    <textarea
-      [(ngModel)]="newMessage.content"
-      placeholder="Starte eine neue Nachricht"
-      name="description"
-      #textarea
-    ></textarea>
-
-    <img
-      class="sendBtn"
-      (click)="sendNewMessage()"
-      src="../../../../assets/icons/Send icon.svg"
-      alt=""
-    />
-  </div>
-</div>
+<app-textarea-container [channel]="this.channel"> </app-textarea-container>

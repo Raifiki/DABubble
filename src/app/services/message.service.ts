@@ -124,12 +124,14 @@ export class MessageService implements OnInit {
     };
   }
 
-  getCleanReactionArray(obj:any){
-    let reactions: Reaction[] = []
-    obj.forEach((reactionBEObject:any) => {
-      let users: User[] = this.userService.getFilterdUserList(reactionBEObject.users);
-      reactions.push(new Reaction({emoji:reactionBEObject['emoji'], users}))
-    })
+  getCleanReactionArray(obj: any) {
+    let reactions: Reaction[] = [];
+    obj.forEach((reactionBEObject: any) => {
+      let users: User[] = this.userService.getFilterdUserList(
+        reactionBEObject.users
+      );
+      reactions.push(new Reaction({ emoji: reactionBEObject['emoji'], users }));
+    });
     return reactions;
   }
 }

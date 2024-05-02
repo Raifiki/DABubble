@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: white !important;
+  aspect-ratio: 0 !important;
+  width: 100% !important;
+
+  > textarea {
+    border: unset !important;
+    outline: none !important;
+  }
+}
+
+emoji-mart {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.icons {
+  background-color: white !important;
+  display: flex;
+  width: 100% !important;
+  justify-content: space-between;
+
+  > img {
+    cursor: pointer;
+  }
+}
+
+.sendBtn {
+  width: 40px;
+  height: 40px;
+  &:hover {
+    content: url(../../../../assets/icons/Send\ iconhover.svg);
+  }
+}
