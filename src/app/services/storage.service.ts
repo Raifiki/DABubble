@@ -67,8 +67,15 @@ export class StorageService {
   }
 
   async downloadFile(storageRef: StorageReference, fileName: string){
-   let fileURL = await this.getFileURL(storageRef,fileName);
-    // cors muss configuriert werden um Files herunterzuladen
+    getBlob(ref(storageRef, fileName))
+      .then(blob => {
+        let blobURL = window.URL.createObjectURL(blob);
+        let tempLink = document.createElement('a');
+        tempLink.href = blobURL;
+        tempLink.setAttribute('download', fileName);
+        tempLink.click();
+      })
+      .catch(err => console.log('Download file failed:',err));
   }
 
 }

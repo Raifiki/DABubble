@@ -21,7 +21,7 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { UserSelectComponent } from '../user-select/user-select.component';
 import { UserlistitemComponent } from '../userlistitem/userlistitem.component';
 import { StorageService } from '../../../services/storage.service';
-import { StorageReference } from 'firebase/storage';
+import { StorageReference, getBlob, ref } from 'firebase/storage';
 
 @Component({
   selector: 'app-textarea-container',
@@ -173,18 +173,9 @@ export class TextareaContainerComponent {
       this.channel.id,
       'XhiAiZSa8eBIXzdJPdbG'
     );
-    console.log('ref storage: ', this.storageRef);
-
-    let url = await this.storageService.getFileURL(
+    await this.storageService.downloadFile(
       this.storageRef,
-      '/alternate_email.svg'
+      'alternate_email.svg'
     );
-    console.log(url);
-    const link = document.createElement('a');
-    if (url) {
-      link.href = url;
-      link.download = 'test.svg'; // set a name for the file
-      link.click();
-    }
   }
 }
