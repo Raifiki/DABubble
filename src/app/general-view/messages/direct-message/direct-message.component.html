@@ -7,16 +7,17 @@
     <b>{{ secondUser.name }}</b>
   </div>
 
-  <div class="messages pad20">
+  <div class="massages-wrapper pad20">
     <div>
       <img src="{{ secondUser.imgPath }}" alt="" />
       <b>{{ secondUser.name }}</b>
     </div>
-    <div class="massages-wrapper">
-      @for (msg of messages; track msg) {
-      <app-message-container [message]="msg" [msgType]="'directMsg'"></app-message-container>
-      }
-    </div>
+    @for (msg of messages; track msg) {
+    <app-message-container
+      [message]="msg"
+      [msgType]="'directMsg'"
+    ></app-message-container>
+    }
     <div>
       <p class="info">
         Diese Unterhaltung findet nur zwischen
@@ -25,20 +26,9 @@
       </p>
     </div>
   </div>
-  <div class="form-field-textarea-style2 pad20">
-    <div class="textarea-field-wrapper">
-      <textarea
-        placeholder="Starte eine neue Nachricht"
-        name="description"
-        #textarea
-        [(ngModel)]="newMessage.content"
-      ></textarea>
-      <img
-        class="sendBtn"
-        (click)="sendNewMessage()"
-        src="../../../../assets/icons/Send icon.svg"
-        alt=""
-      />
-    </div>
-  </div>
+
+  <app-textarea-container
+    [directMessage]="this.directMessage"
+    [colId]="'directMessages'"
+  ></app-textarea-container>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, Output, inject } from '@angular/core';
 import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 import { CommonModule } from '@angular/common';
 import { ChannelService } from '../../../services/channel.service';

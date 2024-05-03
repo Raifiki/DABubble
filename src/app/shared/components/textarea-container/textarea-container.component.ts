@@ -22,6 +22,8 @@ import { UserSelectComponent } from '../user-select/user-select.component';
 import { UserlistitemComponent } from '../userlistitem/userlistitem.component';
 import { StorageService } from '../../../services/storage.service';
 import { StorageReference, getBlob, ref } from 'firebase/storage';
+import { DirektMessage } from '../../models/direct-message.class';
+import { DirectMessageService } from '../../../services/direct-message.service';
 
 @Component({
   selector: 'app-textarea-container',
@@ -41,6 +43,7 @@ export class TextareaContainerComponent {
   channelService = inject(ChannelService);
   userService = inject(UserService);
   storageService = inject(StorageService);
+  directMessagesService = inject(DirectMessageService);
 
   user!: User;
 
@@ -48,6 +51,8 @@ export class TextareaContainerComponent {
   unsubscribeActiveUser;
 
   @Input() channel: Channel = {} as Channel;
+  @Input() directMessage: DirektMessage = {} as DirektMessage;
+  @Input() colId: 'Channels' | 'directMessages' | undefined;
   unsubChannels: Subscription;
   channels: Channel[] = [];
 
@@ -69,6 +74,9 @@ export class TextareaContainerComponent {
 
   @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
 
+  secondUser: User = new User();
+  unsubDirectMessage: Subscription;
+
   constructor() {
     this.unsubChannels = this.channelService.channels$.subscribe(
       (channelList) => (this.channels = channelList)
@@ -79,6 +87,19 @@ export class TextareaContainerComponent {
         this.activeUser = user;
       }
     );
+
+    this.unsubDirectMessage =
+      this.directMessagesService.activeDirectMessage$.subscribe(
+        (directMessage) => {
+          if (directMessage.users) {
+            this.directMessage = directMessage;
+            this.secondUser =
+              directMessage.users.find(
+                (user) => user.id != this.activeUser.id
+              ) || this.activeUser;
+          }
+        }
+      );
 
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
@@ -113,11 +134,19 @@ export class TextareaContainerComponent {
   }
 
   async sendNewMessage() {
+    let id;
+    if (this.colId === 'Channels') {
+      id = this.channel.id;
+    } else {
+      id = this.directMessage.id;
+    }
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
+    console.log(this.colId);
+
     let msgId = await this.messageService.addMessageToCollection(
-      'Channels',
-      this.channel.id,
+      this.colId,
+      id,
       this.newMessage
     );
     if (msgId && this.files.length > 0) {

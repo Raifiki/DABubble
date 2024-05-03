@@ -12,11 +12,12 @@ import { Subscription } from 'rxjs';
 import { DirectMessageService } from '../../../services/direct-message.service';
 import { DirektMessage } from '../../../shared/models/direct-message.class';
 import { MessageContainerComponent } from '../../../shared/components/message-container/message-container.component';
+import { TextareaContainerComponent } from '../../../shared/components/textarea-container/textarea-container.component';
 
 @Component({
   selector: 'app-direct-message',
   standalone: true,
-  imports: [FormsModule, MessageContainerComponent],
+  imports: [FormsModule, MessageContainerComponent, TextareaContainerComponent],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })

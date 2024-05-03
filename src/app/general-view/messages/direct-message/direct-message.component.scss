@@ -5,8 +5,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100%;
-  max-height: 100%;
+  max-height: 80vh;
   border-radius: 30px;
   background-color: white;
 }
@@ -36,7 +35,7 @@
 .messages {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  width: 100%;
   align-items: start;
   justify-content: end;
   > div {
@@ -72,19 +71,12 @@
 }
 
 .massages-wrapper {
+  flex: 1;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start !important;
-  max-height: 300px;
-  overflow-y: auto;
   gap: 10px;
-  > div {
-    &:nth-child(odd) {
-      background-color: greenyellow;
-    }
-    &:nth-child(even) {
-      background-color: red;
-    }
-  }
+  overflow-y: scroll;
 }
 
 .sendBtn {
@@ -93,4 +85,9 @@
   &:hover {
     content: url(../../../../assets/icons/Send\ iconhover.svg);
   }
+}
+
+app-message-container {
+  width: 100%;
+  height: 20%;
 }
