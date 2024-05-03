@@ -18,6 +18,7 @@ export class ThreadsService {
   activeUser!: User
 
   unsubUser!: Subscription
+  unsubMessage!: Subscription
 
   isShowingSig = signal(false);
   messages: Message[] = [];
@@ -35,17 +36,24 @@ export class ThreadsService {
     this.unsubUser = this.userService.activeUser$.subscribe((user) => {
       this.activeUser = user
     })
+
   }
 
 
 
 
   async getThread(messageId: string) {
+    let firstMessage: Message = new Message();
     this.idOfThisThreads = messageId
+    this.unsubMessage =  this.messagesService.messages$.subscribe((messages) => {
+      firstMessage = messages.filter((message) => message.id == messageId)[0];
+    })
+
     await onSnapshot(
       collection(this.getThreadDocRef(messageId), 'threads'),
       (messages) => {
         this.messages = []
+        this.messages.push(firstMessage);
         messages.forEach((message) => {
           let newMessage = new Message(message.data());
           newMessage.id = message.id;
@@ -104,6 +112,7 @@ export class ThreadsService {
 
   ngOnDestroy(): void {
     this.unsubUser.unsubscribe()
+    this.unsubMessage.unsubscribe()
   }
 
 }

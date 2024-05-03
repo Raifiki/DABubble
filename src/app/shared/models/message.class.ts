@@ -9,7 +9,7 @@ export class Message {
   content: string = '';
   answers: Message[] = [];
   reactions: Reaction[] = [];
-  files: any[] = []; // muss noch geklärt werden was wir hier speichern --> Idee: Link/name auf Datei in store
+  files: string[] = []; // muss noch geklärt werden was wir hier speichern --> Idee: Link/name auf Datei in store
 
   constructor(obj?: any, id?: string) {
     this.id = id ? id : '';

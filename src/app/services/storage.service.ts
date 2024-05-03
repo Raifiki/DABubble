@@ -77,5 +77,4 @@ export class StorageService {
       })
       .catch(err => console.log('Download file failed:',err));
   }
-
 }
