@@ -29,7 +29,7 @@
     <div class="content-header">
       <span class="msg-creator-name" (click)="selectUser(message.creator)">{{ message.creator.name }}</span>
       <span class="msg-time">
-        {{ message.date.getHours() }}:{{ message.date.getMinutes() }} Uhr
+        {{ message.date.getHours() }}:{{ ((message.date.getMinutes() < 10 ? '0' : '') + message.date.getMinutes())  }} Uhr
       </span>
     </div>
     <div class="msg-content">{{ message.content }}</div>

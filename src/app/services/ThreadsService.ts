@@ -23,18 +23,18 @@ export class ThreadsService {
   channelService = inject(ChannelService);
   messagesService = inject(MessageService);
 
+  currentChannel: string = ''
   activeUser!: User;
-
+  idOfThisThreads!: string;
   unsubUser!: Subscription;
   unsubMessage!: Subscription;
-
   isShowingSig = signal(false);
   messages: Message[] = [];
   threadMessages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>(
     []
   );
 
-  idOfThisThreads!: string;
+
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -46,16 +46,17 @@ export class ThreadsService {
   }
 
   async getThread(messageId: string) {
+    this.currentChannel = messageId
     let firstMessage: Message = new Message();
     this.idOfThisThreads = messageId;
     this.unsubMessage = this.messagesService.messages$.subscribe((messages) => {
       firstMessage = messages.filter((message) => message.id == messageId)[0];
     });
-
     await onSnapshot(
       collection(this.getThreadColRef(messageId), 'threads'),
       (messages) => {
         this.messages = [];
+
         this.messages.push(firstMessage);
         messages.forEach((message) => {
           let msg = new Message(

@@ -35,6 +35,7 @@ export class ThreadComponent {
   unsubMessage!: Subscription;
   messageContent: string = '';
 
+
   constructor() {}
 
   ngOnDestroy(): void {
