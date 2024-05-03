@@ -1,3 +1,6 @@
+@import "./../../styles/includeStyles.scss";
+@import "./../../../../styles.scss";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -24,9 +27,47 @@ emoji-mart {
   flex-direction: row;
   width: 100% !important;
   justify-content: space-between;
+  z-index: 1;
+}
 
-  > img {
+.left-side {
+  display: flex;
+  align-items: center;
+
+  > .line {
+    height: 70%;
+    width: 2px;
+    background-color: #adb0d9;
+  }
+  > #openFile {
     cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+      content: url(../../../../assets/icons/addhover.svg);
+      background-color: $prim-color-light-hover;
+      border-radius: 50%;
+    }
+  }
+  > #openEmoji {
+    cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+      content: url(../../../../assets/icons/sentiment_satisfiedhover.svg);
+      background-color: $prim-color-light-hover;
+      border-radius: 50%;
+    }
+  }
+  > #openUserList {
+    cursor: pointer;
+    padding: 8px;
+
+    &:hover {
+      content: url(../../../../assets/icons/alternate_emailhover.svg);
+      background-color: $prim-color-light-hover;
+      border-radius: 50%;
+    }
   }
 }
 

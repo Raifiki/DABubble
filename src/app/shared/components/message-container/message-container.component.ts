@@ -86,21 +86,29 @@ export class MessageContainerComponent {
 
   deleteMessage(event: Event) {
     event.stopPropagation();
-    this.messageService.deleteMessage(
-      this.getCollectionID(),
-      this.getDocId(),
-      this.message.id
-    );
+    if (this.msgType == 'thread') {
+      this.threadService.deleteThreadMessage(this.message.id);
+    } else {
+      this.messageService.deleteMessage(
+        this.getCollectionID(),
+        this.getDocId(),
+        this.message.id
+      );
+    }
   }
 
   updateMessage() {
     this.message.content = this.newMsgContent;
-    this.messageService.updateMessage(
-      this.getCollectionID(),
-      this.getDocId(),
-      this.message.id,
-      this.message
-    );
+    if (this.msgType == 'thread') {
+      this.threadService.updateThreadMessage(this.message.id, this.message);
+    } else {
+      this.messageService.updateMessage(
+        this.getCollectionID(),
+        this.getDocId(),
+        this.message.id,
+        this.message
+      );
+    }
     this.editMsg = false;
   }
 
@@ -109,7 +117,7 @@ export class MessageContainerComponent {
   }
 
   getDocId() {
-    return this.msgType == 'channel'
+    return this.msgType == 'channel' || this.msgType == 'thread'
       ? this.channelService.activeChannel$.value.id
       : this.directMessageService.activeDirectMessage$.value.id;
   }
@@ -135,13 +143,22 @@ export class MessageContainerComponent {
     this.toggleEmojiPicker('editMsg');
   }
 
-  addReaction(emoji:string){
+  addReaction(emoji: string) {
     let user = this.userService.activeUser$.value;
-    this.message.updateReactions(emoji,user);
-    this.messageService.updateMessage(this.getCollectionID(),this.getDocId(),this.message.id,this.message);
+    this.message.updateReactions(emoji, user);
+    if (this.msgType == 'thread') {
+      this.threadService.updateThreadMessage(this.message.id, this.message);
+    } else {
+      this.messageService.updateMessage(
+        this.getCollectionID(),
+        this.getDocId(),
+        this.message.id,
+        this.message
+      );
+    }
   }
 
-  selectReaction(event:any){
+  selectReaction(event: any) {
     let emoji = this.getEmoji(event);
     this.addReaction(emoji);
     this.toggleEmojiPicker('reaction');
@@ -151,10 +168,10 @@ export class MessageContainerComponent {
     return event['emoji'].native;
   }
 
-  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event){
-    if(event)event.stopPropagation();
+  toggleEmojiPicker(picker: 'editMsg' | 'reaction', event?: Event) {
+    if (event) event.stopPropagation();
     this.showMsgMenu = false;
-    if(picker == 'editMsg'){
+    if (picker == 'editMsg') {
       this.showEmojiPickerEditMsg = !this.showEmojiPickerEditMsg;
     } else {
       this.showEmojiPickerReaction = !this.showEmojiPickerReaction;
@@ -167,21 +184,24 @@ export class MessageContainerComponent {
     this.showEmojiPickerReaction = false;
   }
 
-  getReactionNames(emoji:string){
+  getReactionNames(emoji: string) {
     let names = '';
-    let users = this.message.reactions.filter(reaction => reaction.emoji == emoji)[0].users;
-    if (users.length > 2){
-      if(users.find(user => user.id == this.userService.activeUser$.value.id)){
-        names = users.length-1 + 'Personen' + 'und Du';  
+    let users = this.message.reactions.filter(
+      (reaction) => reaction.emoji == emoji
+    )[0].users;
+    if (users.length > 2) {
+      if (
+        users.find((user) => user.id == this.userService.activeUser$.value.id)
+      ) {
+        names = users.length - 1 + 'Personen' + 'und Du';
       } else {
-        names = users.length-1 + 'Personen'
+        names = users.length - 1 + 'Personen';
       }
     } else {
       users.forEach((user, idx, array) => {
-        names += (idx == array.length -1)? user.name : user.name + ' und ';
+        names += idx == array.length - 1 ? user.name : user.name + ' und ';
       });
     }
     return names;
   }
-
 }

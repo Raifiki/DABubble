@@ -18,7 +18,6 @@
     ></emoji-mart
     >}
     <div class="container">
-      <button (click)="downloadFile()">get file</button>
       <textarea
         [(ngModel)]="newMessage.content"
         placeholder="Starte eine neue Nachricht"
@@ -28,18 +27,22 @@
       <div class="icons">
         <div class="left-side">
           <img
+            id="openFile"
             (click)="openFileExplorer()"
             src="../../../../assets/icons/addgrey.svg"
             alt=""
           />
+          <div class="line"></div>
 
           <img
+            id="openEmoji"
             src="../../../../assets/icons/sentiment_satisfiedsmiley.svg"
             (click)="toggleEmojiPicker()"
             alt=""
           />
 
           <img
+            id="openUserList"
             src="../../../../assets/icons/alternate_email.svg"
             alt=""
             (click)="toggleUserList()"

@@ -1,12 +1,20 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
 import { UserService } from './user.service';
-import { collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 import { ChannelService } from './channel.service';
 import { MessageService } from './message.service';
 import { Message } from '../shared/models/message.class';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { User } from '../shared/models/user.class';
+import { Reaction } from '../shared/models/reaction.class';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +23,10 @@ export class ThreadsService {
   channelService = inject(ChannelService);
   messagesService = inject(MessageService);
 
-  activeUser!: User
+  activeUser!: User;
 
-  unsubUser!: Subscription
-  unsubMessage!: Subscription
+  unsubUser!: Subscription;
+  unsubMessage!: Subscription;
 
   isShowingSig = signal(false);
   messages: Message[] = [];
@@ -28,43 +36,39 @@ export class ThreadsService {
 
   idOfThisThreads!: string;
 
-
   constructor(
     private firebaseInitService: FirebaseInitService,
     private userService: UserService
   ) {
     this.unsubUser = this.userService.activeUser$.subscribe((user) => {
-      this.activeUser = user
-    })
-
+      this.activeUser = user;
+    });
   }
-
-
-
 
   async getThread(messageId: string) {
     let firstMessage: Message = new Message();
-    this.idOfThisThreads = messageId
-    this.unsubMessage =  this.messagesService.messages$.subscribe((messages) => {
+    this.idOfThisThreads = messageId;
+    this.unsubMessage = this.messagesService.messages$.subscribe((messages) => {
       firstMessage = messages.filter((message) => message.id == messageId)[0];
-    })
+    });
 
     await onSnapshot(
-      collection(this.getThreadDocRef(messageId), 'threads'),
+      collection(this.getThreadColRef(messageId), 'threads'),
       (messages) => {
-        this.messages = []
+        this.messages = [];
         this.messages.push(firstMessage);
         messages.forEach((message) => {
-          let newMessage = new Message(message.data());
-          newMessage.id = message.id;
-          newMessage.creator = new User(
-            this.userService.getUser(message.data()['creatorID'])
+          let msg = new Message(
+            this.getCleanMessageObj(message.data()),
+            message.id
           );
-          this.messages.push(newMessage);
+          this.messages.push(msg);
         });
         this.messages = this.messagesService.sortMessagesChronologically(
           this.messages
         );
+        console.log(this.messages);
+
         this.threadMessages$.next(this.messages);
       }
     );
@@ -74,45 +78,70 @@ export class ThreadsService {
     return collection(this.firebaseInitService.getDatabase(), 'Channels');
   }
 
-  getChannelMessageDocRef() {
-    return doc(this.getChannelColRef(), this.channelService.activeChannel$.value.id);
+  getChannelDocRef() {
+    return doc(
+      this.getChannelColRef(),
+      this.channelService.activeChannel$.value.id
+    );
   }
 
-  getSubMessagesColRef() {
-    return collection(this.getChannelMessageDocRef(), 'messages');
+  getChannelMessagesColRef() {
+    return collection(this.getChannelDocRef(), 'messages');
   }
 
-  getThreadDocRef(messageID: string) {
-    return doc(this.getSubMessagesColRef(), messageID);
+  getThreadColRef(messageID: string) {
+    return doc(this.getChannelMessagesColRef(), messageID);
   }
 
-  getSingleDocRef(messageID: string, docID: string) {
-    return doc(collection(this.getThreadDocRef(messageID), 'threads'), docID)
+  getThreadMsgRef(messageID: string, threadMsgID: string) {
+    return doc(
+      collection(this.getThreadColRef(messageID), 'threads'),
+      threadMsgID
+    );
   }
 
-  async updateThread(messageID: string , docID: string, threadContent: any) {
-    await updateDoc(this.getSingleDocRef(messageID, docID), threadContent);
+  async updateThreadMessage(threadMsgID: string, message: Message) {
+    await updateDoc(
+      this.getThreadMsgRef(this.idOfThisThreads, threadMsgID),
+      message.getCleanBEJSON()
+    );
   }
 
-  async deleteThread(messageID: string, docID: string) {
-    await deleteDoc(this.getSingleDocRef(messageID, docID))
+  async deleteThreadMessage(threadMsgID: string) {
+    await deleteDoc(this.getThreadMsgRef(this.idOfThisThreads, threadMsgID));
   }
 
-  async saveThread(threadContent: any) {
-    let threadID = this.idOfThisThreads
-    let message = {
-      date: new Date().getTime(),
-      reactions: [],
-      files: [],
-      creatorID: this.activeUser.id,
-      content: threadContent,
-    }
-    await setDoc(doc(collection(this.getThreadDocRef(threadID), 'threads')) , message)
+  async saveThread(message: Message) {
+    await setDoc(
+      doc(collection(this.getThreadColRef(this.idOfThisThreads), 'threads')),
+      message.getCleanBEJSON()
+    );
   }
 
   ngOnDestroy(): void {
-    this.unsubUser.unsubscribe()
-    this.unsubMessage.unsubscribe()
+    this.unsubUser.unsubscribe();
+    this.unsubMessage.unsubscribe();
   }
 
+  getCleanMessageObj(obj: any) {
+    return {
+      creator: this.userService.getUser(obj.creatorId),
+      date: obj.date,
+      content: obj.content,
+      answers: obj.answers,
+      reactions: this.getCleanReactionArray(obj.reaction),
+      files: obj.files,
+    };
+  }
+
+  getCleanReactionArray(obj: any) {
+    let reactions: Reaction[] = [];
+    obj.forEach((reactionBEObject: any) => {
+      let users: User[] = this.userService.getFilterdUserList(
+        reactionBEObject.users
+      );
+      reactions.push(new Reaction({ emoji: reactionBEObject['emoji'], users }));
+    });
+    return reactions;
+  }
 }

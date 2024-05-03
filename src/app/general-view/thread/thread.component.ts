@@ -9,11 +9,17 @@ import { FirebaseInitService } from '../../services/firebase-init.service';
 import { MessageService } from '../../services/message.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [CommonModule, MessageContainerComponent, MessageContainerComponent, FormsModule],
+  imports: [
+    CommonModule,
+    MessageContainerComponent,
+    MessageContainerComponent,
+    FormsModule,
+  ],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
@@ -21,12 +27,13 @@ export class ThreadComponent {
   threadService = inject(ThreadsService);
   firebaseInitService = inject(FirebaseInitService);
   messageService = inject(MessageService);
+  userService = inject(UserService);
 
   @Input() message: Message = new Message();
   @Input() channel: Channel = new Channel();
   messages: Message[] = [];
   unsubMessage!: Subscription;
-  messageContent: any;
+  messageContent: string = '';
 
   constructor() {}
 
@@ -47,7 +54,17 @@ export class ThreadComponent {
   }
 
   saveThreadMessage() {
-    this.threadService.saveThread(this.messageContent)
-    this.messageContent = ''
+    this.threadService.saveThread(this.getMessageObj());
+    this.messageContent = '';
+  }
+
+  getMessageObj() {
+    let message = new Message();
+    message.creator = this.userService.activeUser$.value;
+    message.content = this.messageContent;
+    message.date = new Date();
+    message.files = []; // add files if function is available
+    message.reactions = [];
+    return message;
   }
 }
