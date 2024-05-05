@@ -55,9 +55,6 @@ export class LeftSideComponent {
   unsubDirectMessages: Subscription;
   threadService = inject(ThreadsService)
   
-
-
-
   constructor(private userService: UserService) {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
       (activeUser) => (this.activeUser = activeUser)
@@ -98,11 +95,4 @@ export class LeftSideComponent {
 
 
 
-   getMessagesOfChannel(docId: string) {
-    this.threadService.getMessagesOfChannel(docId)
-  }
-
-  getNumberOfThreads(channelId: string, msgId:string) {
-   this.threadService.getNumberOfThreads(channelId,msgId)
-  }
 }

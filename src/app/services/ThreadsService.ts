@@ -23,17 +23,18 @@ export class ThreadsService {
   channelService = inject(ChannelService);
   messagesService = inject(MessageService);
 
-  currentChannel: string = ''
+  currentChannel: string = '';
   activeUser!: User;
   idOfThisThreads!: string;
   unsubUser!: Subscription;
   unsubMessage!: Subscription;
   isShowingSig = signal(false);
   messages: Message[] = [];
-  threadMessages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
-  threadAmount: [{}] = [{}]
-  activeChannel: string = ''
-
+  threadMessages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>(
+    []
+  );
+  threadAmount: [{}] = [{}];
+  activeChannel: string = '';
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -45,8 +46,7 @@ export class ThreadsService {
   }
 
   async getThread(messageId: string) {
-
-    this.currentChannel = messageId
+    this.currentChannel = messageId;
     let firstMessage: Message = new Message();
     this.idOfThisThreads = messageId;
     this.unsubMessage = this.messagesService.messages$.subscribe((messages) => {
@@ -107,7 +107,18 @@ export class ThreadsService {
   }
 
   async deleteThreadMessage(threadMsgID: string) {
+    if (this.messages[0].answers.amount > 0) this.messages[0].answers.amount--;
+    if (threadMsgID == this.messages.slice(-1)[0].id) {
+      this.messages[0].answers.lastAnswer =
+        this.messages[this.messages.length - 2].answers.lastAnswer;
+    }
     await deleteDoc(this.getThreadMsgRef(this.idOfThisThreads, threadMsgID));
+    this.messagesService.updateMessage(
+      'Channels',
+      this.activeChannel,
+      this.idOfThisThreads,
+      this.messages[0]
+    );
   }
 
   async saveThread(message: Message) {
@@ -115,7 +126,14 @@ export class ThreadsService {
       doc(collection(this.getThreadColRef(this.idOfThisThreads), 'threads')),
       message.getCleanBEJSON()
     );
-    this.getMessagesOfChannel(this.activeChannel)
+    this.messages[0].answers.amount++;
+    this.messages[0].answers.lastAnswer = new Date();
+    this.messagesService.updateMessage(
+      'Channels',
+      this.activeChannel,
+      this.idOfThisThreads,
+      this.messages[0]
+    );
   }
 
   ngOnDestroy(): void {
@@ -128,10 +146,14 @@ export class ThreadsService {
       creator: this.userService.getUser(obj.creatorId),
       date: obj.date,
       content: obj.content,
-      answers: obj.answers,
+      answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
     };
+  }
+
+  getCleanAnswersObj(obj:any){
+    return {amount: obj.amount,lastAnswer: new Date(obj.lastAnswer)}
   }
 
   getCleanReactionArray(obj: any) {
@@ -144,51 +166,4 @@ export class ThreadsService {
     });
     return reactions;
   }
-
-  async getMessagesOfChannel(docId: string) {
-    this.threadAmount = [{}]
-    let messages: Message[] = []
-     onSnapshot(
-      this.messagesService.getMessageRef('Channels', docId),
-      (msgList) => {
-        msgList.forEach((msg) => {
-          let message = new Message(msg.data(), msg.id);
-          messages.push(message)
-        });
-        messages = this.messagesService.sortMessagesChronologically(messages)
-        messages.forEach((msg) => {
-            this.getNumberOfThreads(docId, msg.id)
-        })
-      }
-    );
-  }
-
-  async getNumberOfThreads(channelId: string, msgId:string) {
-    onSnapshot(collection((this.messagesService.getSingleMessageRef('Channels', channelId, msgId)), 'threads'), (threads) => {
-      let amount: number = 0
-      let time;
-      threads.forEach((thread) => {amount++;  
-          time = this.getTimeOfThread(thread.id, msgId)
-      })
-   this.threadAmount.push({amount:amount, time:time})
-   console.log(this.threadAmount)
-
-  })
-  this.threadAmount.splice(0)
-  this.channelService.numberOfThreads$.next(this.threadAmount)
-  }
-
-
-  async getTimeOfThread(threadId: string, msgId:string) {
-    onSnapshot(this.getThreadMsgRef(msgId, threadId), (thread) => {
-    if (thread.exists()) {
-      let allThreads: number[] = [];
-        allThreads.push(thread.data()['date'])
-        return allThreads[-1]
-    } else {
-      return null
-    }
-  });
-}
-
 }

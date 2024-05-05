@@ -103,8 +103,13 @@ export class MessageService implements OnInit {
             msg.id
           );
           messages.push(MESSAGE);
+          console.log(MESSAGE);
+          
+          // get thread amount and time and save to message object
         });
         messages = this.sortMessagesChronologically(messages);
+        console.log('subMessages wurde ausgeführt');
+
         this.messages$.next(messages);
       }
     );
@@ -119,10 +124,14 @@ export class MessageService implements OnInit {
       creator: this.userService.getUser(obj.creatorId),
       date: obj.date,
       content: obj.content,
-      answers: obj.answers,
+      answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
     };
+  }
+
+  getCleanAnswersObj(obj:any){
+    return {amount: obj.amount,lastAnswer: new Date(obj.lastAnswer)}
   }
 
   getCleanReactionArray(obj: any) {

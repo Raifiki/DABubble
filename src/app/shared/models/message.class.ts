@@ -7,7 +7,7 @@ export class Message {
   date!: Date;
   id: string;
   content: string = '';
-  answers: Message[] = [];
+  answers: {amount: number; lastAnswer: Date};
   reactions: Reaction[] = [];
   files: string[] = []; // muss noch geklärt werden was wir hier speichern --> Idee: Link/name auf Datei in store
 
@@ -16,7 +16,7 @@ export class Message {
     this.creator = obj ? obj.creator : new User();
     this.date = obj ? this.getDate(obj.date) : new Date();
     this.content = obj ? obj.content : '';
-    this.answers = obj ? obj.answers : [];
+    this.answers = obj ? obj.answers : {amount: 0 , lastAnswer: new Date()};
     this.reactions = obj ? obj.reactions : [];
     this.files = obj ? obj.files : [];
   }
@@ -32,6 +32,7 @@ export class Message {
       content: this.content,
       reaction: this.getReactionArray(),
       files: this.files,
+      answers: this.getBEAnswersObj(),
     };
   }
 
@@ -41,6 +42,10 @@ export class Message {
       reactionAryBE.push(reaction.getCleanBEJSON())
     );
     return reactionAryBE;
+  }
+
+  getBEAnswersObj(){    
+    return {amount: this.answers.amount, lastAnswer: this.answers.lastAnswer.getTime()};
   }
 
   updateReactions(emoji: string, user: User) {
