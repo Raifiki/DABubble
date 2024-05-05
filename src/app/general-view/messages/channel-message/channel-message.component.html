@@ -26,13 +26,14 @@
   </div>
 
   <div class="massages-wrapper">
-    @for (msg of messages; track msg) {
-    <app-message-container
-      (click)="overlayCtrlService.openThread(channel, msg)"
-      [message]="msg"
-      [msgType]="'channel'"
-    ></app-message-container>
-    }
+      @for (msg of messages; track msg; let index = $index) {
+      <app-message-container 
+        (click)="overlayCtrlService.openThread(channel, msg)"
+        [message]="msg"
+        [msgType]="'channel'"
+        [threadIndex]="numberofThreads[index]"
+      ></app-message-container>
+      }
   </div>
   <app-textarea-container [channel]="this.channel" [colId]="'Channels'">
   </app-textarea-container>

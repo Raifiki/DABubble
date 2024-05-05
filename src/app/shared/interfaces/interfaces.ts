@@ -10,3 +10,9 @@ export type OverlayType =
   | 'add-members';
 
 export type MessageComponent = 'channel' | 'directMessage' | 'newMessage';
+
+
+export interface ThreadIndex {
+  amount: number;
+  time: number;
+}

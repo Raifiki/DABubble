@@ -42,6 +42,8 @@ export class ChannelService {
   );
   unsubChannel!: Unsubscribe;
 
+  numberOfThreads$: BehaviorSubject<[{}]> = new BehaviorSubject< [{}]>([{}])
+
   constructor() {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
       (activeUser) => {

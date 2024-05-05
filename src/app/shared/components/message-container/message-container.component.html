@@ -34,12 +34,20 @@
     </div>
     <div class="msg-content">{{ message.content }}</div>
     <div class="msg-footer">
-      @if(msgType == 'channel'){
-      <div class="msg-thread-wrapper">
-        <span class="thread-replies" (click)="toggleThreads()"> {{ nrThreadMsg }} Antworten</span>
-        <span class="thread-last-reply-time">Letzte Antwort {{ lastThreadMsgTime.getHours() }}:{{
-          lastThreadMsgTime.getMinutes() }}</span>
-      </div>
+      @defer {
+
+        @if(msgType == 'channel'){
+
+          @if (threadIndex) {
+            <div class="msg-thread-wrapper">
+              <span class="thread-replies" (click)="toggleThreads()"> {{ threadIndex.amount }} Antworten</span>
+              @if (threadIndex.time != null){
+                <span class="thread-last-reply-time">Letzte Antwort {{ createTime(threadIndex.time).getHours() }}:{{
+                  createTime(threadIndex.time).getMinutes() }}</span>
+              }
+              </div>
+          }
+        }
       }
       <div class="reaction-wrapper">
         @if(message.reactions.length > 0){

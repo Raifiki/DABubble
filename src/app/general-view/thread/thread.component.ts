@@ -56,6 +56,7 @@ export class ThreadComponent {
 
   saveThreadMessage() {
     this.threadService.saveThread(this.getMessageObj());
+
     this.messageContent = '';
   }
 

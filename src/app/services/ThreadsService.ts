@@ -30,10 +30,9 @@ export class ThreadsService {
   unsubMessage!: Subscription;
   isShowingSig = signal(false);
   messages: Message[] = [];
-  threadMessages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>(
-    []
-  );
-
+  threadMessages$: BehaviorSubject<Message[]> = new BehaviorSubject<Message[]>([]);
+  threadAmount: [{}] = [{}]
+  activeChannel: string = ''
 
 
   constructor(
@@ -46,6 +45,7 @@ export class ThreadsService {
   }
 
   async getThread(messageId: string) {
+
     this.currentChannel = messageId
     let firstMessage: Message = new Message();
     this.idOfThisThreads = messageId;
@@ -68,8 +68,6 @@ export class ThreadsService {
         this.messages = this.messagesService.sortMessagesChronologically(
           this.messages
         );
-        console.log(this.messages);
-
         this.threadMessages$.next(this.messages);
       }
     );
@@ -117,6 +115,7 @@ export class ThreadsService {
       doc(collection(this.getThreadColRef(this.idOfThisThreads), 'threads')),
       message.getCleanBEJSON()
     );
+    this.getMessagesOfChannel(this.activeChannel)
   }
 
   ngOnDestroy(): void {
@@ -145,4 +144,51 @@ export class ThreadsService {
     });
     return reactions;
   }
+
+  async getMessagesOfChannel(docId: string) {
+    this.threadAmount = [{}]
+    let messages: Message[] = []
+     onSnapshot(
+      this.messagesService.getMessageRef('Channels', docId),
+      (msgList) => {
+        msgList.forEach((msg) => {
+          let message = new Message(msg.data(), msg.id);
+          messages.push(message)
+        });
+        messages = this.messagesService.sortMessagesChronologically(messages)
+        messages.forEach((msg) => {
+            this.getNumberOfThreads(docId, msg.id)
+        })
+      }
+    );
+  }
+
+  async getNumberOfThreads(channelId: string, msgId:string) {
+    onSnapshot(collection((this.messagesService.getSingleMessageRef('Channels', channelId, msgId)), 'threads'), (threads) => {
+      let amount: number = 0
+      let time;
+      threads.forEach((thread) => {amount++;  
+          time = this.getTimeOfThread(thread.id, msgId)
+      })
+   this.threadAmount.push({amount:amount, time:time})
+   console.log(this.threadAmount)
+
+  })
+  this.threadAmount.splice(0)
+  this.channelService.numberOfThreads$.next(this.threadAmount)
+  }
+
+
+  async getTimeOfThread(threadId: string, msgId:string) {
+    onSnapshot(this.getThreadMsgRef(msgId, threadId), (thread) => {
+    if (thread.exists()) {
+      let allThreads: number[] = [];
+        allThreads.push(thread.data()['date'])
+        return allThreads[-1]
+    } else {
+      return null
+    }
+  });
+}
+
 }

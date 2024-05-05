@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // import classes
 import { Message } from '../../models/message.class';
 import { User } from '../../models/user.class';
 import { Reaction } from '../../models/reaction.class';
+
 
 // import services
 import { ThreadsService } from '../../../services/ThreadsService';
@@ -35,6 +36,7 @@ export class MessageContainerComponent {
   channelService = inject(ChannelService);
   directMessageService = inject(DirectMessageService);
 
+
   @Input() message: Message = new Message();
   @Input({ required: true }) msgType: 'channel' | 'directMsg' | 'thread' =
     'channel';
@@ -44,7 +46,7 @@ export class MessageContainerComponent {
     if (content) this.textarea = content;
   }
 
-  nrThreadMsg: Number = 2;
+  @Input() threadIndex!:any;
   lastThreadMsgTime: Date = new Date();
 
   newMsgContent!: string;
@@ -54,11 +56,17 @@ export class MessageContainerComponent {
   showEmojiPickerEditMsg: boolean = false;
   showEmojiPickerReaction: boolean = false;
 
-  constructor() {}
+  constructor() {
+
+  }
+ createTime(time: number) {
+    return new Date(time)
+ }
 
   toggleThreads() {
     this.threadService.isShowingSig.set(true);
     this.threadService.getThread(this.message.id);
+    this.threadService.activeChannel = (this.channelService.activeChannel$.value.id)
   }
 
   toggleMsgMenu(event: Event) {

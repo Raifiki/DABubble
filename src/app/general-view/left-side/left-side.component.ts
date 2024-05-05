@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 // customer components
 import { UserlistitemComponent } from '../../shared/components/userlistitem/userlistitem.component';
@@ -18,6 +18,10 @@ import { DirectMessageService } from '../../services/direct-message.service';
 import { User } from '../../shared/models/user.class';
 import { Channel } from '../../shared/models/channel.class';
 import { DirektMessage } from '../../shared/models/direct-message.class';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { Message } from '../../shared/models/message.class';
+import { ThreadComponent } from '../thread/thread.component';
+import { ThreadsService } from '../../services/ThreadsService';
 
 // impoort types
 
@@ -34,6 +38,7 @@ export class LeftSideComponent {
     directMessages: false,
   };
 
+
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
@@ -48,6 +53,11 @@ export class LeftSideComponent {
 
   directMessages: DirektMessage[] = [];
   unsubDirectMessages: Subscription;
+  threadService = inject(ThreadsService)
+  
+
+
+
   constructor(private userService: UserService) {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
       (activeUser) => (this.activeUser = activeUser)
@@ -84,5 +94,15 @@ export class LeftSideComponent {
     this.unsubChannels.unsubscribe();
     this.unsubDirectMessages.unsubscribe();
     this.unsubActiveUser.unsubscribe();
+  }
+
+
+
+   getMessagesOfChannel(docId: string) {
+    this.threadService.getMessagesOfChannel(docId)
+  }
+
+  getNumberOfThreads(channelId: string, msgId:string) {
+   this.threadService.getNumberOfThreads(channelId,msgId)
   }
 }
