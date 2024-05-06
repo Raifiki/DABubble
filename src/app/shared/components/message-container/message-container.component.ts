@@ -98,13 +98,22 @@ export class MessageContainerComponent {
     event.stopPropagation();
     if (this.msgType == 'thread') {
       this.threadService.deleteThreadMessage(this.message.id);
+      this.deleteFiles();
     } else {
       this.messageService.deleteMessage(
         this.getCollectionID(),
         this.getDocId(),
         this.message.id
       );
+      this.deleteFiles();
     }
+  }
+
+   deleteFiles(){
+     this.message.files.forEach(fileName => {
+      let storageRef = this.getStorageRef();
+      if(storageRef) this.storageService.deleteFile(storageRef, fileName);
+    })
   }
 
   updateMessage() {
@@ -244,7 +253,7 @@ export class MessageContainerComponent {
   }
 
   getFileType(fileName:string){
-    let type = fileName.split('.').splice(-1)[0];
+    let type = fileName.split('.').splice(-1)[0].toLocaleLowerCase();
     if(type == 'png' || type == 'jpg' ||type == 'jpeg' ||type == 'svg' ||type == 'tif' ||type == 'bmp' || type == 'emf' || type == 'gif' || type == 'png') 
       type = 'img';
     return type;
