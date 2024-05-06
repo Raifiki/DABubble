@@ -15,6 +15,7 @@ import { UserService } from '../../../services/user.service';
 import { MessageService } from '../../../services/message.service';
 import { ChannelService } from '../../../services/channel.service';
 import { DirectMessageService } from '../../../services/direct-message.service';
+import { StorageService } from '../../../services/storage.service';
 
 // imort customer components
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
@@ -35,6 +36,7 @@ export class MessageContainerComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
   directMessageService = inject(DirectMessageService);
+  storageService = inject(StorageService);
 
 
   @Input() message: Message = new Message();
@@ -212,4 +214,88 @@ export class MessageContainerComponent {
     }
     return names;
   }
+
+  getFileImgPath(fileName: string){
+    let imgPath = 'assets/img/fileType/document.png';
+    let fileType = this.getFileType(fileName);
+    switch (fileType) {
+      case 'img':
+        imgPath = 'assets/img/fileType/image.png';
+        break;
+      case 'pdf':
+        imgPath = 'assets/img/fileType/pdf.png';
+        break;
+      case 'word':
+        imgPath = 'assets/img/fileType/word.png';
+        break;
+      case 'zip':
+        imgPath = 'assets/img/fileType/zip.png';
+        break;
+      case 'ppt':
+        imgPath = 'assets/img/fileType/ppt.png';
+        break;
+      case 'excel':
+        imgPath = 'assets/img/fileType/excel.png';
+        break;
+      default:
+        break;
+    }
+    return imgPath
+  }
+
+  getFileType(fileName:string){
+    let type = fileName.split('.').splice(-1)[0];
+    if(type == 'png' || type == 'jpg' ||type == 'jpeg' ||type == 'svg' ||type == 'tif' ||type == 'bmp' || type == 'emf' || type == 'gif' || type == 'png') 
+      type = 'img';
+    return type;
+  }
+
+  deleteFile(idx:number){
+    let fileName = this.message.files[idx];
+    let storageRef = this.getStorageRef();
+    if(storageRef) this.storageService.deleteFile(storageRef, fileName);
+
+    this.message.files.splice(idx,1);
+    if (this.msgType == 'thread') {
+      this.threadService.updateThreadMessage(this.message.id, this.message);
+    } else {
+      this.messageService.updateMessage(
+        this.getCollectionID(),
+        this.getDocId(),
+        this.message.id,
+        this.message
+      );
+    }
+  }
+
+  downloadFile(idx:number){
+    let fileName = this.message.files[idx];
+    let storageRef = this.getStorageRef();
+    if(storageRef) this.storageService.downloadFile(storageRef, fileName);
+  }
+
+
+  async openFile(idx:number){
+    let fileName = this.message.files[idx];
+    let storageRef = this.getStorageRef();
+    let url = (storageRef)? await this.storageService.getFileURL(storageRef, fileName):undefined;
+    if(url) window.open(url, '_blank')?.focus();
+  }
+
+  getStorageRef(){
+    let ref;
+    switch (this.msgType) {
+      case 'channel':
+        ref = this.storageService.getChannelMsgRef(this.channelService.activeChannel$.value.id, this.message.id);
+        break;
+      case 'directMsg':
+        ref = this.storageService.getDirectMessagesMsgRef(this.directMessageService.activeDirectMessage$.value.id, this.message.id);
+      break;
+      case 'thread':
+        // to do
+      break;
+    }
+    return ref;
+  }
+
 }
