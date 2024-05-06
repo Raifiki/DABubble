@@ -156,6 +156,8 @@ export class TextareaContainerComponent {
         this.newMessage
       );
 
+      //Pfad anpassen um die files mit dem richtigen Pfad zu speichern
+      //abfragen ob es sich un Channel/Directmessage/Thread handelt
       if (msgId && this.files.length > 0) {
         this.storageRef = this.storageService.getChannelMsgRef(
           this.channel.id,
@@ -201,7 +203,9 @@ export class TextareaContainerComponent {
       const fileList: any = (event.target as HTMLInputElement).files;
       if (fileList && fileList.length > 0) {
         const file: File = fileList[0];
-        console.log('Ausgewählte Datei:', file);
+
+        //File type abfangen und nur bestimmte zulassen
+        console.log('Ausgewählte Datei:', file.type);
         this.files.push(file);
       }
     });

@@ -112,13 +112,13 @@ export class ThreadsService {
       this.messages[0].answers.lastAnswer =
         this.messages[this.messages.length - 2].answers.lastAnswer;
     }
-    await deleteDoc(this.getThreadMsgRef(this.idOfThisThreads, threadMsgID));
     this.messagesService.updateMessage(
       'Channels',
       this.activeChannel,
       this.idOfThisThreads,
       this.messages[0]
     );
+    await deleteDoc(this.getThreadMsgRef(this.idOfThisThreads, threadMsgID));
   }
 
   async saveThread(message: Message) {
@@ -152,8 +152,8 @@ export class ThreadsService {
     };
   }
 
-  getCleanAnswersObj(obj:any){
-    return {amount: obj.amount,lastAnswer: new Date(obj.lastAnswer)}
+  getCleanAnswersObj(obj: any) {
+    return { amount: obj.amount, lastAnswer: new Date(obj.lastAnswer) };
   }
 
   getCleanReactionArray(obj: any) {
