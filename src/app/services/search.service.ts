@@ -95,8 +95,9 @@ async loadAllMessages() {
         msgList.forEach((msg) => {
           const MESSAGE = new Message(
             this.messageService.getCleanMessageObj(msg.data()),
-            msg.id
+            msg.id, 
           );
+          MESSAGE.messageOfChannel = channel.id
           messages.push(MESSAGE);
 
         });
@@ -104,13 +105,6 @@ async loadAllMessages() {
       })
   })
 }
-
-async loadAllThreads() {
-  this.listOfAllMessages.forEach( (message) => {
-      let messageID
-  })
-}
-
   
  searchMessages(input: string) {
   this.loadAllMessages()
@@ -120,13 +114,12 @@ async loadAllThreads() {
     if (messageToCompareWith.includes(input.toLowerCase())) {
       this.searchMessageResult.push(message)
     }
+
   })
 }
 
 showChannelName(message: Message): string | undefined {
-  console.log(message)
   const channelId = message.messageOfChannel;
-  console.log('channel ID ist ',channelId)
   const foundChannel = this.listOfAllChannels.find(channel => channel.id === channelId);
   return foundChannel ? foundChannel.name : undefined;
 }

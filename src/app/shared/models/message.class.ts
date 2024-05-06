@@ -36,7 +36,7 @@ export class Message {
       reaction: this.getReactionArray(),
       files: this.files,
       answers: this.getBEAnswersObj(),
-      messageOfChannel: channelId ? channelId : this.messageOfChannel
+      messageOfChannel: this.messageOfChannel
     };
   }
 
