@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -47,7 +47,7 @@ import { DirektMessage } from '../shared/models/direct-message.class';
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
 })
-export class GeneralViewComponent {
+export class GeneralViewComponent  {
   activeUser!: User;
   searchInput!: string;
 
@@ -75,6 +75,7 @@ export class GeneralViewComponent {
       this.activeUser = userData;
     });
 
+
     this.channelService.subChannel(this.activeUser.channelIDs[0]);
     this.unsubChannel = this.channelService.activeChannel$.subscribe(
       (channel) => {
@@ -100,10 +101,13 @@ export class GeneralViewComponent {
   }
 
 
+
+
   onInputChange() {
     this.isSearchFieldEmpty()
      this.searchService.searchUsers(this.searchInput);
     this.searchService.searchChannels(this.searchInput);
+    this.searchService.searchMessages(this.searchInput)
   }
 
   onResultClick() {

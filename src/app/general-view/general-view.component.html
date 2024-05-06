@@ -28,6 +28,13 @@
               </p>
           </ng-container>
       </div>
+      <div *ngIf="searchService.searchMessageResult.length > 0" class="message-result">
+        <h4>Messages:</h4>
+        <ng-container *ngFor="let result of searchService.searchMessageResult">
+            <p (click)="channelService.subChannel(result.messageOfChannel); onResultClick()">{{searchService.showChannelName(result)}} - {{ result.content }}
+            </p>
+        </ng-container>
+    </div>
     </div>
 
     <div class="user">

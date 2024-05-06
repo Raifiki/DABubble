@@ -35,7 +35,7 @@ export class MessageService implements OnInit {
   ) {
     let newId;
     if (colId) {
-      await addDoc(this.getMessageRef(colId, docId), message.getCleanBEJSON())
+      await addDoc(this.getMessageRef(colId, docId), message.getCleanBEJSON(docId))
         .then((docRef) => {
           console.log('Message added to direct message successfully');
           newId = docRef?.id;
@@ -100,8 +100,10 @@ export class MessageService implements OnInit {
         msgList.forEach((msg) => {
           const MESSAGE = new Message(
             this.getCleanMessageObj(msg.data()),
-            msg.id
+            msg.id,
+            
           );
+          MESSAGE.messageOfChannel = docId
           messages.push(MESSAGE);
           console.log(MESSAGE);
           
@@ -127,6 +129,7 @@ export class MessageService implements OnInit {
       answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
+      messageOfChannelID: obj.messageOfChannel
     };
   }
 

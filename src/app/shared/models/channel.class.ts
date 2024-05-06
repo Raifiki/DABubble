@@ -28,4 +28,6 @@ export class Channel {
             userID: this.members.map(member => member.id),
         }
     }
+
+
 }

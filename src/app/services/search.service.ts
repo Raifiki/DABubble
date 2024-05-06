@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
-import { collection } from 'firebase/firestore';
+import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { UserService } from './user.service';
 import { ThreadsService } from './ThreadsService';
 import { MessageService } from './message.service';
@@ -8,6 +8,7 @@ import { ChannelService } from './channel.service';
 import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user.class';
 import { Channel } from '../shared/models/channel.class';
+import { Message } from '../shared/models/message.class';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +21,22 @@ export class SearchService {
   messageService = inject(MessageService)
   channelService = inject(ChannelService)
 
+
+
   
   searchUserResult:User[] = [];
   searchChannelsResult:Channel[] = [];
-  threads = [];
+  searchMessageResult: Message[] = []
+  searchThreadResult: Message[] = []
   listOfAllUsers: User[] = [];
   listOfAllChannels: Channel[] = []
+  listOfAllMessages: Message[] = [] 
+  listOfAllThreads: Message[] = [] 
+
  
   unsubUsers: Subscription
   unsubChannel: Subscription
+  unsubMessages!: Subscription
 
   constructor() {
 
@@ -38,11 +46,13 @@ export class SearchService {
     this.unsubChannel = this.channelService.channels$.subscribe((list) => {
       this.listOfAllChannels = list
     })
+
    }
 
    ngOnDestroy(): void {
     this.unsubUsers.unsubscribe()
     this.unsubChannel.unsubscribe()
+    this.unsubMessages.unsubscribe()
    }
 
 
@@ -75,42 +85,74 @@ searchChannels(input: string) {
     })
 }
 
+async loadAllMessages() {
+  this.listOfAllChannels.forEach( (channel) => {
+      let channelId = channel.id
+     onSnapshot(
+      this.getMessageRef('Channels', channelId),
+      (msgList) => {
+        let messages: Message[] = [];
+        msgList.forEach((msg) => {
+          const MESSAGE = new Message(
+            this.messageService.getCleanMessageObj(msg.data()),
+            msg.id
+          );
+          messages.push(MESSAGE);
+
+        });
+        this.listOfAllMessages = messages
+      })
+  })
+}
+
+async loadAllThreads() {
+  this.listOfAllMessages.forEach( (message) => {
+      let messageID
+  })
+}
+
+  
+ searchMessages(input: string) {
+  this.loadAllMessages()
+  this.searchMessageResult = []
+  this.listOfAllMessages.forEach((message) => {
+    let messageToCompareWith = message.content.toLowerCase()
+    if (messageToCompareWith.includes(input.toLowerCase())) {
+      this.searchMessageResult.push(message)
+    }
+  })
+}
+
+showChannelName(message: Message): string | undefined {
+  console.log(message)
+  const channelId = message.messageOfChannel;
+  console.log('channel ID ist ',channelId)
+  const foundChannel = this.listOfAllChannels.find(channel => channel.id === channelId);
+  return foundChannel ? foundChannel.name : undefined;
+}
 
 
 
-// searchThreads(input: string) {
-//   this.threads = [];
-//   return onSnapshot(q, (list) => {
-//     list.forEach((element) => {
-//       let members = element.data()['members'];
-//       let docId = element.id;
-//       let channelName = element.data()['name'];
-//         this.findThreads(input, docId, channelName)
-//     });
-//   });
-// }
 
-
-// findThreads(input: string, docId: string, channelName: string) {
-//   let channelDocRef = doc(this.channelRef, docId);
-//   let threadsRef = collection(channelDocRef, 'threads');
-//   onSnapshot(threadsRef, (threadSnapshot) => {
-//     threadSnapshot.forEach((threadDoc) => {
-//       let compare = threadDoc.data()['message'].toLowerCase();
-//       if (compare.includes(input.toLowerCase())) {
-//         this.threads.push({ id: docId, channelName: channelName, ...threadDoc.data() });
-//       }
-//     });
-//   });
-// }
 
 
 noResultFound() {
-  if (this.searchChannelsResult.length === 0 && this.searchUserResult.length === 0 && this.threads.length === 0) {
+  if (this.searchChannelsResult.length === 0 && this.searchUserResult.length === 0 && this.searchMessageResult.length === 0) {
     return true;
   } else {
     return false;
   }
+}
+getMessageRef(colId: string, docId: string) {
+  return collection(this.getSingleDocRef(colId, docId), 'messages');
+}
+
+getCollectionRef(colId: string) {
+  return collection(this.firebaseInitService.getDatabase(), colId);
+}
+
+getSingleDocRef(colId: string, docId: string) {
+  return doc(this.getCollectionRef(colId), docId);
 }
 
 

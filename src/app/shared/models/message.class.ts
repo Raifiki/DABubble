@@ -1,4 +1,5 @@
 // import classes
+
 import { Reaction } from './reaction.class';
 import { User } from './user.class';
 
@@ -10,8 +11,9 @@ export class Message {
   answers: {amount: number; lastAnswer: Date};
   reactions: Reaction[] = [];
   files: string[] = []; // muss noch geklärt werden was wir hier speichern --> Idee: Link/name auf Datei in store
+  messageOfChannel: string;
 
-  constructor(obj?: any, id?: string) {
+  constructor(obj?: any, id?: string, channelId?: string) {
     this.id = id ? id : '';
     this.creator = obj ? obj.creator : new User();
     this.date = obj ? this.getDate(obj.date) : new Date();
@@ -19,13 +21,14 @@ export class Message {
     this.answers = obj ? obj.answers : {amount: 0 , lastAnswer: new Date()};
     this.reactions = obj ? obj.reactions : [];
     this.files = obj ? obj.files : [];
+    this.messageOfChannel = channelId ? channelId : '';
   }
 
   private getDate(time: number) {
     return new Date(time);
   }
 
-  getCleanBEJSON() {
+  getCleanBEJSON(channelId?:string) {
     return {
       creatorId: this.creator.id,
       date: this.date.getTime(),
@@ -33,6 +36,7 @@ export class Message {
       reaction: this.getReactionArray(),
       files: this.files,
       answers: this.getBEAnswersObj(),
+      messageOfChannel: channelId ? channelId : this.messageOfChannel
     };
   }
 
@@ -57,4 +61,5 @@ export class Message {
       if (this.reactions[idx].users.length == 0) this.reactions.splice(idx, 1);
     }
   }
+
 }

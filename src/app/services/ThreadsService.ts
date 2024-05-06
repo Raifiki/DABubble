@@ -149,6 +149,7 @@ export class ThreadsService {
       answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
+      messageOfChannel: obj.messageOfChannel
     };
   }
 
