@@ -45,14 +45,14 @@ export class TextareaContainerComponent {
   userService = inject(UserService);
   storageService = inject(StorageService);
   directMessagesService = inject(DirectMessageService);
-  threadsService = inject(ThreadsService)
-  
+  threadsService = inject(ThreadsService);
+
   user!: User;
-  
+
   activeUser: User = new User();
   unsubscribeActiveUser;
-  
-  @Input() isThread: boolean = false
+
+  @Input() isThread: boolean = false;
   @Input() channel: Channel = {} as Channel;
   @Input() directMessage: DirektMessage = {} as DirektMessage;
   @Input() colId: 'Channels' | 'directMessages' | undefined;
@@ -144,28 +144,37 @@ export class TextareaContainerComponent {
       message.date = new Date();
       message.files = []; // add files if function is available
       message.reactions = [];
-        this.threadsService.saveThread(message)
-        this.newMessage.content = ''
-    }else {
+      this.threadsService.saveThread(message);
+      this.newMessage.content = '';
+    } else {
       this.fullfillMsgData();
-      let id = (this.colId === 'Channels')? this.channel.id : this.directMessage.id;
-      let msgId = await this.messageService.addMessageToCollection(this.colId,id,this.newMessage);
+      let id =
+        this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
+      let msgId = await this.messageService.addMessageToCollection(
+        this.colId,
+        id,
+        this.newMessage
+      );
 
-    if (msgId && this.files.length > 0) {
-      this.storageRef = this.storageService.getChannelMsgRef(this.channel.id,msgId);
-      this.files.forEach((file) => {this.storageService.uploadFile(this.storageRef, file);});
+      if (msgId && this.files.length > 0) {
+        this.storageRef = this.storageService.getChannelMsgRef(
+          this.channel.id,
+          msgId
+        );
+        this.files.forEach((file) => {
+          this.storageService.uploadFile(this.storageRef, file);
+        });
+      }
+      this.newMessage = new Message();
+      this.files = [];
     }
-    this.newMessage = new Message();
-    this.files = [];
   }
-}
 
-  fullfillMsgData(){
+  fullfillMsgData() {
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
-    this.files.forEach(file => this.newMessage.files.push(file.name));
+    this.files.forEach((file) => this.newMessage.files.push(file.name));
   }
-  
 
   addUser(user: User) {
     let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
@@ -196,6 +205,55 @@ export class TextareaContainerComponent {
         this.files.push(file);
       }
     });
+  }
+
+  getFileImgPath(fileName: string) {
+    let imgPath = 'assets/img/fileType/document.png';
+    let fileType = this.getFileType(fileName);
+    switch (fileType) {
+      case 'img':
+        imgPath = 'assets/img/fileType/image.png';
+        break;
+      case 'pdf':
+        imgPath = 'assets/img/fileType/pdf.png';
+        break;
+      case 'word':
+        imgPath = 'assets/img/fileType/word.png';
+        break;
+      case 'zip':
+        imgPath = 'assets/img/fileType/zip.png';
+        break;
+      case 'ppt':
+        imgPath = 'assets/img/fileType/ppt.png';
+        break;
+      case 'excel':
+        imgPath = 'assets/img/fileType/excel.png';
+        break;
+      default:
+        break;
+    }
+    return imgPath;
+  }
+
+  getFileType(fileName: string) {
+    let type = fileName.split('.').splice(-1)[0].toLocaleLowerCase();
+    if (
+      type == 'png' ||
+      type == 'jpg' ||
+      type == 'jpeg' ||
+      type == 'svg' ||
+      type == 'tif' ||
+      type == 'bmp' ||
+      type == 'emf' ||
+      type == 'gif' ||
+      type == 'png'
+    )
+      type = 'img';
+    return type;
+  }
+
+  deleteFile(idx: any) {
+    this.files.splice(idx, 1);
   }
 
   ngOnDestroy() {

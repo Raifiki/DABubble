@@ -24,6 +24,19 @@
         name="description"
         #textarea
       ></textarea>
+      <div class="files-wrapper">
+        @for (file of files; track file; let idx = $index) {
+        <div class="file">
+          <img src="{{ getFileImgPath(file.name) }}" alt="fileImg" />
+          <span>{{ file.name }}</span>
+          <div class="file-btn-wrapper">
+            <button class="btn-default icon-btn" (click)="deleteFile(idx)">
+              <div class="delete-btn-icon"></div>
+            </button>
+          </div>
+        </div>
+        }
+      </div>
       <div class="icons">
         <div class="left-side">
           <img
