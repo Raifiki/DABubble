@@ -158,13 +158,14 @@ export class TextareaContainerComponent {
     this.newMessage = new Message();
     this.files = [];
   }
+}
 
   fullfillMsgData(){
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
     this.files.forEach(file => this.newMessage.files.push(file.name));
   }
-  }
+  
 
   addUser(user: User) {
     let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
