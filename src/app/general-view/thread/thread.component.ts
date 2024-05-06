@@ -10,6 +10,7 @@ import { MessageService } from '../../services/message.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { TextareaContainerComponent } from '../../shared/components/textarea-container/textarea-container.component';
 
 @Component({
   selector: 'app-thread',
@@ -19,6 +20,7 @@ import { UserService } from '../../services/user.service';
     MessageContainerComponent,
     MessageContainerComponent,
     FormsModule,
+    TextareaContainerComponent
   ],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
@@ -56,7 +58,6 @@ export class ThreadComponent {
 
   saveThreadMessage() {
     this.threadService.saveThread(this.getMessageObj());
-
     this.messageContent = '';
   }
 

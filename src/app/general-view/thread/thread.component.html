@@ -18,16 +18,11 @@
         }
       }
   </div>
-  <div class="form-field-textarea-style2 pad20">
-    <div class="textarea-field-wrapper">
-      <textarea
-        placeholder="Antworten..."
-        name="description"
-        #textarea
-        [(ngModel)]="messageContent"
-      ></textarea>
-      <button (click)="saveThreadMessage()">SPEICHERN</button>
-    </div>
+  <div class="textarea">
+    <app-textarea-container
+      [isThread]="true"
+      [colId]="'Channels'"
+    ></app-textarea-container>
   </div>
 </div>
 

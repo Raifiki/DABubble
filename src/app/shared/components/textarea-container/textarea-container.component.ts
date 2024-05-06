@@ -24,6 +24,7 @@ import { StorageService } from '../../../services/storage.service';
 import { StorageReference, getBlob, ref } from 'firebase/storage';
 import { DirektMessage } from '../../models/direct-message.class';
 import { DirectMessageService } from '../../../services/direct-message.service';
+import { ThreadsService } from '../../../services/ThreadsService';
 
 @Component({
   selector: 'app-textarea-container',
@@ -44,12 +45,14 @@ export class TextareaContainerComponent {
   userService = inject(UserService);
   storageService = inject(StorageService);
   directMessagesService = inject(DirectMessageService);
-
+  threadsService = inject(ThreadsService)
+  
   user!: User;
-
+  
   activeUser: User = new User();
   unsubscribeActiveUser;
-
+  
+  @Input() isThread: boolean = false
   @Input() channel: Channel = {} as Channel;
   @Input() directMessage: DirektMessage = {} as DirektMessage;
   @Input() colId: 'Channels' | 'directMessages' | undefined;
@@ -134,9 +137,19 @@ export class TextareaContainerComponent {
   }
 
   async sendNewMessage() {
-    let id;
-    if (this.colId === 'Channels') {
-      id = this.channel.id;
+    if (this.isThread) {
+      let message = new Message();
+      message.creator = this.userService.activeUser$.value;
+      message.content = this.newMessage.content;
+      message.date = new Date();
+      message.files = []; // add files if function is available
+      message.reactions = [];
+        this.threadsService.saveThread(message)
+        this.newMessage.content = ''
+    }else {
+      let id;
+      if (this.colId === 'Channels') {
+        id = this.channel.id;
     } else {
       id = this.directMessage.id;
     }
@@ -159,6 +172,7 @@ export class TextareaContainerComponent {
       });
     }
     this.newMessage = new Message();
+  }
   }
 
   addUser(user: User) {
