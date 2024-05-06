@@ -134,31 +134,21 @@ export class TextareaContainerComponent {
   }
 
   async sendNewMessage() {
-    let id;
-    if (this.colId === 'Channels') {
-      id = this.channel.id;
-    } else {
-      id = this.directMessage.id;
-    }
-    this.newMessage.creator = this.activeUser;
-    this.newMessage.date = new Date();
-    console.log(this.colId);
-
-    let msgId = await this.messageService.addMessageToCollection(
-      this.colId,
-      id,
-      this.newMessage
-    );
+    this.fullfillMsgData();
+    let id = (this.colId === 'Channels')? this.channel.id : this.directMessage.id;
+    let msgId = await this.messageService.addMessageToCollection(this.colId,id,this.newMessage);
     if (msgId && this.files.length > 0) {
-      this.storageRef = this.storageService.getChannelMsgRef(
-        this.channel.id,
-        msgId
-      );
-      this.files.forEach((file) => {
-        this.storageService.uploadFile(this.storageRef, file);
-      });
+      this.storageRef = this.storageService.getChannelMsgRef(this.channel.id,msgId);
+      this.files.forEach((file) => {this.storageService.uploadFile(this.storageRef, file);});
     }
     this.newMessage = new Message();
+    this.files = [];
+  }
+
+  fullfillMsgData(){
+    this.newMessage.creator = this.activeUser;
+    this.newMessage.date = new Date();
+    this.files.forEach(file => this.newMessage.files.push(file.name));
   }
 
   addUser(user: User) {
