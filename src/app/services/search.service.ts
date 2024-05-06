@@ -46,53 +46,36 @@ export class SearchService {
    }
 
 
-searchUsers(input: string) {
-  this.searchUserResult = [];
-  return this.listOfAllUsers.forEach((user) => {
-    let nameToCompareWith = user.name.toLowerCase();
-    if (nameToCompareWith.includes(input.toLowerCase())) {
-      this.searchUserResult.push(user);
-      console.log(this.searchUserResult)
-    }
-  })
-}
-
-
-seachUsersAt(input: string) {
-  this.searchUserResult = [];
-  return this.listOfAllUsers.forEach((user) => {
-    let nameToCompareWith = user.name.toLowerCase();
-      if (nameToCompareWith.includes(input.slice(1).toLowerCase())) {
+   searchUsers(input: string) {
+    this.searchUserResult = [];
+    return this.listOfAllUsers.forEach((user) => {
+      let nameToCompareWith = user.name.toLowerCase();
+      if (input.startsWith('@')) {
+        if (nameToCompareWith.startsWith(input.slice(1).toLowerCase())) {
+          this.searchUserResult.push(user);
+        }
+      } else if (nameToCompareWith.includes(input.toLowerCase())) {
         this.searchUserResult.push(user);
-        console.log(this.searchUserResult)
       }
-    })
-}
+    });
+  }
 
 
 searchChannels(input: string) {
   this.searchChannelsResult = [];
   return this.listOfAllChannels.forEach(channel => {
-      let channelToCompareWith = channel['name'].toLowerCase();
-      let docId = channel.id;
-        if (channelToCompareWith.includes(input.toLowerCase())) {
+      let channelToCompareWith = channel.name.toLowerCase();
+      if (input.startsWith('#')) {
+        if(channelToCompareWith.includes(input.slice(1).toLowerCase()))
+        this.searchChannelsResult.push(channel);
+      }
+        else if (channelToCompareWith.includes(input.toLowerCase())) {
           this.searchChannelsResult.push(channel);
-          console.log(this.searchChannelsResult)
         }
     })
 }
 
-searchChannelsAt(input: string) {
-  this.searchChannelsResult = [];
-  return this.listOfAllChannels.forEach(channel => {
-      let channelToCompareWith = channel['name'].toLowerCase();
-      let docId = channel.id;
-        if (channelToCompareWith.includes(input.slice(1).toLowerCase())) {
-          this.searchChannelsResult.push(channel);
-          console.log(this.searchChannelsResult)
-        }
-  })
-}
+
 
 
 // searchThreads(input: string) {

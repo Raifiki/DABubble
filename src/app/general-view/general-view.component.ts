@@ -102,13 +102,7 @@ export class GeneralViewComponent {
 
   onInputChange() {
     this.isSearchFieldEmpty()
-    if (this.searchInput.startsWith('@')) {
-      this.searchService.seachUsersAt(this.searchInput);
-    }
-    if (this.searchInput.startsWith('#')) {
-      this.searchService.searchChannelsAt(this.searchInput);
-    }
-    this.searchService.searchUsers(this.searchInput);
+     this.searchService.searchUsers(this.searchInput);
     this.searchService.searchChannels(this.searchInput);
   }
 
