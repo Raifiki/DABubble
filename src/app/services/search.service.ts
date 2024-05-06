@@ -48,7 +48,7 @@ export class SearchService {
 
    searchUsers(input: string) {
     this.searchUserResult = [];
-    return this.listOfAllUsers.forEach((user) => {
+     this.listOfAllUsers.forEach((user) => {
       let nameToCompareWith = user.name.toLowerCase();
       if (input.startsWith('@')) {
         if (nameToCompareWith.startsWith(input.slice(1).toLowerCase())) {
@@ -63,7 +63,7 @@ export class SearchService {
 
 searchChannels(input: string) {
   this.searchChannelsResult = [];
-  return this.listOfAllChannels.forEach(channel => {
+   this.listOfAllChannels.forEach(channel => {
       let channelToCompareWith = channel.name.toLowerCase();
       if (input.startsWith('#')) {
         if(channelToCompareWith.includes(input.slice(1).toLowerCase()))
