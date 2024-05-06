@@ -54,6 +54,10 @@ export class StorageService {
     return ref(this.storage,'directMessages/' + msgID);
   }
 
+  getDirectMessagesMsgRef(dmID:string ,msgID: string){
+    return ref(this.getChannelRef(dmID),msgID);
+  }
+
   getChannelRef(channelID: string){
     return ref(this.storage,'channels/' + channelID);
   }
