@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -25,6 +25,9 @@ import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
 import { MessageService } from '../services/message.service';
 import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.component';
+import { SearchService } from '../services/search.service';
+import { DirectMessageService } from '../services/direct-message.service';
+import { DirektMessage } from '../shared/models/direct-message.class';
 
 
 @Component({
@@ -46,7 +49,7 @@ import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.
 })
 export class GeneralViewComponent {
   activeUser!: User;
-  search!: string;
+  searchInput!: string;
 
   activeChannelId: string = '';
   channels?: Channel[];
@@ -55,11 +58,15 @@ export class GeneralViewComponent {
 
   messages: Message[] = [];
   unsubMessages: Subscription;
+  isSearchFieldEmptySig = signal(false)
 
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   messageService = inject(MessageService);
   registerService = inject(RegisterService)
+  searchService = inject(SearchService)
+  directMessageService = inject(DirectMessageService)
+
 
   subscription: Subscription;
 
@@ -91,4 +98,41 @@ export class GeneralViewComponent {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+
+  onInputChange() {
+    this.isSearchFieldEmpty()
+    if (this.searchInput.startsWith('@')) {
+      this.searchService.seachUsersAt(this.searchInput);
+    }
+    if (this.searchInput.startsWith('#')) {
+      this.searchService.searchChannelsAt(this.searchInput);
+    }
+    this.searchService.searchUsers(this.searchInput);
+    this.searchService.searchChannels(this.searchInput);
+  }
+
+  onResultClick() {
+    if (this.searchInput) {
+      this.searchInput = '';
+      this.isSearchFieldEmptySig.set(false)
+    }
+  }
+
+isSearchFieldEmpty() {
+ this.searchInput.length > 0 ? this.isSearchFieldEmptySig.set(true) :  this.isSearchFieldEmptySig.set(false) 
+}
+
+getUser(users: User[]): User {
+  return users.length > 1
+    ? users.find((user) => user.id != this.activeUser.id) || new User()
+    : users[0];
+}
+
+async openDirectMessage(user: User) {
+  this.overlayCtrlService.selectUser(user);
+  let messageId = await this.directMessageService.checkForRightMessage(user)
+  this.overlayCtrlService.showMessageComponent('directMessage', messageId);
+}
+
 }

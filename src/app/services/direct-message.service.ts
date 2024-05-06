@@ -10,7 +10,7 @@ import {
   collectionData,
 } from '@angular/fire/firestore';
 import { DirektMessage } from '../shared/models/direct-message.class';
-import { deleteDoc, updateDoc } from 'firebase/firestore';
+import { QuerySnapshot, deleteDoc, updateDoc } from 'firebase/firestore';
 import { UserService } from './user.service';
 import { User } from '../shared/models/user.class';
 import { Message } from '../shared/models/message.class';
@@ -110,5 +110,23 @@ export class DirectMessageService implements OnInit {
     );
     console.log('alles gut start');
     this.messageService.subMessages('directMessages', directMsgId);
+  }
+
+  async checkForRightMessage(user: User): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      onSnapshot(this.getDirectMessagesRef(), (list) => {
+        let rightMessageID: string = '';
+        list.forEach((directMsg) => {
+          let messageData = directMsg.data();
+          if (
+            messageData['userIds'].includes(this.userService.activeUser$.value.id) &&
+            messageData['userIds'].includes(user.id)
+          ) {
+            rightMessageID = directMsg.id;
+          }
+        });
+        resolve(rightMessageID);
+      });
+    });
   }
 }

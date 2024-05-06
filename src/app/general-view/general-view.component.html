@@ -4,9 +4,32 @@
     <input
       type="search"
       placeholder="Code learning durchsuchen"
-      [(ngModel)]="search"
+      [(ngModel)]="searchInput"
       class="search-bar"
+      (ngModelChange)="onInputChange()"
     />
+
+    <div class="result-field" id="result-field"  *ngIf="this.isSearchFieldEmptySig()">
+      <div *ngIf="searchService.searchUserResult.length > 0">
+          <h4>Users:</h4>
+          <ng-container *ngFor="let result of searchService.searchUserResult">
+              <div (click)=" onResultClick()" class="userResultContainer">
+                  <img src="{{ result.imgPath }}" alt="">
+              <p (click)="openDirectMessage(result); onResultClick()">{{
+                  result['name'] }}
+              </p>
+              </div>
+          </ng-container>
+      </div>
+      <div *ngIf="searchService.searchChannelsResult.length > 0" class="channels-result">
+          <h4>Channels:</h4>
+          <ng-container *ngFor="let result of searchService.searchChannelsResult">
+              <p (click)="channelService.subChannel(result.id); onResultClick()">{{ result.name }}
+              </p>
+          </ng-container>
+      </div>
+    </div>
+
     <div class="user">
       <div>{{ this.activeUser.name }}</div>
       <div>
