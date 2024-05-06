@@ -52,7 +52,7 @@ export class NewMessageComponent {
     this.unsubUsersList = this.userService.usersList$.subscribe(data =>{ //
       this.users = data 
     })
-    // this.users = this.userService.usersList;
+
     this.unsubChannels = this.channelService.channels$.subscribe(channels => this.channels = channels);
   }
 
@@ -104,7 +104,7 @@ export class NewMessageComponent {
         await this.addNewMessageToDirectMessage(directMsg) 
         : await  this.createNewDirectMessage([this.activeUser, this.sendTo]);
       this.overlayCtrlService.showMessageComponent('directMessage',idDM);
-      // open Point: add new DirectMessageId to users
+      if(idDM) this.addDmToUsers([this.activeUser, this.sendTo],idDM);
     } else if(this.sendTo instanceof Channel){
       let channelID = this.sendTo?.id;
       if (channelID) {
@@ -114,15 +114,27 @@ export class NewMessageComponent {
     }
   }
 
+  addDmToUsers(users: User[], idDM: string){
+    users.forEach(user => {
+      if (!user.directMessagesIDs.includes(idDM)) {
+        user.directMessagesIDs.push(idDM);
+        this.userService.saveUser(user);
+      }
+    });
+  }
+
   existDirectMessage(user:User): DirektMessage | undefined {
-    let directMsg;
+    let directMsg:DirektMessage|undefined;    
     if(user.id == this.activeUser.id){
       this.directMessageService.directMessages$.value.forEach(directMessage => {
         if(directMessage.users.length == 1 && directMessage.users[0].id == user.id) directMsg = directMessage;
       });
     } else {
       this.directMessageService.directMessages$.value.forEach((directMessage) => {
-        if (directMessage.users.includes(user)) directMsg = directMessage;
+        console.log('debug Leo: ',directMsg);
+        console.log('debug Leo: ',directMessage.users.includes(user));
+        if (directMessage.users.some(aryUser => user.id == aryUser.id )) directMsg = directMessage;
+        
       });
     }
     return directMsg;
