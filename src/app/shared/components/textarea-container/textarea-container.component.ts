@@ -205,10 +205,22 @@ export class TextareaContainerComponent {
         const file: File = fileList[0];
 
         //File type abfangen und nur bestimmte zulassen
-        console.log('Ausgewählte Datei:', file.type);
-        this.files.push(file);
+        if (this.checkFileType(file)) {
+          this.files.push(file);
+        } else
+          alert(
+            'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png'
+          );
       }
     });
+  }
+
+  checkFileType(file: File): boolean {
+    if (this.getFileType(file.name) === 'type') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getFileImgPath(fileName: string) {
