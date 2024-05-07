@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,6 +10,9 @@ import { FirebaseInitService } from './firebase-init.service';
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { DirectMessageService } from './direct-message.service';
+import { ChannelService } from './channel.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +20,8 @@ import { UserService } from './user.service';
 export class RegisterService {
   googleProvider = new GoogleAuthProvider();
   userToCreate$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
+  directMessageService = inject(DirectMessageService)
+  channelService = inject(ChannelService)
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -86,12 +91,14 @@ export class RegisterService {
       );
       await this.userService.loadUser(userCredential.user.uid);
       this.userService.saveIdToLocalStorate(userCredential.user.uid);
-    } catch (error: any) {
+      } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
           error.message
       );
     }
+    await this.directMessageService.subDirectMessagesList()
+    await this.channelService.subChannels()
   }
 
   async logInTestUser() {

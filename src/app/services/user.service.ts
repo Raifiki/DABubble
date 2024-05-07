@@ -32,6 +32,12 @@ export class UserService {
     }
   }
 
+  ngOnInit() {
+    if (!this.activeUser$.value.isAuth) {
+      this.loadingUserFromStorage();
+    }
+  }
+
    getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users');
   }
@@ -49,6 +55,7 @@ export class UserService {
         listOfUsers.push(user);
       });
       this.usersList$.next(listOfUsers);
+      
     });
   }
 
@@ -85,6 +92,7 @@ export class UserService {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
+
     });
   }
 
