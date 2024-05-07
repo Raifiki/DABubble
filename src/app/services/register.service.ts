@@ -63,6 +63,7 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
+        console.log(result.user.photoURL)
         let userData = await this.userService.getUserRef(user.id)
         if (userData.id === user.id) {
           await this.userService.loadUser(userData.id)
@@ -72,7 +73,8 @@ export class RegisterService {
           this.router.navigate(['/generalView']);
         });
         }
-        
+        await this.directMessageService.subDirectMessagesList()
+        await this.channelService.subChannels()
       })
       .catch((error) => {
         alert(
