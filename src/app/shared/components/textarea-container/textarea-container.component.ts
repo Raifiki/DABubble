@@ -23,6 +23,7 @@ import { StorageReference } from 'firebase/storage';
 import { DirektMessage } from '../../models/direct-message.class';
 import { DirectMessageService } from '../../../services/direct-message.service';
 import { ThreadsService } from '../../../services/ThreadsService';
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 
 @Component({
   selector: 'app-textarea-container',
@@ -44,6 +45,7 @@ export class TextareaContainerComponent {
   storageService = inject(StorageService);
   directMessagesService = inject(DirectMessageService);
   threadsService = inject(ThreadsService);
+  overlayControlService = inject(OverlaycontrolService);
 
   activeUser: User = new User();
   unsubscribeActiveUser: Subscription;
@@ -52,6 +54,8 @@ export class TextareaContainerComponent {
   @Input() channel: Channel = {} as Channel;
   @Input() directMessage: DirektMessage = {} as DirektMessage;
   @Input() colId: 'Channels' | 'directMessages' | undefined;
+  @Input() isNewMessage: boolean = false;
+  @Input() sendTo!: Channel | User | undefined;
   unsubChannels: Subscription;
   channels: Channel[] = [];
 
@@ -136,36 +140,130 @@ export class TextareaContainerComponent {
 
   async sendNewMessage() {
     if (this.isThread) {
-      let message = new Message();
-      message.creator = this.userService.activeUser$.value;
-      message.content = this.newMessage.content;
-      message.date = new Date();
-      message.files = []; // add filenames
-      message.reactions = [];
-      this.threadsService.saveThread(message);
-      this.newMessage.content = '';
+      this.createThreadMessage();
+    } else if (this.isNewMessage) {
+      this.createNewMessage();
     } else {
-      this.fullfillMsgData();
-      let id =
-        this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
-      let msgId = await this.messageService.addMessageToCollection(
-        this.colId,
-        id,
-        this.newMessage
-      );
-
-      if (msgId && this.files.length > 0) {
-        this.storageRef = this.storageService.getChannelMsgRef(
-          this.channel.id,
-          msgId
-        );
-        this.files.forEach((file) => {
-          this.storageService.uploadFile(this.storageRef, file);
-        });
-      }
-      this.newMessage = new Message();
-      this.files = [];
+      this.createDirectMessageOrChannelMessage();
     }
+  }
+
+  async createNewMessage() {
+    if (this.sendTo instanceof User) {
+      let directMsg = this.existDirectMessage(this.sendTo);
+      let idDM = directMsg
+        ? await this.addNewMessageToDirectMessage(directMsg)
+        : await this.createNewDirectMessage([this.activeUser, this.sendTo]);
+      this.overlayControlService.showMessageComponent('directMessage', idDM);
+      if (idDM) this.addDmToUsers([this.activeUser, this.sendTo], idDM);
+    } else if (this.sendTo instanceof Channel) {
+      let channelID = this.sendTo?.id;
+      if (channelID) {
+        await this.messageService.addMessageToCollection(
+          'Channels',
+          channelID,
+          this.getMessageObj()
+        );
+        this.overlayControlService.showMessageComponent('channel', channelID);
+      }
+    }
+  }
+  existDirectMessage(user: User): DirektMessage | undefined {
+    let directMsg: DirektMessage | undefined;
+    if (user.id == this.activeUser.id) {
+      this.directMessagesService.directMessages$.value.forEach(
+        (directMessage) => {
+          if (
+            directMessage.users.length == 1 &&
+            directMessage.users[0].id == user.id
+          )
+            directMsg = directMessage;
+        }
+      );
+    } else {
+      this.directMessagesService.directMessages$.value.forEach(
+        (directMessage) => {
+          console.log('debug Leo: ', directMsg);
+          console.log('debug Leo: ', directMessage.users.includes(user));
+          if (directMessage.users.some((aryUser) => user.id == aryUser.id))
+            directMsg = directMessage;
+        }
+      );
+    }
+    return directMsg;
+  }
+
+  addDmToUsers(users: User[], idDM: string) {
+    users.forEach((user) => {
+      if (!user.directMessagesIDs.includes(idDM)) {
+        user.directMessagesIDs.push(idDM);
+        this.userService.saveUser(user);
+      }
+    });
+  }
+
+  async createNewDirectMessage(users: User[]) {
+    let id = '';
+    let messages = [this.getMessageObj()];
+    let obj = { users, messages };
+    let directMessage = new DirektMessage(obj, id);
+    return await this.directMessagesService.createNewDirectMessage(
+      directMessage
+    );
+  }
+
+  async addNewMessageToDirectMessage(directMessage: DirektMessage) {
+    await this.messageService.addMessageToCollection(
+      'directMessages',
+      directMessage.id,
+      this.getMessageObj()
+    );
+    return directMessage.id;
+  }
+
+  getMessageObj() {
+    let message = new Message();
+    message.creator = this.activeUser;
+    message.content = this.newMessage.content;
+    message.date = new Date();
+    message.files = []; // add files if function is available
+    message.reactions = []; // add files if function is available
+    return message;
+  }
+
+  async createDirectMessageOrChannelMessage() {
+    this.fullfillMsgData();
+
+    let id =
+      this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
+    let msgId = await this.messageService.addMessageToCollection(
+      this.colId,
+      id,
+      this.newMessage
+    );
+
+    if (msgId && this.files.length > 0) {
+      this.storageRef = this.storageService.getChannelMsgRef(
+        this.channel.id,
+        msgId
+      );
+      this.files.forEach((file) => {
+        this.storageService.uploadFile(this.storageRef, file);
+      });
+    }
+    this.newMessage = new Message();
+    this.files = [];
+  }
+
+  createThreadMessage() {
+    let message = new Message();
+    message.creator = this.userService.activeUser$.value;
+    message.content = this.newMessage.content;
+    message.date = new Date();
+    message.files = []; // add filenames
+    message.reactions = [];
+    this.threadsService.saveThread(message);
+    this.newMessage.content = '';
   }
 
   fullfillMsgData() {
