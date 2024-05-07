@@ -1,13 +1,13 @@
-@if (selectMember) {
-<div class="user-list-dropdown">
-  @for (user of filteredUserList; track user; let idx = $index) {
-  <app-userlistitem [user]="user" (click)="addUser(user)"></app-userlistitem>
-  }
+<div class="user-list-dropdown" *ngIf="selectMember">
+  <div *ngFor="let user of filteredUserList; let idx = index">
+    <app-userlistitem [user]="user" (click)="addUser(user)"></app-userlistitem>
+  </div>
 </div>
-}
+
 <div class="form-field-textarea-style2 pad20">
   <div class="textarea-field-wrapper">
-    @if(showEmojiPicker){<emoji-mart
+    <emoji-mart
+      *ngIf="showEmojiPicker"
       [totalFrequentLines]="1"
       [showPreview]="false"
       set="google"
@@ -15,8 +15,7 @@
       color="#444DF2"
       (emojiSelect)="addEmoji($event)"
       (click)="$event.stopPropagation()"
-    ></emoji-mart
-    >}
+    ></emoji-mart>
     <div class="container">
       <textarea
         [(ngModel)]="newMessage.content"
@@ -25,17 +24,17 @@
         #textarea
       ></textarea>
       <div class="files-wrapper">
-        @for (file of files; track file; let idx = $index) {
-        <div class="file">
-          <img src="{{ getFileImgPath(file.name) }}" alt="fileImg" />
-          <span>{{ file.name }}</span>
-          <div class="file-btn-wrapper">
-            <button class="btn-default icon-btn" (click)="deleteFile(idx)">
-              <div class="delete-btn-icon"></div>
-            </button>
+        <div *ngFor="let file of files; let idx = index">
+          <div class="file">
+            <img [src]="getFileImgPath(file.name)" alt="fileImg" />
+            <span>{{ file.name }}</span>
+            <div class="file-btn-wrapper">
+              <button class="btn-default icon-btn" (click)="deleteFile(idx)">
+                <div class="delete-btn-icon"></div>
+              </button>
+            </div>
           </div>
         </div>
-        }
       </div>
       <div class="icons">
         <div class="left-side">
@@ -51,6 +50,7 @@
             id="openEmoji"
             src="../../../../assets/icons/sentiment_satisfiedsmiley.svg"
             (click)="toggleEmojiPicker()"
+            #emojiPicker
             alt=""
           />
 
@@ -59,6 +59,7 @@
             src="../../../../assets/icons/alternate_email.svg"
             alt=""
             (click)="toggleUserList()"
+            #userListDiv
           />
         </div>
 
