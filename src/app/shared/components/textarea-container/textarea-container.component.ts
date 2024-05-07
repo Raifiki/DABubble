@@ -142,7 +142,7 @@ export class TextareaContainerComponent {
       message.creator = this.userService.activeUser$.value;
       message.content = this.newMessage.content;
       message.date = new Date();
-      message.files = []; // add files if function is available
+      message.files = []; // add filenames
       message.reactions = [];
       this.threadsService.saveThread(message);
       this.newMessage.content = '';

@@ -46,11 +46,11 @@ export class StorageService {
       .catch((err) => {alert('file konnte nicht gelöscht werden :' + err)});
   }
 
-  getBucketRef(){
+  private getBucketRef(){
     return ref(this.storage);
   }
 
-  getDirectMessagesRef(msgID: string){
+  private getDirectMessagesRef(msgID: string){
     return ref(this.storage,'directMessages/' + msgID);
   }
 
@@ -58,13 +58,21 @@ export class StorageService {
     return ref(this.getChannelRef(dmID),msgID);
   }
 
-  getChannelRef(channelID: string){
+  private getChannelRef(channelID: string){
     return ref(this.storage,'channels/' + channelID);
   }
 
   getChannelMsgRef(channelID: string, msgID: string){
     return ref(this.getChannelRef(channelID),msgID);
   }
+
+  private getThreadRef(channelID: string, msgID: string){
+    return ref(this.getChannelMsgRef(channelID,msgID),'thread/');
+  };
+
+  getThreadMsgRef(channelID: string, msgID: string, threadMsgID:string){
+    return ref(this.getThreadRef(channelID, msgID),threadMsgID);
+  };
 
   getUserRef(userID: string){
     return ref(this.storage,'Users/' + userID);
