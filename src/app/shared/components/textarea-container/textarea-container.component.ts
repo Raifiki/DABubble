@@ -1,9 +1,8 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
+  HostListener,
   Input,
-  Output,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -18,10 +17,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { UserSelectComponent } from '../user-select/user-select.component';
 import { UserlistitemComponent } from '../userlistitem/userlistitem.component';
 import { StorageService } from '../../../services/storage.service';
-import { StorageReference, getBlob, ref } from 'firebase/storage';
+import { StorageReference } from 'firebase/storage';
 import { DirektMessage } from '../../models/direct-message.class';
 import { DirectMessageService } from '../../../services/direct-message.service';
 import { ThreadsService } from '../../../services/ThreadsService';
@@ -37,7 +35,7 @@ import { ThreadsService } from '../../../services/ThreadsService';
     UserlistitemComponent,
   ],
   templateUrl: './textarea-container.component.html',
-  styleUrl: './textarea-container.component.scss',
+  styleUrls: ['./textarea-container.component.scss'],
 })
 export class TextareaContainerComponent {
   messageService = inject(MessageService);
@@ -47,10 +45,8 @@ export class TextareaContainerComponent {
   directMessagesService = inject(DirectMessageService);
   threadsService = inject(ThreadsService);
 
-  user!: User;
-
   activeUser: User = new User();
-  unsubscribeActiveUser;
+  unsubscribeActiveUser: Subscription;
 
   @Input() isThread: boolean = false;
   @Input() channel: Channel = {} as Channel;
@@ -75,12 +71,11 @@ export class TextareaContainerComponent {
   userList: User[] = [];
   filteredUserList: User[] = [];
 
-  @ViewChild('textarea') private textarea!: ElementRef<HTMLElement>;
+  @ViewChild('textarea') private textarea!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLDivElement>;
+  @ViewChild('userListDiv') userListDiv!: ElementRef<HTMLDivElement>;
 
-  secondUser: User = new User();
-  unsubDirectMessage: Subscription;
-
-  constructor() {
+  constructor(private elementRef: ElementRef) {
     this.unsubChannels = this.channelService.channels$.subscribe(
       (channelList) => (this.channels = channelList)
     );
@@ -90,19 +85,6 @@ export class TextareaContainerComponent {
         this.activeUser = user;
       }
     );
-
-    this.unsubDirectMessage =
-      this.directMessagesService.activeDirectMessage$.subscribe(
-        (directMessage) => {
-          if (directMessage.users) {
-            this.directMessage = directMessage;
-            this.secondUser =
-              directMessage.users.find(
-                (user) => user.id != this.activeUser.id
-              ) || this.activeUser;
-          }
-        }
-      );
 
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
@@ -114,8 +96,24 @@ export class TextareaContainerComponent {
     this.filteredUserList = this.userList;
   }
 
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    if (
+      this.emojiPicker &&
+      !this.emojiPicker.nativeElement.contains(event.target as Node)
+    ) {
+      this.showEmojiPicker = false;
+    }
+    if (
+      this.userListDiv &&
+      !this.userListDiv.nativeElement.contains(event.target as Node)
+    ) {
+      this.selectMember = false;
+    }
+  }
+
   addEmoji(event: any) {
-    let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
+    let textareaElement = this.textarea.nativeElement;
     let [caretStart, caretEnd] = [
       textareaElement.selectionStart,
       textareaElement.selectionEnd,
@@ -156,8 +154,6 @@ export class TextareaContainerComponent {
         this.newMessage
       );
 
-      //Pfad anpassen um die files mit dem richtigen Pfad zu speichern
-      //abfragen ob es sich un Channel/Directmessage/Thread handelt
       if (msgId && this.files.length > 0) {
         this.storageRef = this.storageService.getChannelMsgRef(
           this.channel.id,
@@ -179,7 +175,7 @@ export class TextareaContainerComponent {
   }
 
   addUser(user: User) {
-    let textareaElement = this.textarea.nativeElement as HTMLTextAreaElement;
+    let textareaElement = this.textarea.nativeElement;
     let [caretStart, caretEnd] = [
       textareaElement.selectionStart,
       textareaElement.selectionEnd,
@@ -204,31 +200,27 @@ export class TextareaContainerComponent {
       if (fileList && fileList.length > 0) {
         const file: File = fileList[0];
 
-        //File type abfangen und nur bestimmte zulassen
         if (this.checkFileType(file)) {
           this.files.push(file);
-        } else
+        } else {
           alert(
             'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png, pdf, excel, word, zip, ppt'
           );
+        }
       }
     });
   }
 
   checkFileType(file: File): boolean {
     let type = this.getFileType(file.name);
-    if (
+    return (
       type === 'img' ||
       type === 'pdf' ||
       type === 'excel' ||
       type === 'word' ||
       type === 'zip' ||
       type === 'ppt'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    );
   }
 
   getFileImgPath(fileName: string) {
@@ -262,17 +254,10 @@ export class TextareaContainerComponent {
   getFileType(fileName: string) {
     let type = fileName.split('.').splice(-1)[0].toLocaleLowerCase();
     if (
-      type == 'png' ||
-      type == 'jpg' ||
-      type == 'jpeg' ||
-      type == 'svg' ||
-      type == 'tif' ||
-      type == 'bmp' ||
-      type == 'emf' ||
-      type == 'gif' ||
-      type == 'png'
-    )
+      ['png', 'jpg', 'jpeg', 'svg', 'tif', 'bmp', 'emf', 'gif'].includes(type)
+    ) {
       type = 'img';
+    }
     return type;
   }
 
