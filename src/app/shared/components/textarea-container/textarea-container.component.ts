@@ -146,6 +146,8 @@ export class TextareaContainerComponent {
     } else {
       this.createDirectMessageOrChannelMessage();
     }
+    this.newMessage = new Message();
+    this.files = [];
   }
 
   async createNewMessage() {
@@ -233,26 +235,42 @@ export class TextareaContainerComponent {
 
   async createDirectMessageOrChannelMessage() {
     this.fullfillMsgData();
+    this.saveMessageToChannelOrDirectMessage();
+  }
 
-    let id =
-      this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
+  getCollectionId(): string {
+    return this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
+  }
+
+  getMessageRef(id: string, msgId: string) {
+    console.log('colId ', this.colId);
+
+    if (this.colId === 'Channels') {
+      this.storageRef = this.storageService.getChannelMsgRef(
+        this.channel.id,
+        msgId
+      );
+    } else {
+      this.storageRef = this.storageService.getDirectMessagesMsgRef(id, msgId);
+    }
+  }
+  async saveMessageToChannelOrDirectMessage() {
+    let id = this.getCollectionId();
     let msgId = await this.messageService.addMessageToCollection(
       this.colId,
       id,
       this.newMessage
     );
 
-    if (msgId && this.files.length > 0) {
-      this.storageRef = this.storageService.getChannelMsgRef(
-        this.channel.id,
-        msgId
-      );
-      this.files.forEach((file) => {
-        this.storageService.uploadFile(this.storageRef, file);
-      });
+    if (msgId) {
+      this.getMessageRef(id, msgId);
+
+      console.log('Message ref :', this.getMessageRef(id, msgId));
     }
-    this.newMessage = new Message();
-    this.files = [];
+
+    this.files.forEach((file) => {
+      this.storageService.uploadFile(this.storageRef, file);
+    });
   }
 
   createThreadMessage() {
@@ -260,10 +278,33 @@ export class TextareaContainerComponent {
     message.creator = this.userService.activeUser$.value;
     message.content = this.newMessage.content;
     message.date = new Date();
-    message.files = []; // add filenames
+
+    for (let i = 0; i < this.files.length; i++) {
+      message.files.push(this.files[i].name);
+    }
     message.reactions = [];
     this.threadsService.saveThread(message);
-    this.newMessage.content = '';
+    this.saveFilesToThread(message.id);
+  }
+  async saveFilesToThread(threadId: string) {
+    let id = this.getCollectionId();
+    let msgId = await this.messageService.addMessageToCollection(
+      this.colId,
+      id,
+      this.newMessage
+    );
+
+    if (msgId) {
+      this.getMessageRef(id, msgId);
+      this.storageRef = this.storageService.getThreadMsgRef(
+        id,
+        msgId,
+        threadId
+      );
+      this.files.forEach((file) => {
+        this.storageService.uploadFile(this.storageRef, file);
+      });
+    }
   }
 
   fullfillMsgData() {
