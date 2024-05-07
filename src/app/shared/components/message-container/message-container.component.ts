@@ -301,7 +301,7 @@ export class MessageContainerComponent {
         ref = this.storageService.getDirectMessagesMsgRef(this.directMessageService.activeDirectMessage$.value.id, this.message.id);
       break;
       case 'thread':
-        // to do
+        ref = this.storageService.getThreadMsgRef(this.channelService.activeChannel$.value.id, this.threadService.idOfThisThreads, this.message.id);
       break;
     }
     return ref;
