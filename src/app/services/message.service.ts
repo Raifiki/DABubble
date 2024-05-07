@@ -35,9 +35,11 @@ export class MessageService implements OnInit {
   ) {
     let newId;
     if (colId) {
-      await addDoc(this.getMessageRef(colId, docId), message.getCleanBEJSON(docId))
+      await addDoc(
+        this.getMessageRef(colId, docId),
+        message.getCleanBEJSON(docId)
+      )
         .then((docRef) => {
-          console.log('Message added to direct message successfully');
           newId = docRef?.id;
         })
         .catch((err) => {
@@ -100,17 +102,14 @@ export class MessageService implements OnInit {
         msgList.forEach((msg) => {
           const MESSAGE = new Message(
             this.getCleanMessageObj(msg.data()),
-            msg.id,
-            
+            msg.id
           );
-          MESSAGE.messageOfChannel = docId
+          MESSAGE.messageOfChannel = docId;
           messages.push(MESSAGE);
-          console.log(MESSAGE);
-          
+
           // get thread amount and time and save to message object
         });
         messages = this.sortMessagesChronologically(messages);
-        console.log('subMessages wurde ausgeführt');
 
         this.messages$.next(messages);
       }
@@ -129,12 +128,12 @@ export class MessageService implements OnInit {
       answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
-      messageOfChannelID: obj.messageOfChannel
+      messageOfChannelID: obj.messageOfChannel,
     };
   }
 
-  getCleanAnswersObj(obj:any){
-    return {amount: obj.amount,lastAnswer: new Date(obj.lastAnswer)}
+  getCleanAnswersObj(obj: any) {
+    return { amount: obj.amount, lastAnswer: new Date(obj.lastAnswer) };
   }
 
   getCleanReactionArray(obj: any) {

@@ -68,17 +68,23 @@ export class DirectMessageService implements OnInit {
         }
       });
       this.directMessages$.next(directMessagesList);
-      console.log('directMessagesList: ', directMessagesList);
     });
   }
 
   async createNewDirectMessage(directMessage: DirektMessage) {
     let newDirectMessageId;
     try {
-      const docRef = await addDoc(this.getDirectMessagesRef(),directMessage.toCleanBEJSON());
+      const docRef = await addDoc(
+        this.getDirectMessagesRef(),
+        directMessage.toCleanBEJSON()
+      );
       newDirectMessageId = docRef.id;
-      if(directMessage.messages.length>0) 
-        await this.messageService.addMessageToCollection('directMessages',newDirectMessageId, directMessage.messages[0]);
+      if (directMessage.messages.length > 0)
+        await this.messageService.addMessageToCollection(
+          'directMessages',
+          newDirectMessageId,
+          directMessage.messages[0]
+        );
       console.log('Direct message added successfully');
     } catch (error) {
       console.error('Error adding direct message: ', error);
@@ -92,9 +98,9 @@ export class DirectMessageService implements OnInit {
     };
   }
 
-   subDirectMessage(directMsgId: string) {
+  subDirectMessage(directMsgId: string) {
     if (this.unsubActiveDirectMessage) this.unsubActiveDirectMessage();
-    this.unsubActiveDirectMessage =  onSnapshot(
+    this.unsubActiveDirectMessage = onSnapshot(
       this.getSingleDocRef(directMsgId),
       (directMessage) => {
         let data = directMessage.data();
@@ -108,7 +114,6 @@ export class DirectMessageService implements OnInit {
         }
       }
     );
-    console.log('alles gut start');
     this.messageService.subMessages('directMessages', directMsgId);
   }
 
@@ -119,7 +124,9 @@ export class DirectMessageService implements OnInit {
         list.forEach((directMsg) => {
           let messageData = directMsg.data();
           if (
-            messageData['userIds'].includes(this.userService.activeUser$.value.id) &&
+            messageData['userIds'].includes(
+              this.userService.activeUser$.value.id
+            ) &&
             messageData['userIds'].includes(user.id)
           ) {
             rightMessageID = directMsg.id;

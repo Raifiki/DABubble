@@ -1,12 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // import classes
 import { Message } from '../../models/message.class';
 import { User } from '../../models/user.class';
 import { Reaction } from '../../models/reaction.class';
-
 
 // import services
 import { ThreadsService } from '../../../services/ThreadsService';
@@ -38,7 +44,6 @@ export class MessageContainerComponent {
   directMessageService = inject(DirectMessageService);
   storageService = inject(StorageService);
 
-
   @Input() message: Message = new Message();
   @Input({ required: true }) msgType: 'channel' | 'directMsg' | 'thread' =
     'channel';
@@ -48,7 +53,7 @@ export class MessageContainerComponent {
     if (content) this.textarea = content;
   }
 
-  @Input() threadIndex!:any;
+  @Input() threadIndex!: any;
   lastThreadMsgTime: Date = new Date();
 
   newMsgContent!: string;
@@ -58,17 +63,16 @@ export class MessageContainerComponent {
   showEmojiPickerEditMsg: boolean = false;
   showEmojiPickerReaction: boolean = false;
 
-  constructor() {
-
+  constructor() {}
+  createTime(time: number) {
+    return new Date(time);
   }
- createTime(time: number) {
-    return new Date(time)
- }
 
   toggleThreads() {
     this.threadService.isShowingSig.set(true);
     this.threadService.getThread(this.message.id);
-    this.threadService.activeChannel = (this.channelService.activeChannel$.value.id)
+    this.threadService.activeChannel =
+      this.channelService.activeChannel$.value.id;
   }
 
   toggleMsgMenu(event: Event) {
@@ -109,11 +113,11 @@ export class MessageContainerComponent {
     }
   }
 
-   deleteFiles(){
-     this.message.files.forEach(fileName => {
+  deleteFiles() {
+    this.message.files.forEach((fileName) => {
       let storageRef = this.getStorageRef();
-      if(storageRef) this.storageService.deleteFile(storageRef, fileName);
-    })
+      if (storageRef) this.storageService.deleteFile(storageRef, fileName);
+    });
   }
 
   updateMessage() {
@@ -142,8 +146,6 @@ export class MessageContainerComponent {
   }
 
   resizeTextarea() {
-    console.log('resize');
-
     this.textarea.nativeElement.style.height = '0';
     this.textarea.nativeElement.style.height =
       this.textarea.nativeElement.scrollHeight + 'px';
@@ -224,7 +226,7 @@ export class MessageContainerComponent {
     return names;
   }
 
-  getFileImgPath(fileName: string){
+  getFileImgPath(fileName: string) {
     let imgPath = 'assets/img/fileType/document.png';
     let fileType = this.getFileType(fileName);
     switch (fileType) {
@@ -249,22 +251,32 @@ export class MessageContainerComponent {
       default:
         break;
     }
-    return imgPath
+    return imgPath;
   }
 
-  getFileType(fileName:string){
+  getFileType(fileName: string) {
     let type = fileName.split('.').splice(-1)[0].toLocaleLowerCase();
-    if(type == 'png' || type == 'jpg' ||type == 'jpeg' ||type == 'svg' ||type == 'tif' ||type == 'bmp' || type == 'emf' || type == 'gif' || type == 'png') 
+    if (
+      type == 'png' ||
+      type == 'jpg' ||
+      type == 'jpeg' ||
+      type == 'svg' ||
+      type == 'tif' ||
+      type == 'bmp' ||
+      type == 'emf' ||
+      type == 'gif' ||
+      type == 'png'
+    )
       type = 'img';
     return type;
   }
 
-  deleteFile(idx:number){
+  deleteFile(idx: number) {
     let fileName = this.message.files[idx];
     let storageRef = this.getStorageRef();
-    if(storageRef) this.storageService.deleteFile(storageRef, fileName);
+    if (storageRef) this.storageService.deleteFile(storageRef, fileName);
 
-    this.message.files.splice(idx,1);
+    this.message.files.splice(idx, 1);
     if (this.msgType == 'thread') {
       this.threadService.updateThreadMessage(this.message.id, this.message);
     } else {
@@ -277,34 +289,44 @@ export class MessageContainerComponent {
     }
   }
 
-  downloadFile(idx:number){
+  downloadFile(idx: number) {
     let fileName = this.message.files[idx];
     let storageRef = this.getStorageRef();
-    if(storageRef) this.storageService.downloadFile(storageRef, fileName);
+    if (storageRef) this.storageService.downloadFile(storageRef, fileName);
   }
 
-
-  async openFile(idx:number){
+  async openFile(idx: number) {
     let fileName = this.message.files[idx];
     let storageRef = this.getStorageRef();
-    let url = (storageRef)? await this.storageService.getFileURL(storageRef, fileName):undefined;
-    if(url) window.open(url, '_blank')?.focus();
+    let url = storageRef
+      ? await this.storageService.getFileURL(storageRef, fileName)
+      : undefined;
+    if (url) window.open(url, '_blank')?.focus();
   }
 
-  getStorageRef(){
+  getStorageRef() {
     let ref;
     switch (this.msgType) {
       case 'channel':
-        ref = this.storageService.getChannelMsgRef(this.channelService.activeChannel$.value.id, this.message.id);
+        ref = this.storageService.getChannelMsgRef(
+          this.channelService.activeChannel$.value.id,
+          this.message.id
+        );
         break;
       case 'directMsg':
-        ref = this.storageService.getDirectMessagesMsgRef(this.directMessageService.activeDirectMessage$.value.id, this.message.id);
-      break;
+        ref = this.storageService.getDirectMessagesMsgRef(
+          this.directMessageService.activeDirectMessage$.value.id,
+          this.message.id
+        );
+        break;
       case 'thread':
-        ref = this.storageService.getThreadMsgRef(this.channelService.activeChannel$.value.id, this.threadService.idOfThisThreads, this.message.id);
-      break;
+        ref = this.storageService.getThreadMsgRef(
+          this.channelService.activeChannel$.value.id,
+          this.threadService.idOfThisThreads,
+          this.message.id
+        );
+        break;
     }
     return ref;
   }
-
 }

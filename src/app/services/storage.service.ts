@@ -17,9 +17,7 @@ import {
 export class StorageService {
   storage = getStorage();
 
-  constructor() {
-    console.log('ich bin der storage', this.getBucketRef().fullPath);
-  }
+  constructor() {}
 
   getLocalStorageData(key: string): any[] {
     const data = localStorage.getItem(key);

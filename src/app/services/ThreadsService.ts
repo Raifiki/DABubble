@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
 import { UserService } from './user.service';
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -48,7 +49,7 @@ export class ThreadsService {
   async getThread(messageId: string) {
     this.currentChannel = messageId;
     let firstMessage: Message = new Message();
-     this.idOfThisThreads = messageId;
+    this.idOfThisThreads = messageId;
     this.unsubMessage = this.messagesService.messages$.subscribe((messages) => {
       firstMessage = messages.filter((message) => message.id == messageId)[0];
     });
@@ -121,10 +122,12 @@ export class ThreadsService {
   }
 
   async saveThread(message: Message) {
-    await setDoc(
-      doc(collection(this.getThreadColRef(this.idOfThisThreads), 'threads')),
+    let newId;
+    await addDoc(
+      collection(this.getThreadColRef(this.idOfThisThreads), 'threads'),
       message.getCleanBEJSON()
-    );
+    ).then((msgId) => (newId = msgId.id));
+    console.log(newId);
     this.messages[0].answers.amount++;
     this.messages[0].answers.lastAnswer = new Date();
     this.messagesService.updateMessage(
@@ -133,6 +136,9 @@ export class ThreadsService {
       this.idOfThisThreads,
       this.messages[0]
     );
+
+    return newId;
+    3;
   }
 
   ngOnDestroy(): void {
@@ -148,7 +154,7 @@ export class ThreadsService {
       answers: this.getCleanAnswersObj(obj.answers),
       reactions: this.getCleanReactionArray(obj.reaction),
       files: obj.files,
-      messageOfChannel: obj.messageOfChannel
+      messageOfChannel: obj.messageOfChannel,
     };
   }
 

@@ -8,7 +8,7 @@ export class Message {
   date!: Date;
   id: string;
   content: string = '';
-  answers: {amount: number; lastAnswer: Date};
+  answers: { amount: number; lastAnswer: Date };
   reactions: Reaction[] = [];
   files: string[] = []; // muss noch geklärt werden was wir hier speichern --> Idee: Link/name auf Datei in store
   messageOfChannel: string;
@@ -18,7 +18,7 @@ export class Message {
     this.creator = obj ? obj.creator : new User();
     this.date = obj ? this.getDate(obj.date) : new Date();
     this.content = obj ? obj.content : '';
-    this.answers = obj ? obj.answers : {amount: 0 , lastAnswer: new Date()};
+    this.answers = obj ? obj.answers : { amount: 0, lastAnswer: new Date() };
     this.reactions = obj ? obj.reactions : [];
     this.files = obj ? obj.files : [];
     this.messageOfChannel = channelId ? channelId : '';
@@ -28,7 +28,7 @@ export class Message {
     return new Date(time);
   }
 
-  getCleanBEJSON(channelId?:string) {
+  getCleanBEJSON(channelId?: string) {
     return {
       creatorId: this.creator.id,
       date: this.date.getTime(),
@@ -36,7 +36,7 @@ export class Message {
       reaction: this.getReactionArray(),
       files: this.files,
       answers: this.getBEAnswersObj(),
-      messageOfChannel: this.messageOfChannel
+      messageOfChannel: this.messageOfChannel,
     };
   }
 
@@ -48,8 +48,11 @@ export class Message {
     return reactionAryBE;
   }
 
-  getBEAnswersObj(){    
-    return {amount: this.answers.amount, lastAnswer: this.answers.lastAnswer.getTime()};
+  getBEAnswersObj() {
+    return {
+      amount: this.answers.amount,
+      lastAnswer: this.answers.lastAnswer.getTime(),
+    };
   }
 
   updateReactions(emoji: string, user: User) {
@@ -61,5 +64,4 @@ export class Message {
       if (this.reactions[idx].users.length == 0) this.reactions.splice(idx, 1);
     }
   }
-
 }

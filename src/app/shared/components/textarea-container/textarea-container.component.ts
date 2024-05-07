@@ -146,8 +146,6 @@ export class TextareaContainerComponent {
     } else {
       this.createDirectMessageOrChannelMessage();
     }
-    this.newMessage = new Message();
-    this.files = [];
   }
 
   async createNewMessage() {
@@ -228,7 +226,10 @@ export class TextareaContainerComponent {
     message.creator = this.activeUser;
     message.content = this.newMessage.content;
     message.date = new Date();
-    message.files = []; // add files if function is available
+    for (let i = 0; i < this.files.length; i++) {
+      message.files.push(this.files[i].name);
+    }
+
     message.reactions = []; // add files if function is available
     return message;
   }
@@ -243,16 +244,16 @@ export class TextareaContainerComponent {
   }
 
   getMessageRef(id: string, msgId: string) {
-    console.log('colId ', this.colId);
-
     if (this.colId === 'Channels') {
-      this.storageRef = this.storageService.getChannelMsgRef(
-        this.channel.id,
-        msgId
-      );
-    } else {
+      this.storageRef = this.storageService.getChannelMsgRef(id, msgId);
+      console.log('storage Ref:', this.files);
+    } else if (this.colId === 'directMessages') {
       this.storageRef = this.storageService.getDirectMessagesMsgRef(id, msgId);
     }
+
+    this.files.forEach((file) => {
+      this.storageService.uploadFile(this.storageRef, file);
+    });
   }
   async saveMessageToChannelOrDirectMessage() {
     let id = this.getCollectionId();
@@ -264,16 +265,10 @@ export class TextareaContainerComponent {
 
     if (msgId) {
       this.getMessageRef(id, msgId);
-
-      console.log('Message ref :', this.getMessageRef(id, msgId));
     }
-
-    this.files.forEach((file) => {
-      this.storageService.uploadFile(this.storageRef, file);
-    });
   }
 
-  createThreadMessage() {
+  async createThreadMessage() {
     let message = new Message();
     message.creator = this.userService.activeUser$.value;
     message.content = this.newMessage.content;
@@ -283,28 +278,26 @@ export class TextareaContainerComponent {
       message.files.push(this.files[i].name);
     }
     message.reactions = [];
-    this.threadsService.saveThread(message);
-    this.saveFilesToThread(message.id);
+
+    let newId = await this.threadsService.saveThread(message);
+    if (newId) {
+      message.id = newId;
+      await this.saveFilesToThread(message.id);
+    }
   }
+
   async saveFilesToThread(threadId: string) {
-    let id = this.getCollectionId();
-    let msgId = await this.messageService.addMessageToCollection(
-      this.colId,
-      id,
-      this.newMessage
+    let channelID = this.channelService.activeChannel$.value.id;
+
+    let ref = this.storageService.getThreadMsgRef(
+      channelID,
+      this.threadsService.idOfThisThreads,
+      threadId
     );
 
-    if (msgId) {
-      this.getMessageRef(id, msgId);
-      this.storageRef = this.storageService.getThreadMsgRef(
-        id,
-        msgId,
-        threadId
-      );
-      this.files.forEach((file) => {
-        this.storageService.uploadFile(this.storageRef, file);
-      });
-    }
+    this.files.forEach((file) => {
+      this.storageService.uploadFile(ref, file);
+    });
   }
 
   fullfillMsgData() {
@@ -341,6 +334,7 @@ export class TextareaContainerComponent {
 
         if (this.checkFileType(file)) {
           this.files.push(file);
+          console.log('files push: ', this.files);
         } else {
           alert(
             'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png, pdf, excel, word, zip, ppt'
