@@ -6,6 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { SigninComponent } from './signin/signin.component';
 import { SendemailComponent } from './sendemail/sendemail.component';
 import { ChooseavatarComponent } from './chooseavatar/chooseavatar.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,9 @@ import { ChooseavatarComponent } from './chooseavatar/chooseavatar.component';
     RouterLink,
     ChooseavatarComponent,
     LoginComponent,
-    SigninComponent
+    SigninComponent,
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
