@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="header">
     <div class="logo"></div>
-    <input
+    <input  (focus)="initSearch()"
       type="search"
       placeholder="Code learning durchsuchen"
       [(ngModel)]="searchInput"

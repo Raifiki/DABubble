@@ -47,7 +47,7 @@ import { DirektMessage } from '../shared/models/direct-message.class';
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
 })
-export class GeneralViewComponent  {
+export class GeneralViewComponent {
   activeUser!: User;
   searchInput!: string;
 
@@ -64,17 +64,15 @@ export class GeneralViewComponent  {
   channelService = inject(ChannelService);
   messageService = inject(MessageService);
   registerService = inject(RegisterService)
-  searchService = inject(SearchService)
   directMessageService = inject(DirectMessageService)
 
 
   subscription: Subscription;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, public searchService: SearchService) {
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = userData;
     });
-
 
     this.channelService.subChannel(this.activeUser.channelIDs[0]);
     this.unsubChannel = this.channelService.activeChannel$.subscribe(
@@ -88,6 +86,8 @@ export class GeneralViewComponent  {
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
     });
+    this.searchService.loadAllMessages()    
+    this.searchService.loadAllThreads()
   }
   @HostListener('window:beforeunload', ['$event'])
   async beforeUnload(event: Event) {
@@ -99,7 +99,6 @@ export class GeneralViewComponent  {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 
 
 
@@ -132,6 +131,15 @@ async openDirectMessage(user: User) {
   this.overlayCtrlService.selectUser(user);
   let messageId = await this.directMessageService.checkForRightMessage(user)
   this.overlayCtrlService.showMessageComponent('directMessage', messageId);
+}
+
+async initSearch() {
+  await this.searchService.loadAllMessages()
+  setTimeout(() => {
+     this.searchService.loadAllThreads()
+  }, 500);
+
+
 }
 
 }

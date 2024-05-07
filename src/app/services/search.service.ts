@@ -46,7 +46,7 @@ export class SearchService {
     this.unsubChannel = this.channelService.channels$.subscribe((list) => {
       this.listOfAllChannels = list
     })
-
+   
    }
 
    ngOnDestroy(): void {
@@ -54,6 +54,8 @@ export class SearchService {
     this.unsubChannel.unsubscribe()
     this.unsubMessages.unsubscribe()
    }
+
+
 
 
    searchUsers(input: string) {
@@ -103,6 +105,7 @@ async loadAllMessages() {
         });
         this.listOfAllMessages = messages
       })
+      console.log('loading messages complete')
   })
 }
   
@@ -134,6 +137,7 @@ async loadAllThreads() {
       });
       this.listOfAllThreads = threads
   })
+  console.log('loading threads complete')
 })
 }
 
