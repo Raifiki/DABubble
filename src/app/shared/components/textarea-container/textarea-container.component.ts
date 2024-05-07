@@ -209,14 +209,22 @@ export class TextareaContainerComponent {
           this.files.push(file);
         } else
           alert(
-            'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png'
+            'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png, pdf, excel, word, zip, ppt'
           );
       }
     });
   }
 
   checkFileType(file: File): boolean {
-    if (this.getFileType(file.name) === 'type') {
+    let type = this.getFileType(file.name);
+    if (
+      type === 'img' ||
+      type === 'pdf' ||
+      type === 'excel' ||
+      type === 'word' ||
+      type === 'zip' ||
+      type === 'ppt'
+    ) {
       return true;
     } else {
       return false;
