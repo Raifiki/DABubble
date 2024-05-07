@@ -105,9 +105,10 @@ export class GeneralViewComponent  {
 
   onInputChange() {
     this.isSearchFieldEmpty()
-     this.searchService.searchUsers(this.searchInput);
+    this.searchService.searchUsers(this.searchInput);
     this.searchService.searchChannels(this.searchInput);
     this.searchService.searchMessages(this.searchInput)
+    this.searchService.searchThreads(this.searchInput)
   }
 
   onResultClick() {

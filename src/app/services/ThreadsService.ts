@@ -48,7 +48,7 @@ export class ThreadsService {
   async getThread(messageId: string) {
     this.currentChannel = messageId;
     let firstMessage: Message = new Message();
-    this.idOfThisThreads = messageId;
+     this.idOfThisThreads = messageId;
     this.unsubMessage = this.messagesService.messages$.subscribe((messages) => {
       firstMessage = messages.filter((message) => message.id == messageId)[0];
     });
@@ -56,9 +56,8 @@ export class ThreadsService {
       collection(this.getThreadColRef(messageId), 'threads'),
       (messages) => {
         this.messages = [];
-
         this.messages.push(firstMessage);
-        messages.forEach((message) => {
+        messages.forEach(async (message) => {
           let msg = new Message(
             this.getCleanMessageObj(message.data()),
             message.id

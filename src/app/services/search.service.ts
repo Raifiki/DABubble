@@ -114,7 +114,37 @@ async loadAllMessages() {
     if (messageToCompareWith.includes(input.toLowerCase())) {
       this.searchMessageResult.push(message)
     }
+  })
+}
 
+async loadAllThreads() {
+  let threads: Message[] = [];
+  this.listOfAllMessages.forEach(async (message) => {
+    let messageId = message.id
+    let channelId = message.messageOfChannel
+   await onSnapshot(
+      collection(this.getThreadColRef(messageId, channelId), 'threads'),
+      (messages) => {
+        messages.forEach((thread) => {
+          let msg = new Message(
+            this.threadsService.getCleanMessageObj(thread.data()),
+            message.id, message.messageOfChannel
+          );
+          threads.push(msg);
+      });
+      this.listOfAllThreads = threads
+  })
+})
+}
+
+searchThreads(input:string) {
+  this.loadAllThreads()
+  this.searchThreadResult = []
+  this.listOfAllThreads.forEach((thread) => {
+    let threadToCompareWith = thread.content.toLowerCase()
+    if (threadToCompareWith.includes(input.toLowerCase())) {
+      this.searchThreadResult.push(thread)
+    }
   })
 }
 
@@ -124,8 +154,24 @@ showChannelName(message: Message): string | undefined {
   return foundChannel ? foundChannel.name : undefined;
 }
 
+getChannelColRef() {
+  return collection(this.firebaseInitService.getDatabase(), 'Channels');
+}
 
+getChannelDocRef(messageId: string) {
+  return doc(
+    this.getChannelColRef(),
+    messageId
+  );
+}
 
+getChannelMessagesColRef(messageId:string) {
+  return collection(this.getChannelDocRef(messageId), 'messages');
+}
+
+getThreadColRef(messageID: string, channelId: string) {
+  return doc(this.getChannelMessagesColRef(channelId), messageID);
+}
 
 
 
@@ -148,5 +194,15 @@ getSingleDocRef(colId: string, docId: string) {
   return doc(this.getCollectionRef(colId), docId);
 }
 
+async searchForChannel(message: Message) {
+  let channelId = message.messageOfChannel
+  let messageId = message.id
+  await this.channelService.subChannel(channelId)
+  this.threadsService.isShowingSig.set(true)
+  setTimeout(() => {
+     this.threadsService.getThread(messageId)
+  }, 200);
+
+}
 
 }

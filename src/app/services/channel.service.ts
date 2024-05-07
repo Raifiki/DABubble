@@ -69,7 +69,7 @@ export class ChannelService {
     });
   }
 
-  subChannel(channelID: string) {
+  async subChannel(channelID: string) {
     if (this.unsubChannel) this.unsubChannel();
     this.unsubChannel = onSnapshot(this.getChannelRef(channelID), (channel) => {
       let data = channel.data();
@@ -150,4 +150,6 @@ export class ChannelService {
     this.unsubChannel();
     this.unsubActiveUser.unsubscribe();
   }
+
+ 
 }

@@ -65,17 +65,27 @@
             color: #535AF1;
             transform: scale(1.05);
         }
+
+    }
+    .thread-content {
+      padding-left:60px
     }
 
     h4 {
         margin: 0;
-        padding-left: 16px;
+        padding-left: 24px;
+        padding-top: 24px;
+        padding-bottom: 4px;
     }
 
     h5 {
-        padding-left: 45px;
-        font-size: 16px;
+        padding-left: 120px;
+        font-size: 16px !important;
         font-style: italic;
+        text-decoration: underline;
+    }
+    img {
+      padding-left: 60px
     }
 }
 

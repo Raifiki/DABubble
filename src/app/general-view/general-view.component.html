@@ -33,6 +33,13 @@
         <ng-container *ngFor="let result of searchService.searchMessageResult">
             <p (click)="channelService.subChannel(result.messageOfChannel); onResultClick()"><b>{{searchService.showChannelName(result)}} </b>- {{ result.content }}
             </p>
+            <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
+              <h5>Thread of Message:</h5>
+              <ng-container *ngFor="let result of searchService.searchThreadResult">
+                <div class="thread-content">  <p  (click)="this.searchService.searchForChannel(result); onResultClick()">  {{ result.content }}
+                  </p></div>
+              </ng-container>
+          </div>
         </ng-container>
     </div>
     </div>
