@@ -17,7 +17,7 @@ export const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
   { path: 'signin', component: SigninComponent },
-  { path: 'resetPW', canActivate: [AuthGuardService],  component: ResetpasswordComponent },
+  { path: 'resetPW', component: ResetpasswordComponent },
   { path: 'generalView', canActivate: [AuthGuardService],component: GeneralViewComponent },
   {path: 'testing', canActivate: [AuthGuardService],component: NewMessageComponent},
 ];

@@ -1,7 +1,6 @@
-.main {
+.main-login {
   display: flex;
   position: relative;
-  height: 100vh;
   font-family: "Nunito";
   justify-content: center;
   align-items: center;
@@ -9,9 +8,9 @@
 }
 
 
-.login-container,
-.headline-container,
-.input-container {
+.login-container-login,
+.headline-container-login,
+.input-container-login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,44 +18,43 @@
 
 }
 
-.input-container {
-  width: 80%;
+.input-container-login {
   color: black;
-}
-
-.headline-container {
-  gap: 30px;
   width: 80%;
-  text-align: center;
-  margin-bottom: 30px;
 }
 
-.login-container {
+.headline-container-login {
+  gap: 30px;
+  text-align: center;
+  margin:10px 10px  30px 10px;
+}
+
+.login-container-login {
   background-color: white;
   border-radius: 30px;
 }
 
-.headline {
+.headline-login {
   color: #444df2;
   font-size: 46px;
   font-weight: 700px;
   margin-top: 30px;
 }
 
-.subheadline {
+.subheadline-login {
   color: black;
   font-size: 20px;
   font-weight: 400;
 }
 
-.invalid-input {
+.invalid-input-login {
   color: red;
   font-size: 14px;
   font-weight: 400;
   width: 100%;
 }
 
-.forgot-pw {
+.forgot-pw-login {
   font-size: 18px;
   font-weight: 400;
   color: #797ef3;
@@ -70,21 +68,21 @@
   }
 }
 
-.input-pw {
+.input-pw-login {
   background-image: url("../../../assets/img/lock.png");
   background-repeat: no-repeat;
   background-position: 20px 50%;
   margin-top: 30px;
 }
 
-.input-email {
+.input-email-login {
   background-image: url("../../../assets/img/mail.png");
   background-repeat: no-repeat;
   background-position: left;
   background-position: 20px 50%;
 }
 
-.input-fields {
+.input-fields-login {
   font-size: 18px;
   font-weight: 500;
   padding: 18px 32px 18px 64px;
@@ -104,7 +102,7 @@
   }
 }
 
-.googleLogin {
+.googleLogin-login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,18 +123,18 @@
   }
 }
 
-.divider {
+.divider-login {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 30px 0 30px 0;
 
   >img {
-    width: 200px;
+    width: 30%;
   }
 }
 
-.btn-container {
+.btn-container-login {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,7 +142,7 @@
   margin-bottom: 30px;
 }
 
-.login-btn {
+.login-btn-login {
   padding: 12px 25px;
   border-radius: 25px;
   background-color: #444df2;
@@ -166,7 +164,7 @@
   }
 }
 
-.guest-login {
+.guest-login-login {
   padding: 12px 25px;
   border-radius: 25px;
   border: 1px solid #444df2;
@@ -182,4 +180,54 @@
     color: #fff;
     transition: 0.1s ease-in-out;
   }
+}
+
+@media(max-width: 600px) {
+  .headline-container-login {
+    gap: 20px;
+
+    margin: 10px 10px 20px 10px;
+    >.headline-login {
+      font-size: 28px;
+      margin: 0;
+      gap: 5px;
+    }
+    >.subheadline-login{
+      font-size: 14px;
+    }
+  }
+  .input-fields-login{
+    font-size: 14px;
+    padding: 14px 0px 14px 64px;
+  }
+  .forgot-pw-login{
+    font-size: 16px;
+    margin: 20px 0 20px 0;
+  }
+  .input-pw-login {
+    margin-top: 10px;
+  }
+  .divider-login {
+    margin: 0;
+  }
+  .login-btn-login, .guest-login-login{
+    font-size: 16px;
+    padding: 10px 10px
+  }
+  .create-account {
+    position: absolute;
+    bottom: 0;
+  }
+  .create-account {
+    margin-top: 10px;
+  }
+
+  .googleLogin-login {
+    margin: 10px 0 20px 0;
+    padding: 8px 26px 8px 26px;
+  }
+  .btn-container-login {
+    margin-bottom: 10px;
+}
+
 }

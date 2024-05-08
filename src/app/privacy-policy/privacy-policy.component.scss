@@ -23,7 +23,8 @@
   margin-bottom: 50px;
 
   &:hover {
-    scale: 1.1;
+    background-color: rgb(236, 238, 254) !important;
+    border-radius: 90px;
   }
 }
 
@@ -36,28 +37,30 @@ h1 {
 h1 {
   font-size: 50px;
 }
+
 @media (max-width: 750px) {
   h1 {
     font-size: 40px;
   }
+
   h2 {
     font-size: 22px;
   }
 
-h3 {
-  font-size: 16px;
-}
-.content-container {
-  width:95%;
-}
-
-@media (max-width: 500px) {
-  h1 {
-    font-size: 24px;
+  h3 {
+    font-size: 16px;
   }
-}
+
+  .content-container {
+    width: 95%;
+  }
+
+  @media (max-width: 500px) {
+    h1 {
+      font-size: 24px;
+    }
+  }
 
 }
-@media (max-width: 375px) and (max-height: 700px) {
 
-}
+@media (max-width: 375px) and (max-height: 700px) {}

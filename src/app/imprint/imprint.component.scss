@@ -25,7 +25,8 @@
   margin-bottom: 50px;
 
   &:hover {
-    scale: 1.1;
+    background-color: rgb(236, 238, 254) !important;
+    border-radius: 90px;
   }
 }
 
@@ -45,16 +46,18 @@ h1 {
   h1 {
     font-size: 40px;
   }
+
   h2 {
     font-size: 22px;
   }
 
-h3 {
-  font-size: 16px;
-}
-.content-container {
-  width:95%;
-}
+  h3 {
+    font-size: 16px;
+  }
+
+  .content-container {
+    width: 95%;
+  }
 
 
 }

@@ -1,14 +1,13 @@
-.main {
+.main-signin {
     display: flex;
     position: relative;
-    height: 100vh;
     font-family: "Nunito";
     background-color: #eceefe;
     justify-content: center;
     align-items: center;
 }
 
-.create-account {
+.create-account-signin {
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -21,7 +20,7 @@
     font-weight: 400;
 }
 
-.footer-container {
+.footer-container-signin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,9 +56,9 @@
     }
 }
 
-.login-container,
-.headline-container,
-.input-container {
+.login-container-signin,
+.headline-container-signin,
+.input-container-signin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,38 +66,37 @@
 
 }
 
-.input-container {
+.input-container-signin {
     width: 80%;
     color: black;
 }
 
-.headline-container {
+.headline-container-signin {
     gap: 30px;
     width: 80%;
     text-align: center;
     margin-bottom: 30px;
 }
 
-.login-container {
+.login-container-signin {
     background-color: white;
     border-radius: 30px;
     position: relative;
 }
 
-.headline {
+.headline-signin {
     color: #444df2;
     font-size: 46px;
     font-weight: 700px;
-    margin-top: 30px;
 }
 
-.subheadline {
+.subheadline-signin {
     color: black;
     font-size: 20px;
     font-weight: 400;
 }
 
-.invalid-input {
+.invalid-input-signin {
     color: red;
     font-size: 14px;
     font-weight: 400;
@@ -107,7 +105,7 @@
 
 }
 
-.forgot-pw {
+.forgot-pw-signin {
     font-size: 18px;
     font-weight: 400;
     color: #797ef3;
@@ -120,21 +118,21 @@
     }
 }
 
-.input-pw {
+.input-pw-signin {
     background-image: url("../../../assets/img/lock.png");
     background-repeat: no-repeat;
     background-position: 20px 50%;
     margin-top: 30px;
 }
 
-.input-name {
+.input-name-signin {
     background-image: url("../../../assets/img/person_filled.png");
     background-repeat: no-repeat;
     background-position: 20px 50%;
     margin-top: 30px;
 }
 
-.input-email {
+.input-email-signin {
     background-image: url("../../../assets/img/mail.png");
     background-repeat: no-repeat;
     background-position: left;
@@ -142,7 +140,7 @@
     margin-top: 30px;
 }
 
-.input-fields {
+.input-fields-signin {
     font-size: 18px;
     font-weight: 500;
     padding: 18px 32px 18px 64px;
@@ -164,7 +162,7 @@
 
 
 
-.btn-container {
+.btn-container-signin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,7 +170,7 @@
     margin-bottom: 30px;
 }
 
-.login-btn {
+.login-btn-signin {
     padding: 12px 25px;
     border-radius: 25px;
     background-color: #444df2;
@@ -195,15 +193,18 @@
 }
 
 
-.go-back {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 50px;
-    left: 50px;
+.go-back-signin {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+  
+    &:hover {
+      background-color: rgb(236, 238, 254) !important;
+      border-radius: 90px;
+    }
 }
 
-.privacy {
+.privacy-signin {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,7 +212,7 @@
     margin-bottom: 50px;
     position: relative;
 
-    >.checkbox {
+    >.checkbox-signin {
         appearance: none;
         height: 24px;
         width: 24px;
@@ -231,21 +232,57 @@
     }
 }
 
-.first-logo {
-    position: absolute;
-    top: 75px;
-    left: 75px;
+.headder-arrow-signin {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    margin-top: 30px;
 
 }
 
-.second-logo {
-    position: absolute;
-    top: 100px;
-    left: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@media (max-width: 600px) {
+    .headline-container-signin {
+        gap: 0;
+        margin-bottom: 5px;
+
+        .subheadline-signin {
+            font-size: 14px;
+        }
+
+        >.headder-arrow-signin {
+
+            >.headline-signin {
+                font-size: 30px;
+            }
+        }
+    }
+
+    .input-fields-signin {
+        font-size: 14px;
+
+        padding: 10px 20px 10px 64px;
+
+    }
+
+    .input-pw-signin,
+    .input-name-signin,
+    .input-email-signin {
+
+        margin-top: 10px;
+    }
+
+    .privacy-signin {
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+
+    * {
+        font-size: 14px;
+    }
+
+    .login-container-signin {
+
+        margin-top: 100px;
+    }
+
 }
