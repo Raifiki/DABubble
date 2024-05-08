@@ -45,14 +45,12 @@ export class EditchannelComponent {
   }
   
   ngAfterViewInit(){
-    this.resizeTextarea();
+    setTimeout(() => {this.resizeTextarea();},10)
   }
 
-  ngOnDestroy(){
-  }
 
   resizeTextarea(){
-    this.textarea.nativeElement.style.height = '0';
+    this.textarea.nativeElement.style.height = '1px';
     this.textarea.nativeElement.style.height = this.textarea.nativeElement.scrollHeight + 'px';
   }
 

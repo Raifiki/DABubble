@@ -40,10 +40,11 @@
 .list {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .bottom {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: start !important;

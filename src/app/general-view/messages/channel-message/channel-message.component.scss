@@ -25,6 +25,7 @@
   align-items: center;
 
   > div {
+    cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 30px;
@@ -70,13 +71,13 @@
 }
 
 .left-side {
+  cursor: pointer;
   display: flex;
   align-items: center;
   border-radius: 30px;
   padding: 8px;
 
   > p {
-    cursor: pointer;
 
     font-family: "Nunito";
     font-size: 24px;
@@ -134,11 +135,11 @@
 
 .massages-wrapper {
   flex: 1;
-
   flex-direction: column;
   align-items: flex-start !important;
   gap: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding-top: 25px;
 }
 
 .pad20 {

@@ -501,3 +501,30 @@ body {
     }
   }
 }
+
+/*scroll-bar*/
+/* Chrome, Edge, and Safari */
+
+*::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+*::-webkit-scrollbar-track {
+  background: $hover-grey;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $prim-color;
+  border-radius: 10px;
+  border: 3px solid #ffffff00;
+}
+
+*::-webkit-scrollbar-button{
+  display: none;
+}
+@-moz-document url-prefix(){
+  * {
+      scrollbar-width: thin;
+      scrollbar-color: greenyellow grey;
+  }
+}
