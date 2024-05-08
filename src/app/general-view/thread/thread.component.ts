@@ -20,7 +20,7 @@ import { TextareaContainerComponent } from '../../shared/components/textarea-con
     MessageContainerComponent,
     MessageContainerComponent,
     FormsModule,
-    TextareaContainerComponent
+    TextareaContainerComponent,
   ],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
@@ -36,7 +36,6 @@ export class ThreadComponent {
   messages: Message[] = [];
   unsubMessage!: Subscription;
   messageContent: string = '';
-
 
   constructor() {}
 

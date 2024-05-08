@@ -29,7 +29,6 @@ import { SearchService } from '../services/search.service';
 import { DirectMessageService } from '../services/direct-message.service';
 import { DirektMessage } from '../shared/models/direct-message.class';
 
-
 @Component({
   selector: 'app-general-view',
   standalone: true,
@@ -58,18 +57,20 @@ export class GeneralViewComponent {
 
   messages: Message[] = [];
   unsubMessages: Subscription;
-  isSearchFieldEmptySig = signal(false)
+  isSearchFieldEmptySig = signal(false);
 
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   messageService = inject(MessageService);
-  registerService = inject(RegisterService)
-  directMessageService = inject(DirectMessageService)
-
+  registerService = inject(RegisterService);
+  directMessageService = inject(DirectMessageService);
 
   subscription: Subscription;
 
-  constructor(private userService: UserService, public searchService: SearchService) {
+  constructor(
+    private userService: UserService,
+    public searchService: SearchService
+  ) {
     this.subscription = this.userService.activeUser$.subscribe((userData) => {
       this.activeUser = userData;
     });
@@ -86,8 +87,8 @@ export class GeneralViewComponent {
     this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
       this.messages = messages;
     });
-    this.searchService.loadAllMessages()    
-    this.searchService.loadAllThreads()
+    this.searchService.loadAllMessages();
+    this.searchService.loadAllThreads();
   }
   @HostListener('window:beforeunload', ['$event'])
   async beforeUnload(event: Event) {
@@ -100,46 +101,43 @@ export class GeneralViewComponent {
     this.subscription.unsubscribe();
   }
 
-
-
   onInputChange() {
-    this.isSearchFieldEmpty()
+    this.isSearchFieldEmpty();
     this.searchService.searchUsers(this.searchInput);
     this.searchService.searchChannels(this.searchInput);
-    this.searchService.searchMessages(this.searchInput)
-    this.searchService.searchThreads(this.searchInput)
+    this.searchService.searchMessages(this.searchInput);
+    this.searchService.searchThreads(this.searchInput);
   }
 
   onResultClick() {
     if (this.searchInput) {
       this.searchInput = '';
-      this.isSearchFieldEmptySig.set(false)
+      this.isSearchFieldEmptySig.set(false);
     }
   }
 
-isSearchFieldEmpty() {
- this.searchInput.length > 0 ? this.isSearchFieldEmptySig.set(true) :  this.isSearchFieldEmptySig.set(false) 
-}
+  isSearchFieldEmpty() {
+    this.searchInput.length > 0
+      ? this.isSearchFieldEmptySig.set(true)
+      : this.isSearchFieldEmptySig.set(false);
+  }
 
-getUser(users: User[]): User {
-  return users.length > 1
-    ? users.find((user) => user.id != this.activeUser.id) || new User()
-    : users[0];
-}
+  getUser(users: User[]): User {
+    return users.length > 1
+      ? users.find((user) => user.id != this.activeUser.id) || new User()
+      : users[0];
+  }
 
-async openDirectMessage(user: User) {
-  this.overlayCtrlService.selectUser(user);
-  let messageId = await this.directMessageService.checkForRightMessage(user)
-  this.overlayCtrlService.showMessageComponent('directMessage', messageId);
-}
+  async openDirectMessage(user: User) {
+    this.overlayCtrlService.selectUser(user);
+    let messageId = await this.directMessageService.checkForRightMessage(user);
+    this.overlayCtrlService.showMessageComponent('directMessage', messageId);
+  }
 
-async initSearch() {
-  await this.searchService.loadAllMessages()
-  setTimeout(() => {
-     this.searchService.loadAllThreads()
-  }, 500);
-
-
-}
-
+  async initSearch() {
+    await this.searchService.loadAllMessages();
+    setTimeout(() => {
+      this.searchService.loadAllThreads();
+    }, 500);
+  }
 }

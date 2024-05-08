@@ -8,10 +8,9 @@ describe('OverlayaccountcreatedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OverlayaccountcreatedComponent]
-    })
-    .compileComponents();
-    
+      imports: [OverlayaccountcreatedComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(OverlayaccountcreatedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

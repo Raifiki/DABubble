@@ -1,47 +1,45 @@
 <div class="main-container">
   <div class="header">
     <div class="logo"></div>
-    <input  (focus)="initSearch()"
-      type="search"
-      placeholder="Code learning durchsuchen"
-      [(ngModel)]="searchInput"
-      class="search-bar"
-      (ngModelChange)="onInputChange()"
-    />
+    <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
+      class="search-bar" (ngModelChange)="onInputChange()" />
 
-    <div class="result-field" id="result-field"  *ngIf="this.isSearchFieldEmptySig()">
+    <div class="result-field" id="result-field" *ngIf="this.isSearchFieldEmptySig()">
       <div *ngIf="searchService.searchUserResult.length > 0">
-          <h4>Users:</h4>
-          <ng-container *ngFor="let result of searchService.searchUserResult">
-              <div (click)=" onResultClick()" class="userResultContainer">
-                  <img src="{{ result.imgPath }}" alt="">
-              <p (click)="openDirectMessage(result); onResultClick()">{{
-                  result['name'] }}
-              </p>
-              </div>
-          </ng-container>
+        <h4>Users:</h4>
+        <ng-container *ngFor="let result of searchService.searchUserResult">
+          <div (click)=" onResultClick()" class="userResultContainer">
+            <img src="{{ result.imgPath }}" alt="">
+            <p (click)="openDirectMessage(result); onResultClick()">{{
+              result['name'] }}
+            </p>
+          </div>
+        </ng-container>
       </div>
       <div *ngIf="searchService.searchChannelsResult.length > 0" class="channels-result">
-          <h4>Channels:</h4>
-          <ng-container *ngFor="let result of searchService.searchChannelsResult">
-              <p (click)="channelService.subChannel(result.id); onResultClick()">{{ result.name }}
-              </p>
-          </ng-container>
+        <h4>Channels:</h4>
+        <ng-container *ngFor="let result of searchService.searchChannelsResult">
+          <p (click)="channelService.subChannel(result.id); onResultClick()">{{ result.name }}
+          </p>
+        </ng-container>
       </div>
       <div *ngIf="searchService.searchMessageResult.length > 0" class="message-result">
         <h4>Messages:</h4>
         <ng-container *ngFor="let result of searchService.searchMessageResult">
-            <p (click)="channelService.subChannel(result.messageOfChannel); onResultClick()"><b>{{searchService.showChannelName(result)}} </b>- {{ result.content }}
-            </p>
-            <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
-              <h5>Thread of Message:</h5>
-              <ng-container *ngFor="let result of searchService.searchThreadResult">
-                <div class="thread-content">  <p  (click)="this.searchService.searchForChannel(result); onResultClick()">  {{ result.content }}
-                  </p></div>
-              </ng-container>
+          <p (click)="channelService.subChannel(result.messageOfChannel); onResultClick()">
+            <b>{{searchService.showChannelName(result)}} </b>- {{ result.content }}
+          </p>
+          <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
+            <h5>Thread of Message:</h5>
+            <ng-container *ngFor="let result of searchService.searchThreadResult">
+              <div class="thread-content">
+                <p (click)="this.searchService.searchForChannel(result); onResultClick()"> {{ result.content }}
+                </p>
+              </div>
+            </ng-container>
           </div>
         </ng-container>
-    </div>
+      </div>
     </div>
 
     <div class="user">
@@ -50,20 +48,14 @@
         <img src="{{ this.activeUser.imgPath }}" alt="" class="user-image" />
       </div>
       <div>
-        <img
-          class="user-menu"
-          src="../../assets/img/keyboard_arrow_down.png"
-          (click)="overlayCtrlService.showOverlay('dropDownUserMenu')"
-        />
+        <img class="user-menu" src="../../assets/img/keyboard_arrow_down.png"
+          (click)="overlayCtrlService.showOverlay('dropDownUserMenu')" />
       </div>
     </div>
   </div>
   <div class="content">
     <app-workspace-menu></app-workspace-menu>
-    <div
-      class="left-side"
-      *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)"
-    >
+    <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)">
       <app-left-side></app-left-side>
     </div>
     <div class="middle" [style.width]="overlayCtrlService.showHideRightSide() ? '100%' : '100%'">
@@ -78,9 +70,7 @@
       </div>
     </div>
     <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())">
-      <app-thread
-
-      ></app-thread>
+      <app-thread></app-thread>
     </div>
   </div>
 </div>

@@ -18,81 +18,82 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-createchannel',
   standalone: true,
-  imports: [
-    FormsModule,
-    UserlistitemComponent,
-    UserSelectComponent],
+  imports: [FormsModule, UserlistitemComponent, UserSelectComponent],
   templateUrl: './createchannel.component.html',
-  styleUrl: './createchannel.component.scss'
+  styleUrl: './createchannel.component.scss',
 })
 export class CreatechannelComponent {
   channel: Channel = new Channel();
 
   formState: 'channelName' | 'addMember' = 'channelName';
   memberSelection: 'all' | 'select' = 'all';
-  unsubUsersList!: Subscription
+  unsubUsersList!: Subscription;
   overlayCtrlService = inject(OverlaycontrolService);
   channelService = inject(ChannelService);
   userService = inject(UserService);
 
   users!: User[];
 
-  constructor(){
-    this.unsubUsersList = this.userService.usersList$.subscribe(data => {
-      this.users = data
+  constructor() {
+    this.unsubUsersList = this.userService.usersList$.subscribe((data) => {
+      this.users = data;
     });
   }
 
-  onSubmitName(form:NgForm){
+  onSubmitName(form: NgForm) {
     if (form.valid) {
       this.formState = 'addMember';
     }
   }
 
   ngOnDestroy(): void {
-    this.unsubUsersList.unsubscribe()
+    this.unsubUsersList.unsubscribe();
   }
 
-  async onSubmitCreateChannel(form:NgForm){
-    if(form.valid){
-      if(this.memberSelection == 'all') this.addAllUsers2Channel();
+  async onSubmitCreateChannel(form: NgForm) {
+    if (form.valid) {
+      if (this.memberSelection == 'all') this.addAllUsers2Channel();
       this.addCreator2Channel();
       let id = await this.channelService.createChannel(this.channel);
-      if(typeof id === "string") this.addChannelId2Users(id);
+      if (typeof id === 'string') this.addChannelId2Users(id);
       this.overlayCtrlService.hideOverlay();
-      console.log('channel created event - save data not implemented', this.channel.getCleanBEJSON());
+      console.log(
+        'channel created event - save data not implemented',
+        this.channel.getCleanBEJSON()
+      );
     }
   }
 
-  addMembers2Channel(members:User[]){
+  addMembers2Channel(members: User[]) {
     this.channel.members = [];
-    members.forEach(member => {
+    members.forEach((member) => {
       this.channel.members.push(member);
     });
   }
 
-  addCreator2Channel(){
+  addCreator2Channel() {
     let activeUser = this.userService.activeUser$.value;
-    if (!this.channel.members.find(user => user.id == activeUser.id)){
+    if (!this.channel.members.find((user) => user.id == activeUser.id)) {
       this.channel.members.push(activeUser);
     }
-    this.channel.creator = activeUser; 
+    this.channel.creator = activeUser;
   }
 
-  addAllUsers2Channel(){
+  addAllUsers2Channel() {
     this.channel.members = [];
-    this.users.forEach( user => this.channel.members.push(user));
+    this.users.forEach((user) => this.channel.members.push(user));
   }
 
-  addChannelId2Users(channelId:string){
-    this.channel.members.forEach(user => {
+  addChannelId2Users(channelId: string) {
+    this.channel.members.forEach((user) => {
       user.channelIDs.push(channelId);
       this.userService.saveUser(user);
     });
   }
 
-  channelNameExists(){
-    return this.channelService.getChannelsNameList().includes(this.channel.name)
+  channelNameExists() {
+    return this.channelService
+      .getChannelsNameList()
+      .includes(this.channel.name);
   }
-
 }

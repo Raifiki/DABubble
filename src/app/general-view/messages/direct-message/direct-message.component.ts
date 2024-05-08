@@ -47,7 +47,6 @@ export class DirectMessageComponent {
 
   newMessage: Message = new Message();
 
-
   constructor() {
     this.unsubscripeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {
@@ -72,8 +71,6 @@ export class DirectMessageComponent {
     });
   }
 
-
-
   sendNewMessage() {
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
@@ -84,7 +81,6 @@ export class DirectMessageComponent {
     );
     this.newMessage = new Message();
   }
-
 
   ngOnDestroy() {
     this.unsubDirectMessage.unsubscribe();

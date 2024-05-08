@@ -11,7 +11,7 @@ import {
 import { User } from '../shared/models/user.class';
 import { Router } from '@angular/router';
 
-@Injectable({ 
+@Injectable({
   providedIn: 'root',
 })
 export class UserService {
@@ -38,11 +38,11 @@ export class UserService {
     }
   }
 
-   getUserListRef() {
+  getUserListRef() {
     return collection(this.firebaseInitService.getDatabase(), 'users');
   }
 
-   getUserRef(id: string) {
+  getUserRef(id: string) {
     return doc(this.getUserListRef(), id);
   }
 
@@ -55,7 +55,6 @@ export class UserService {
         listOfUsers.push(user);
       });
       this.usersList$.next(listOfUsers);
-      
     });
   }
 
@@ -92,7 +91,6 @@ export class UserService {
       const userData = data.data();
       const user = new User(userData);
       this.activeUser$.next(user);
-
     });
   }
 

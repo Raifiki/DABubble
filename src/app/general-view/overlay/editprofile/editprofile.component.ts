@@ -9,19 +9,18 @@ import { UserService } from '../../../services/user.service';
 // import classes
 import { User } from '../../../shared/models/user.class';
 
-
 @Component({
   selector: 'app-editprofile',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './editprofile.component.html',
-  styleUrl: './editprofile.component.scss'
+  styleUrl: './editprofile.component.scss',
 })
 export class EditprofileComponent {
   user!: User;
 
   overlayCtrlService = inject(OverlaycontrolService);
-  userService = inject (UserService);
+  userService = inject(UserService);
 
   unsubscribeUser: Subscription;
 
@@ -34,20 +33,21 @@ export class EditprofileComponent {
     'assets/img/avatar/avatar5.svg',
   ];
 
-  constructor(){
-    this.unsubscribeUser = this.userService.activeUser$.subscribe((userData) => {
-      this.user = userData;
-    });
+  constructor() {
+    this.unsubscribeUser = this.userService.activeUser$.subscribe(
+      (userData) => {
+        this.user = userData;
+      }
+    );
   }
 
-  async onSubmit(form:NgForm){
+  async onSubmit(form: NgForm) {
     this.overlayCtrlService.showOverlay('registeredUserProfile');
-    this.userService.activeUser$.next(this.user)
-    await this.userService.saveUser(this.userService.activeUser$.value)
+    this.userService.activeUser$.next(this.user);
+    await this.userService.saveUser(this.userService.activeUser$.value);
   }
 
   ngOnDestroy() {
     this.unsubscribeUser.unsubscribe();
   }
-
 }

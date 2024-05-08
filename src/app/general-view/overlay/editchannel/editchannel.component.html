@@ -10,15 +10,16 @@
             <div class="field-header-wrapper">
                 <span>Channel-Name</span>
                 @if (editName) {
-                    <button class="btn-default text-btn" (click)="editName = false; updateChannelName()">Speichern</button>
+                <button class="btn-default text-btn" (click)="editName = false; updateChannelName()">Speichern</button>
                 } @else {
-                    <button class="btn-default text-btn" (click)="editName = true">Bearbeiten</button>
+                <button class="btn-default text-btn" (click)="editName = true">Bearbeiten</button>
                 }
             </div>
             <div class="form-field-ipt-style2">
                 <div class="ipt-field-wrapper">
                     <span>#</span>
-                    <input type="text" placeholder="z.B. Kooperationsprojekte" name="name" #name="ngModel" [(ngModel)]="newName" [disabled]="!editName">
+                    <input type="text" placeholder="z.B. Kooperationsprojekte" name="name" #name="ngModel"
+                        [(ngModel)]="newName" [disabled]="!editName">
                 </div>
             </div>
         </div>
@@ -26,14 +27,17 @@
             <div class="field-header-wrapper">
                 <span>Beschreibung</span>
                 @if (editDetails) {
-                    <button class="btn-default text-btn" (click)="editDetails = false ; updateChannelDescription()">Speichern</button>
+                <button class="btn-default text-btn"
+                    (click)="editDetails = false ; updateChannelDescription()">Speichern</button>
                 } @else {
-                    <button class="btn-default text-btn" (click)="editDetails = true">Bearbeiten</button>
+                <button class="btn-default text-btn" (click)="editDetails = true">Bearbeiten</button>
                 }
             </div>
             <div class="form-field-textarea-style2">
                 <div class="textarea-field-wrapper">
-                    <textarea (keyup)="resizeTextarea()" placeholder="Dein Text hier" name="description" #description="ngModel" [(ngModel)]="channel.description" [disabled]="!editDetails" #textarea></textarea>
+                    <textarea (keyup)="resizeTextarea()" placeholder="Dein Text hier" name="description"
+                        #description="ngModel" [(ngModel)]="channel.description" [disabled]="!editDetails"
+                        #textarea></textarea>
                 </div>
             </div>
             <div class="vertical-line"></div>

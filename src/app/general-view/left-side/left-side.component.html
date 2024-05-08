@@ -4,10 +4,8 @@
       <img src="./../../../../assets/icons/Workspace logo.jpg" alt="" />
       <p>Devspace</p>
     </div>
-    <img
-      src="../../../../assets/icons/16. edit_square.jpg"
-      (click)="overlayCtrlService.showMessageComponent('newMessage')"
-    />
+    <img src="../../../../assets/icons/16. edit_square.jpg"
+      (click)="overlayCtrlService.showMessageComponent('newMessage')" />
   </div>
   <div class="body">
     <div class="channels">
@@ -17,20 +15,12 @@
           <img src="../../../../assets/icons/workspaces.svg" alt="" />
           <b>Channels</b>
         </div>
-        <div
-          class="plus-icon"
-          (click)="overlayCtrlService.showOverlay('createChannel')"
-        ></div>
+        <div class="plus-icon" (click)="overlayCtrlService.showOverlay('createChannel')"></div>
       </div>
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
-        <p
-          [class.checked]="isChecked(channel.id)"
-          class="channels-name"
-          (click)="
+        <p [class.checked]="isChecked(channel.id)" class="channels-name" (click)="
             overlayCtrlService.showMessageComponent('channel', channel.id)
-          "
-          *ngFor="let channel of channels"
-        >
+          " *ngFor="let channel of channels">
           # {{ channel.name }}
         </p>
       </div>
@@ -49,16 +39,11 @@
           <b>Direktnachrichten</b>
         </div>
       </div>
-      <div
-        class="direct-messages-list"
-        [class.collapsed]="dropdownCollapsed.directMessages"
-      >
+      <div class="direct-messages-list" [class.collapsed]="dropdownCollapsed.directMessages">
         @for (directMessage of directMessages; track directMessage) {
         @if(getUser(directMessage.users).id != '') {
-        <app-userlistitem
-          [user]="getUser(directMessage.users)"
-          (click)="selectDirectMessage(directMessage)"
-        ></app-userlistitem>
+        <app-userlistitem [user]="getUser(directMessage.users)"
+          (click)="selectDirectMessage(directMessage)"></app-userlistitem>
         } }
       </div>
     </div>

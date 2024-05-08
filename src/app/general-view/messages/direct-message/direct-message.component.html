@@ -1,21 +1,15 @@
 <div class="content">
   <div class="header">
     <div>
-      <app-userlistitem
-        [checked]="false"
-        [user]="secondUser"
-        (click)="overlayControlService.showOverlay('userProfile')"
-      ></app-userlistitem>
+      <app-userlistitem [checked]="false" [user]="secondUser"
+        (click)="overlayControlService.showOverlay('userProfile')"></app-userlistitem>
     </div>
   </div>
 
   <div class="content-wrapper">
     <div class="messages-wrapper">
       @for (msg of messages; track msg) {
-        <app-message-container
-        [message]="msg"
-        [msgType]="'directMsg'"
-        ></app-message-container>
+      <app-message-container [message]="msg" [msgType]="'directMsg'"></app-message-container>
       }
     </div>
     <div class="content-footer-wrapper">

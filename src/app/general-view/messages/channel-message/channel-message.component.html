@@ -1,25 +1,22 @@
 <div class="content">
   <div class="header">
     <div class="left-side" (click)="overlayCtrlService.showOverlay('editChannel')">
-      <p >
+      <p>
         # {{ channel.name }}
       </p>
       <div class="dropdown"></div>
     </div>
     <div class="right-side">
       <div (click)="overlayCtrlService.showOverlay('members')">
-        <div >
+        <div>
           @for (member of channel.members; track member; let index = $index) {
-          @if(index < 3){
-          <img src="{{ member.imgPath }}" alt="" />
+          @if(index
+          < 3){ <img src="{{ member.imgPath }}" alt="" />
           } }
         </div>
         <p id="counter">{{ channel.members.length }}</p>
       </div>
-      <div
-        (click)="overlayCtrlService.showOverlay('add-members')"
-        id="add-person"
-      >
+      <div (click)="overlayCtrlService.showOverlay('add-members')" id="add-person">
         <img src="../../../../assets/icons/person_add.svg" alt="" />
       </div>
     </div>
@@ -27,11 +24,8 @@
 
   <div class="massages-wrapper">
     @for (msg of messages; track msg; let index = $index) {
-    <app-message-container
-      (click)="overlayCtrlService.openThread(channel, msg)"
-      [message]="msg"
-      [msgType]="'channel'"
-    ></app-message-container>
+    <app-message-container (click)="overlayCtrlService.openThread(channel, msg)" [message]="msg"
+      [msgType]="'channel'"></app-message-container>
     }
   </div>
   <app-textarea-container [type]="'Channels'"> </app-textarea-container>

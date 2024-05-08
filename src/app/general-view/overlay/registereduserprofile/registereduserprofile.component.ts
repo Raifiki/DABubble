@@ -13,23 +13,20 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [],
   templateUrl: './registereduserprofile.component.html',
-  styleUrl: './registereduserprofile.component.scss'
+  styleUrl: './registereduserprofile.component.scss',
 })
 export class RegistereduserprofileComponent {
   overlayCtrlService = inject(OverlaycontrolService);
-  userService = inject(UserService)
+  userService = inject(UserService);
   subscription: Subscription;
   activeUser!: User;
 
   constructor() {
-    this.subscription =  this.userService.activeUser$.subscribe((userData) => {
-      this.activeUser = userData
-  })
-}
-  ngOnDestroy() {
-    this.subscription.unsubscribe()
+    this.subscription = this.userService.activeUser$.subscribe((userData) => {
+      this.activeUser = userData;
+    });
   }
-
-
-  
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

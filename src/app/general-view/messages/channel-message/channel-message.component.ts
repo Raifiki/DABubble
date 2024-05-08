@@ -37,7 +37,7 @@ export class ChannelMessageComponent implements OnInit {
 
   user!: User;
 
-  numberofThreads: [{}] = [{}]
+  numberofThreads: [{}] = [{}];
   activeUser: User = new User();
   unsubscribeActiveUser;
 
@@ -47,16 +47,17 @@ export class ChannelMessageComponent implements OnInit {
 
   messages: Message[] = [];
   unsubMessages: Subscription;
-  unsubNumberOfThreads: Subscription
+  unsubNumberOfThreads: Subscription;
 
   constructor() {
     this.unsubChannels = this.channelService.channels$.subscribe(
       (channelList) => (this.channels = channelList)
-
     );
-    this.unsubNumberOfThreads = this.channelService.numberOfThreads$.subscribe((array) => {
-      this.numberofThreads = array
-    })
+    this.unsubNumberOfThreads = this.channelService.numberOfThreads$.subscribe(
+      (array) => {
+        this.numberofThreads = array;
+      }
+    );
 
     this.unsubscribeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {

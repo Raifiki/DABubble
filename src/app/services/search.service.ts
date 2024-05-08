@@ -90,7 +90,6 @@ export class SearchService {
         });
         this.listOfAllMessages = messages;
       });
-      console.log('loading messages complete');
     });
   }
 
@@ -124,7 +123,6 @@ export class SearchService {
           this.listOfAllThreads = threads;
         }
       );
-      console.log('loading threads complete');
     });
   }
 

@@ -6,12 +6,12 @@ import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
   standalone: true,
   imports: [RouterLinkActive],
   templateUrl: './imprint.component.html',
-  styleUrl: './imprint.component.scss'
+  styleUrl: './imprint.component.scss',
 })
 export class ImprintComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   goBack() {
-    this.router.navigate(['..'] ,{relativeTo: this.route})
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 }

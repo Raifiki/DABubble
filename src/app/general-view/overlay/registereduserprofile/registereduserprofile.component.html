@@ -10,11 +10,12 @@
         <div class="name-status-wrapper">
             <div class="name-editBtn-wrapper">
                 <h2>{{ activeUser.name }}</h2>
-                <button class="btn-default text-btn" (click)="overlayCtrlService.showOverlay('editProfile',$event)">Bearbeiten</button>
+                <button class="btn-default text-btn"
+                    (click)="overlayCtrlService.showOverlay('editProfile',$event)">Bearbeiten</button>
             </div>
             <div class="status-wrapper" [class.active]="activeUser.status == 'Aktiv'">
                 <div class="status-lamp"></div>
-                <span class="status-text" >{{(activeUser.status)? activeUser.status:''}}</span>
+                <span class="status-text">{{(activeUser.status)? activeUser.status:''}}</span>
             </div>
         </div>
         <div class="email-wrapper">

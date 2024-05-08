@@ -15,9 +15,11 @@
                         <span>Vollständiger Name</span>
                     </div>
                     <div class="ipt-field-wrapper">
-                        <input type="text" placeholder="Dein Name hier" required name="name" #name="ngModel" [(ngModel)]="user.name">
+                        <input type="text" placeholder="Dein Name hier" required name="name" #name="ngModel"
+                            [(ngModel)]="user.name">
                     </div>
-                    <span [hidden]="name.untouched || name.valid" class="error-msg">Bitte schreiben Sie einen Namen</span>
+                    <span [hidden]="name.untouched || name.valid" class="error-msg">Bitte schreiben Sie einen
+                        Namen</span>
                 </div>
                 <div class="form-field-ipt-style2">
                     <div class="header-ipt-field">
@@ -25,13 +27,16 @@
                         <span>E-Mail-Adresse</span>
                     </div>
                     <div class="ipt-field-wrapper">
-                        <input type="email" placeholder="Dein email hier" required name="email" #email="ngModel" [(ngModel)]="user.email" email>
+                        <input type="email" placeholder="Dein email hier" required name="email" #email="ngModel"
+                            [(ngModel)]="user.email" email>
                     </div>
-                    <span [hidden]="email.untouched || email.valid" class="error-msg">Diese E-Mail-Adresse ist leider ungültig</span>
+                    <span [hidden]="email.untouched || email.valid" class="error-msg">Diese E-Mail-Adresse ist leider
+                        ungültig</span>
                 </div>
             </div>
             <div class="btn-wrapper">
-                <button type="button" class="btn-default secondary-btn" (click)="overlayCtrlService.showOverlay('registeredUserProfile',$event)">
+                <button type="button" class="btn-default secondary-btn"
+                    (click)="overlayCtrlService.showOverlay('registeredUserProfile',$event)">
                     <span>Abbrechen</span>
                 </button>
                 <button class="btn-default primary-btn" [disabled]="!editProfileForm.valid">

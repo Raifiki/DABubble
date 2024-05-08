@@ -6,14 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.scss'
+  styleUrl: './privacy-policy.component.scss',
 })
 export class PrivacyPolicyComponent {
-
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   goBack() {
-    this.router.navigate(['..'] ,{relativeTo: this.route})
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 }
-

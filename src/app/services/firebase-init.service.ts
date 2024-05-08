@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { environment } from '../../environment/environment';
-import { getFirestore } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirebaseInitService {
   private app: any;
   private auth: any;
   private database: any;
-
 
   constructor() {
     this.initializeApp();
@@ -29,7 +28,6 @@ export class FirebaseInitService {
   }
 
   getDatabase() {
-    return this.database // greift nur auf die datenbank zu. es müsste hier noch der name der datenbank angefügt werden, die geladen werden soll
+    return this.database; // greift nur auf die datenbank zu. es müsste hier noch der name der datenbank angefügt werden, die geladen werden soll
   }
-
 }

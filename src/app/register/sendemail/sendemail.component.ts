@@ -13,41 +13,47 @@ import { FirebaseInitService } from '../../services/firebase-init.service';
 @Component({
   selector: 'app-sendemail',
   standalone: true,
-  imports: [FormsModule,
-  OverlayemailsendComponent],
+  imports: [FormsModule, OverlayemailsendComponent],
   templateUrl: './sendemail.component.html',
-  styleUrl: './sendemail.component.scss'
+  styleUrl: './sendemail.component.scss',
 })
 export class SendemailComponent {
-  eMail!:string;
-  @Output() isShowen = new EventEmitter()
-  toggleOverlay:boolean = true;
+  eMail!: string;
+  @Output() isShowen = new EventEmitter();
+  toggleOverlay: boolean = true;
 
   private actionCodeSettings = {
     url: 'http://localhost:4200',
-    handleCodeInApp: true
+    handleCodeInApp: true,
   };
 
   authService = inject(FirebaseInitService);
 
-  onSubmit(form:NgForm){
-    if(form.valid) this.sendMail(form);
+  onSubmit(form: NgForm) {
+    if (form.valid) this.sendMail(form);
   }
 
   goBack() {
-    this.isShowen.emit(false)
-   }
+    this.isShowen.emit(false);
+  }
 
-  sendMail(form:NgForm){
-    sendPasswordResetEmail(this.authService.getAuth(),this.eMail,this.actionCodeSettings)
+  sendMail(form: NgForm) {
+    sendPasswordResetEmail(
+      this.authService.getAuth(),
+      this.eMail,
+      this.actionCodeSettings
+    )
       .then(() => {
         this.toggleOverlay = !this.toggleOverlay;
         setTimeout(() => {
           form.reset();
           this.isShowen.emit(true);
-        },4000)
+        }, 4000);
       })
-      .catch(err => {alert(['eMail konnte nicht gesendet werden aufgrund folgendem Fehler:' + err])})
+      .catch((err) => {
+        alert([
+          'eMail konnte nicht gesendet werden aufgrund folgendem Fehler:' + err,
+        ]);
+      });
   }
-
 }

@@ -1,10 +1,10 @@
 <div class="main">
     @if (isLoginShowen) {
-        <div class="header">
-            <div class="create-account">
-                <div>Neu bei DABubble ?</div>
-                <div (click)="goToSignIn()" class="create">Konto erstellen</div>
-            </div>
+    <div class="header">
+        <div class="create-account">
+            <div>Neu bei DABubble ?</div>
+            <div (click)="goToSignIn()" class="create">Konto erstellen</div>
+        </div>
         <div class="non-animation">
             <img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation" />
             <img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation" />
@@ -12,10 +12,10 @@
     </div>
     }
     @if (!isLoginShowen) {
-        <div class="non-animation">
-            <img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation" />
-            <img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation" />
-        </div>
+    <div class="non-animation">
+        <img src="../../../assets/img/Logo.png" alt="" class="first-logo-without-animation" />
+        <img src="../../../assets/img/Logo name.png" alt="" class="second-logo-without-animation" />
+    </div>
     }
 
 
@@ -37,8 +37,8 @@
 </div>
 
 @if (animationPlayed === false) {
-        <div class="overlay-intro">
-        <img src="../../../assets/img/Logo.png" alt="" class="first-logo" />
-        <img src="../../../assets/img/Logo name.png" alt="" class="second-logo" />
-    </div>
-        }
+<div class="overlay-intro">
+    <img src="../../../assets/img/Logo.png" alt="" class="first-logo" />
+    <img src="../../../assets/img/Logo name.png" alt="" class="second-logo" />
+</div>
+}

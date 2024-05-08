@@ -13,15 +13,14 @@ import { UserService } from './user.service';
 import { DirectMessageService } from './direct-message.service';
 import { ChannelService } from './channel.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class RegisterService {
   googleProvider = new GoogleAuthProvider();
   userToCreate$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
-  directMessageService = inject(DirectMessageService)
-  channelService = inject(ChannelService)
+  directMessageService = inject(DirectMessageService);
+  channelService = inject(ChannelService);
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -63,18 +62,18 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
-        console.log(result.user.photoURL)
-        let userData = await this.userService.getUserRef(user.id)
+        console.log(result.user.photoURL);
+        let userData = await this.userService.getUserRef(user.id);
         if (userData.id === user.id) {
-          await this.userService.loadUser(userData.id)
+          await this.userService.loadUser(userData.id);
         } else {
           this.userService.activeUser$.next(user);
           await this.userService.saveUser(user).then(() => {
-          this.router.navigate(['/generalView']);
-        });
+            this.router.navigate(['/generalView']);
+          });
         }
-        await this.directMessageService.subDirectMessagesList()
-        await this.channelService.subChannels()
+        await this.directMessageService.subDirectMessagesList();
+        await this.channelService.subChannels();
       })
       .catch((error) => {
         alert(
@@ -93,14 +92,14 @@ export class RegisterService {
       );
       await this.userService.loadUser(userCredential.user.uid);
       this.userService.saveIdToLocalStorate(userCredential.user.uid);
-      } catch (error: any) {
+    } catch (error: any) {
       alert(
         'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
           error.message
       );
     }
-    await this.directMessageService.subDirectMessagesList()
-    await this.channelService.subChannels()
+    await this.directMessageService.subDirectMessagesList();
+    await this.channelService.subChannels();
   }
 
   async logInTestUser() {

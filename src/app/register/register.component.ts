@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
     LoginComponent,
     SigninComponent,
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -29,11 +29,11 @@ export class RegisterComponent {
   isResetPwIsShowen = false;
   isLoginShowen = true;
   animationService = inject(AnimationService);
-  animationPlayed
+  animationPlayed;
   chooseAvatar = false;
 
   constructor() {
-    this.animationPlayed = this.checkAmount()
+    this.animationPlayed = this.checkAmount();
   }
 
   showPwComponent(event: boolean) {
@@ -53,17 +53,16 @@ export class RegisterComponent {
   }
 
   checkAmount() {
-    const amount = sessionStorage.getItem('animationPlayed')
+    const amount = sessionStorage.getItem('animationPlayed');
     if (amount === 'false') {
-      return false      
-    } else{
-      return true
+      return false;
+    } else {
+      return true;
     }
   }
 
-
   showMain(event: boolean) {
-    this.isLoginShowen = true
+    this.isLoginShowen = true;
     this.isResetPwIsShowen = false;
     this.isSignIsShowen = false;
     this.chooseAvatar = false;
@@ -75,5 +74,4 @@ export class RegisterComponent {
     this.isResetPwIsShowen = false;
     this.isSignIsShowen = false;
   }
-
 }

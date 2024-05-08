@@ -62,8 +62,8 @@ export class OverlaycontrolService {
 
   showMessageComponent(componentType: MessageComponent, id?: string) {
     this.messageComponentType = componentType;
-    if (this.threadService.currentChannel != id){
-      this.threadService.isShowingSig.set(false)
+    if (this.threadService.currentChannel != id) {
+      this.threadService.isShowingSig.set(false);
     }
     if (id) this.subscripeMessageComponentContent(componentType, id);
   }
