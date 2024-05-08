@@ -15,10 +15,11 @@
     >
       <div class="btn-icon-reactions"></div>
     </button>
+    @if (msgType == 'channel') {
     <button class="btn-default icon-btn">
-      <div class="btn-icon-thread"></div>
+      <div class="btn-icon-thread" (click)="toggleThreads()"></div>
     </button>
-    @if(showEmojiPickerReaction){<emoji-mart
+    } @if(showEmojiPickerReaction){<emoji-mart
       [totalFrequentLines]="1"
       [showPreview]="false"
       set="google"
@@ -62,9 +63,7 @@
       @if(msgType == 'channel'){
       <div class="msg-thread-wrapper">
         <span class="thread-replies" (click)="toggleThreads()">
-          {{
-            message.answers.amount > 0 ? message.answers.amount : ""
-          }}
+          {{ message.answers.amount > 0 ? message.answers.amount : "" }}
           Antworten</span
         >
       </div>
