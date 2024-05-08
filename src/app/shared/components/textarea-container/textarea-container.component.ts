@@ -50,12 +50,13 @@ export class TextareaContainerComponent {
   activeUser: User = new User();
   unsubscribeActiveUser: Subscription;
 
-  @Input() isThread: boolean = false;
-  @Input() channel: Channel = {} as Channel;
-  @Input() directMessage: DirektMessage = {} as DirektMessage;
-  @Input() colId: 'Channels' | 'directMessages' | undefined;
-  @Input() isNewMessage: boolean = false;
+  @Input({ required: true }) type:
+    | 'Channels'
+    | 'directMessages'
+    | 'newMessage'
+    | 'thread' = 'Channels';
   @Input() sendTo!: Channel | User | undefined;
+
   unsubChannels: Subscription;
   channels: Channel[] = [];
 
@@ -65,7 +66,6 @@ export class TextareaContainerComponent {
 
   showEmojiPicker: boolean = false;
 
-  storageRef!: StorageReference;
   files: File[] = [];
 
   newUsers: User[] = [];
@@ -139,19 +139,63 @@ export class TextareaContainerComponent {
   }
 
   async sendNewMessage() {
-    if (this.isThread) {
-      this.createThreadMessage();
-    } else if (this.isNewMessage) {
-      this.createNewMessage();
+    this.fullfillMsgData();
+    let newMsgId: string | undefined;
+
+    if (this.type == 'thread') {
+      newMsgId = await this.threadsService.saveThread(this.newMessage);
+    } else if (this.type == 'newMessage') {
+      newMsgId = await this.createNewMessage();
     } else {
-      this.createDirectMessageOrChannelMessage();
+      newMsgId = await this.createDirectMessageOrChannelMessage();
     }
+    console.log('newMsgId: ', newMsgId);
+    if (newMsgId) this.uploadFile(newMsgId);
+    this.files = [];
+    this.newMessage.content = '';
   }
 
-  async createNewMessage() {
+  uploadFile(msgId: string) {
+    let storageRef: StorageReference | undefined;
+    if (this.type == 'thread') {
+      storageRef = this.storageService.getThreadMsgRef(
+        this.channelService.activeChannel$.value.id,
+        this.threadsService.idOfThisThreads,
+        msgId
+      );
+    } else if (this.sendTo instanceof User || this.type == 'directMessages') {
+      storageRef = this.storageService.getDirectMessagesMsgRef(
+        this.directMessagesService.activeDirectMessage$.value.id,
+        msgId
+      );
+    } else if (this.sendTo instanceof Channel || this.type == 'Channels') {
+      storageRef = this.storageService.getChannelMsgRef(
+        this.channelService.activeChannel$.value.id,
+        msgId
+      );
+    }
+    console.log('storageRef: ', storageRef);
+
+    this.files.forEach((file) => {
+      if (storageRef) this.storageService.uploadFile(storageRef, file);
+    });
+  }
+
+  fullfillMsgData() {
+    this.newMessage.creator = this.activeUser;
+    this.newMessage.date = new Date();
+    if (this.type == 'Channels')
+      this.newMessage.messageOfChannel =
+        this.channelService.activeChannel$.value.id;
+    this.files.forEach((file) => this.newMessage.files.push(file.name));
+  }
+
+  async createNewMessage(): Promise<string | undefined> {
+    let msgId: string | undefined;
     if (this.sendTo instanceof User) {
       let directMsg = this.existDirectMessage(this.sendTo);
-      let idDM = directMsg
+      let idDM;
+      [idDM, msgId] = directMsg
         ? await this.addNewMessageToDirectMessage(directMsg)
         : await this.createNewDirectMessage([this.activeUser, this.sendTo]);
       this.overlayControlService.showMessageComponent('directMessage', idDM);
@@ -159,7 +203,7 @@ export class TextareaContainerComponent {
     } else if (this.sendTo instanceof Channel) {
       let channelID = this.sendTo?.id;
       if (channelID) {
-        await this.messageService.addMessageToCollection(
+        msgId = await this.messageService.addMessageToCollection(
           'Channels',
           channelID,
           this.getMessageObj()
@@ -167,7 +211,9 @@ export class TextareaContainerComponent {
         this.overlayControlService.showMessageComponent('channel', channelID);
       }
     }
+    return msgId;
   }
+
   existDirectMessage(user: User): DirektMessage | undefined {
     let directMsg: DirektMessage | undefined;
     if (user.id == this.activeUser.id) {
@@ -213,12 +259,12 @@ export class TextareaContainerComponent {
   }
 
   async addNewMessageToDirectMessage(directMessage: DirektMessage) {
-    await this.messageService.addMessageToCollection(
+    let msgId = await this.messageService.addMessageToCollection(
       'directMessages',
       directMessage.id,
       this.getMessageObj()
     );
-    return directMessage.id;
+    return [directMessage.id, msgId];
   }
 
   getMessageObj() {
@@ -229,81 +275,27 @@ export class TextareaContainerComponent {
     for (let i = 0; i < this.files.length; i++) {
       message.files.push(this.files[i].name);
     }
-
-    message.reactions = []; // add files if function is available
+    message.reactions = [];
     return message;
   }
 
   async createDirectMessageOrChannelMessage() {
-    this.fullfillMsgData();
-    this.saveMessageToChannelOrDirectMessage();
-  }
-
-  getCollectionId(): string {
-    return this.colId === 'Channels' ? this.channel.id : this.directMessage.id;
-  }
-
-  getMessageRef(id: string, msgId: string) {
-    if (this.colId === 'Channels') {
-      this.storageRef = this.storageService.getChannelMsgRef(id, msgId);
-      console.log('storage Ref:', this.files);
-    } else if (this.colId === 'directMessages') {
-      this.storageRef = this.storageService.getDirectMessagesMsgRef(id, msgId);
-    }
-
-    this.files.forEach((file) => {
-      this.storageService.uploadFile(this.storageRef, file);
-    });
-  }
-  async saveMessageToChannelOrDirectMessage() {
-    let id = this.getCollectionId();
     let msgId = await this.messageService.addMessageToCollection(
-      this.colId,
-      id,
+      this.getCollection(),
+      this.getDocId(),
       this.newMessage
     );
-
-    if (msgId) {
-      this.getMessageRef(id, msgId);
-    }
+    return msgId;
   }
 
-  async createThreadMessage() {
-    let message = new Message();
-    message.creator = this.userService.activeUser$.value;
-    message.content = this.newMessage.content;
-    message.date = new Date();
-
-    for (let i = 0; i < this.files.length; i++) {
-      message.files.push(this.files[i].name);
-    }
-    message.reactions = [];
-
-    let newId = await this.threadsService.saveThread(message);
-    if (newId) {
-      message.id = newId;
-      await this.saveFilesToThread(message.id);
-    }
+  getDocId(): string {
+    return this.type == 'Channels'
+      ? this.channelService.activeChannel$.value.id
+      : this.directMessagesService.activeDirectMessage$.value.id;
   }
 
-  async saveFilesToThread(threadId: string) {
-    let channelID = this.channelService.activeChannel$.value.id;
-
-    let ref = this.storageService.getThreadMsgRef(
-      channelID,
-      this.threadsService.idOfThisThreads,
-      threadId
-    );
-
-    this.files.forEach((file) => {
-      this.storageService.uploadFile(ref, file);
-    });
-  }
-
-  fullfillMsgData() {
-    this.newMessage.creator = this.activeUser;
-    this.newMessage.date = new Date();
-    this.files.forEach((file) => this.newMessage.files.push(file.name));
+  getCollection(): 'Channels' | 'directMessages' {
+    return this.type == 'Channels' ? 'Channels' : 'directMessages';
   }
 
   addUser(user: User) {
@@ -401,16 +393,5 @@ export class TextareaContainerComponent {
   ngOnDestroy() {
     this.unsubMessages.unsubscribe();
     this.unsubscribeActiveUser.unsubscribe();
-  }
-
-  async downloadFile() {
-    this.storageRef = this.storageService.getChannelMsgRef(
-      this.channel.id,
-      'XhiAiZSa8eBIXzdJPdbG'
-    );
-    await this.storageService.downloadFile(
-      this.storageRef,
-      'alternate_email.svg'
-    );
   }
 }

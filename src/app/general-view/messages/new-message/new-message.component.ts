@@ -31,29 +31,18 @@ export class NewMessageComponent {
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
 
-  activeUser!: User;
-  unsubActiveUser: Subscription;
-  unsubUsersList: Subscription; //
+  unsubUsersList: Subscription;
   sendTo!: Channel | User | undefined;
   searchPrompt: string = '';
   users!: User[]; //
   filteredUsers: User[] = [];
   unsubChannels: Subscription;
+
   channels: Channel[] = [];
   filteredChannels: Channel[] = [];
 
-  messageContent: string = '';
-
-  isNewMessage: boolean = true;
-
   constructor() {
-    this.unsubActiveUser = this.userService.activeUser$.subscribe(
-      (activeUser) => {
-        this.activeUser = activeUser;
-      }
-    );
     this.unsubUsersList = this.userService.usersList$.subscribe((data) => {
-      //
       this.users = data;
     });
 
@@ -107,7 +96,6 @@ export class NewMessageComponent {
   }
 
   ngOnDestroy() {
-    this.unsubActiveUser.unsubscribe();
     this.unsubChannels.unsubscribe();
     this.unsubUsersList.unsubscribe();
   }

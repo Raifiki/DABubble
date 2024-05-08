@@ -40,16 +40,28 @@ export class UserprofileComponent {
 
   async sendMessage() {
     let directMsg = this.existDirectMessage(this.user);
-    let idDM = (directMsg)? directMsg.id : await this.createNewDirectMessage([this.activeUser, this.user]);
-    // open Point: add new DirectMessageId to users
-    this.overlayCtrlService.showMessageComponent('directMessage',idDM);
+    let [idDM, msgId] = directMsg
+      ? directMsg.id
+      : await this.createNewDirectMessage([this.activeUser, this.user]);
+    if (idDM) this.addDmToUsers([this.activeUser, this.user], idDM);
+    this.overlayCtrlService.showMessageComponent('directMessage', idDM);
     this.overlayCtrlService.hideOverlay();
+  }
+
+  addDmToUsers(users: User[], idDM: string) {
+    users.forEach((user) => {
+      if (!user.directMessagesIDs.includes(idDM)) {
+        user.directMessagesIDs.push(idDM);
+        this.userService.saveUser(user);
+      }
+    });
   }
 
   existDirectMessage(user: User): DirektMessage | undefined {
     let directMsg;
     this.directMessageService.directMessages$.value.forEach((directMessage) => {
-      if (directMessage.users.includes(user)) directMsg = directMessage;
+      if (directMessage.users.some((aryUser) => user.id == aryUser.id))
+        directMsg = directMessage;
     });
     return directMsg;
   }
@@ -59,6 +71,8 @@ export class UserprofileComponent {
     let messages: Message[] = [];
     let obj = { users, messages };
     let directMessage = new DirektMessage(obj, id);
-    return await this.directMessageService.createNewDirectMessage(directMessage);
+    return await this.directMessageService.createNewDirectMessage(
+      directMessage
+    );
   }
 }

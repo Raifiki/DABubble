@@ -4,25 +4,27 @@
       <h2>Thread</h2>
       <p class="channels-name"># {{ channel.name }}</p>
     </div>
-    <button class="btn-default icon-btn back-btn"  (click)="this.threadService.isShowingSig.set(false)">
+    <button
+      class="btn-default icon-btn back-btn"
+      (click)="this.threadService.isShowingSig.set(false)"
+    >
       <div class="back-btn-icon"></div>
     </button>
   </div>
   <div class="messages massages-wrapper">
     @if(message.content != ""){
-    <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
-    }
-      @if (this.messages) {
-        @for (message of this.messages; track message) {
-          <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
-        }
-      }
+    <app-message-container
+      [message]="message"
+      [msgType]="'thread'"
+    ></app-message-container>
+    } @if (this.messages) { @for (message of this.messages; track message) {
+    <app-message-container
+      [message]="message"
+      [msgType]="'thread'"
+    ></app-message-container>
+    } }
   </div>
   <div class="textarea">
-    <app-textarea-container
-      [isThread]="true"
-      [colId]="'Channels'"
-    ></app-textarea-container>
+    <app-textarea-container [type]="'thread'"></app-textarea-container>
   </div>
 </div>
-
