@@ -1,5 +1,5 @@
 <div class="user-list-dropdown" *ngIf="selectMember">
-  <div *ngFor="let user of filteredUserList; let idx = index">
+  <div *ngFor="let user of userList; let idx = index">
     <app-userlistitem [user]="user" (click)="addUser(user)"></app-userlistitem>
   </div>
 </div>

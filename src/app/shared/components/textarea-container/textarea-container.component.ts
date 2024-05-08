@@ -57,47 +57,30 @@ export class TextareaContainerComponent {
     | 'thread' = 'Channels';
   @Input() sendTo!: Channel | User | undefined;
 
-  unsubChannels: Subscription;
-  channels: Channel[] = [];
-
   newMessage: Message = new Message();
-  messages: Message[] = [];
-  unsubMessages: Subscription;
 
   showEmojiPicker: boolean = false;
 
   files: File[] = [];
 
-  newUsers: User[] = [];
-  @Input() selectedUsers: User[] = [];
   selectMember: boolean = false;
   unsubUsersList: Subscription;
   userList: User[] = [];
-  filteredUserList: User[] = [];
 
   @ViewChild('textarea') private textarea!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('emojiPicker') emojiPicker!: ElementRef<HTMLDivElement>;
   @ViewChild('userListDiv') userListDiv!: ElementRef<HTMLDivElement>;
 
   constructor(private elementRef: ElementRef) {
-    this.unsubChannels = this.channelService.channels$.subscribe(
-      (channelList) => (this.channels = channelList)
-    );
-
     this.unsubscribeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {
         this.activeUser = user;
       }
     );
 
-    this.unsubMessages = this.messageService.messages$.subscribe((messages) => {
-      this.messages = messages;
-    });
-
     this.unsubUsersList = this.userService.usersList$.subscribe((data) => {
       this.userList = data;
     });
-    this.filteredUserList = this.userList;
   }
 
   @HostListener('document:click', ['$event'])
@@ -149,7 +132,6 @@ export class TextareaContainerComponent {
     } else {
       newMsgId = await this.createDirectMessageOrChannelMessage();
     }
-    console.log('newMsgId: ', newMsgId);
     if (newMsgId) this.uploadFile(newMsgId);
     this.files = [];
     this.newMessage.content = '';
@@ -174,7 +156,6 @@ export class TextareaContainerComponent {
         msgId
       );
     }
-    console.log('storageRef: ', storageRef);
 
     this.files.forEach((file) => {
       if (storageRef) this.storageService.uploadFile(storageRef, file);
@@ -229,8 +210,6 @@ export class TextareaContainerComponent {
     } else {
       this.directMessagesService.directMessages$.value.forEach(
         (directMessage) => {
-          console.log('debug Leo: ', directMsg);
-          console.log('debug Leo: ', directMessage.users.includes(user));
           if (directMessage.users.some((aryUser) => user.id == aryUser.id))
             directMsg = directMessage;
         }
@@ -326,7 +305,6 @@ export class TextareaContainerComponent {
 
         if (this.checkFileType(file)) {
           this.files.push(file);
-          console.log('files push: ', this.files);
         } else {
           alert(
             'Es werden nur folgende Dokumente akzeptiert (png. jpg, jpeg, svg, tif, bmp emf, gif, png, pdf, excel, word, zip, ppt'
@@ -391,7 +369,7 @@ export class TextareaContainerComponent {
   }
 
   ngOnDestroy() {
-    this.unsubMessages.unsubscribe();
     this.unsubscribeActiveUser.unsubscribe();
+    this.unsubUsersList.unsubscribe();
   }
 }
