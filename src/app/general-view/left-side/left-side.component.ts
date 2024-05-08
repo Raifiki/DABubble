@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Output,
+  EventEmitter,
+  OnInit,
+  Input,
+} from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 // customer components
@@ -38,7 +45,6 @@ export class LeftSideComponent {
     directMessages: false,
   };
 
-
   overlayCtrlService = inject(OverlaycontrolService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
@@ -53,8 +59,8 @@ export class LeftSideComponent {
 
   directMessages: DirektMessage[] = [];
   unsubDirectMessages: Subscription;
-  threadService = inject(ThreadsService)
-  
+  threadService = inject(ThreadsService);
+
   constructor(private userService: UserService) {
     this.unsubActiveUser = this.userService.activeUser$.subscribe(
       (activeUser) => (this.activeUser = activeUser)
@@ -69,6 +75,10 @@ export class LeftSideComponent {
           this.directMessages = directMessagesList;
         }
       );
+  }
+
+  isChecked(chanelId: string) {
+    return chanelId == this.channelService.activeChannel$.value.id;
   }
 
   toggleDropdown(dropdownType: 'channels' | 'directMessages') {
@@ -92,7 +102,4 @@ export class LeftSideComponent {
     this.unsubDirectMessages.unsubscribe();
     this.unsubActiveUser.unsubscribe();
   }
-
-
-
 }

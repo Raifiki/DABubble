@@ -24,6 +24,7 @@
       </div>
       <div class="channels-list" [class.collapsed]="dropdownCollapsed.channels">
         <p
+          [class.checked]="isChecked(channel.id)"
           class="channels-name"
           (click)="
             overlayCtrlService.showMessageComponent('channel', channel.id)
@@ -52,8 +53,8 @@
         class="direct-messages-list"
         [class.collapsed]="dropdownCollapsed.directMessages"
       >
-        @for (directMessage of directMessages; track directMessage) { 
-          @if(getUser(directMessage.users).id != '') {
+        @for (directMessage of directMessages; track directMessage) {
+        @if(getUser(directMessage.users).id != '') {
         <app-userlistitem
           [user]="getUser(directMessage.users)"
           (click)="selectDirectMessage(directMessage)"
