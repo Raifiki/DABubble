@@ -73,6 +73,7 @@ export class DirectMessageService implements OnInit {
 
   async createNewDirectMessage(directMessage: DirektMessage) {
     let newDirectMessageId;
+    let newMsgId;
     try {
       const docRef = await addDoc(
         this.getDirectMessagesRef(),
@@ -80,7 +81,7 @@ export class DirectMessageService implements OnInit {
       );
       newDirectMessageId = docRef.id;
       if (directMessage.messages.length > 0)
-        await this.messageService.addMessageToCollection(
+        newMsgId = await this.messageService.addMessageToCollection(
           'directMessages',
           newDirectMessageId,
           directMessage.messages[0]
@@ -89,7 +90,7 @@ export class DirectMessageService implements OnInit {
     } catch (error) {
       console.error('Error adding direct message: ', error);
     }
-    return newDirectMessageId;
+    return [newDirectMessageId, newMsgId];
   }
 
   setCleanDirectMsgObject(obj: any) {
