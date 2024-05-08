@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 // import classes
@@ -47,6 +47,7 @@ export class DirectMessageComponent {
 
   newMessage: Message = new Message();
 
+
   constructor() {
     this.unsubscripeActiveUser = this.userService.activeUser$.subscribe(
       (user) => {
@@ -71,6 +72,8 @@ export class DirectMessageComponent {
     });
   }
 
+
+
   sendNewMessage() {
     this.newMessage.creator = this.activeUser;
     this.newMessage.date = new Date();
@@ -81,6 +84,7 @@ export class DirectMessageComponent {
     );
     this.newMessage = new Message();
   }
+
 
   ngOnDestroy() {
     this.unsubDirectMessage.unsubscribe();

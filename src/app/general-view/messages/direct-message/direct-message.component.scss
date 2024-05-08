@@ -70,13 +70,29 @@
   padding: 20px;
 }
 
-.massages-wrapper {
-  flex: 1;
-  width: 100%;
+.content-wrapper {
+  display: flex;
   flex-direction: column;
   align-items: flex-start !important;
   gap: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  width: 100%;
+  flex-grow: 2;
+  >.messages-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    flex-grow: 2;
+  }
+  >.content-footer-wrapper{
+    padding-left: 45px;
+    >.msg-second-user{
+      display: flex;
+      align-items: flex-end;
+      gap: 15px;
+    }
+  }
 }
 
 .sendBtn {
@@ -87,7 +103,3 @@
   }
 }
 
-app-message-container {
-  width: 100%;
-  height: 20%;
-}

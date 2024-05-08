@@ -9,18 +9,20 @@
     </div>
   </div>
 
-  <div class="massages-wrapper pad20">
-    <div>
-      <img src="{{ secondUser.imgPath }}" alt="" />
-      <b>{{ secondUser.name }}</b>
+  <div class="content-wrapper">
+    <div class="messages-wrapper">
+      @for (msg of messages; track msg) {
+        <app-message-container
+        [message]="msg"
+        [msgType]="'directMsg'"
+        ></app-message-container>
+      }
     </div>
-    @for (msg of messages; track msg) {
-    <app-message-container
-      [message]="msg"
-      [msgType]="'directMsg'"
-    ></app-message-container>
-    }
-    <div>
+    <div class="content-footer-wrapper">
+      <div class="msg-second-user">
+        <img src="{{ secondUser.imgPath }}" alt="" />
+        <b>{{ secondUser.name }}</b>
+      </div>
       <p class="info">
         Diese Unterhaltung findet nur zwischen
         <span class="info-span">&commat;{{ secondUser.name }}</span> und dir
