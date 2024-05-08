@@ -85,6 +85,7 @@ emoji-mart {
   flex-wrap: wrap;
   > .file {
     position: relative;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 4px;

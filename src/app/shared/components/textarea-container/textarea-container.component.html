@@ -24,15 +24,13 @@
         #textarea
       ></textarea>
       <div class="files-wrapper">
-        <div *ngFor="let file of files; let idx = index">
-          <div class="file">
-            <img [src]="getFileImgPath(file.name)" alt="fileImg" />
-            <span>{{ file.name }}</span>
-            <div class="file-btn-wrapper">
-              <button class="btn-default icon-btn" (click)="deleteFile(idx)">
-                <div class="delete-btn-icon"></div>
-              </button>
-            </div>
+        <div class="file" *ngFor="let file of files; let idx = index">
+          <img [src]="getFileImgPath(file.name)" alt="fileImg" />
+          <span>{{ file.name }}</span>
+          <div class="file-btn-wrapper">
+            <button class="btn-default icon-btn" (click)="deleteFile(idx)">
+              <div class="delete-btn-icon"></div>
+            </button>
           </div>
         </div>
       </div>
