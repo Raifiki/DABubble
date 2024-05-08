@@ -51,6 +51,21 @@
   }
 }
 
+.separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  >p {
+    margin: 0
+    color #ADB0D9;
+  }
+  >img {
+    width: 60%;
+  }
+}
+
 .channels-name {
   margin: 0;
   padding-left: 8px;

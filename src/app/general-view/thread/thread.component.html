@@ -9,10 +9,15 @@
     </button>
   </div>
   <div class="messages massages-wrapper">
-    @if(message.content != ""){
-    <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
-    } @if (this.messages) { @for (message of this.messages; track message) {
-    <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
+    @if(message.content != "")    {
+      <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
+    } 
+    @if (this.messages) {
+      @for (message of this.messages; let i = $index; track message) {  
+        @if (i == 1) {
+          <div class="separator"><p><b>{{this.messages[0].answers.amount}}</b> Antworten</p> <img src="/assets/icons/Line.png" alt=""></div>
+        }
+        <app-message-container [message]="message" [msgType]="'thread'"></app-message-container>
     } }
   </div>
   <div class="textarea">
