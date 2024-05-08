@@ -13,11 +13,18 @@ import { DirectMessageService } from '../../../services/direct-message.service';
 import { DirektMessage } from '../../../shared/models/direct-message.class';
 import { MessageContainerComponent } from '../../../shared/components/message-container/message-container.component';
 import { TextareaContainerComponent } from '../../../shared/components/textarea-container/textarea-container.component';
+import { UserlistitemComponent } from '../../../shared/components/userlistitem/userlistitem.component';
+import { OverlaycontrolService } from '../../../services/overlaycontrol.service';
 
 @Component({
   selector: 'app-direct-message',
   standalone: true,
-  imports: [FormsModule, MessageContainerComponent, TextareaContainerComponent],
+  imports: [
+    FormsModule,
+    MessageContainerComponent,
+    TextareaContainerComponent,
+    UserlistitemComponent,
+  ],
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
@@ -30,6 +37,7 @@ export class DirectMessageComponent {
   userService = inject(UserService);
   messageService = inject(MessageService);
   directMessagesService = inject(DirectMessageService);
+  overlayControlService = inject(OverlaycontrolService);
 
   directMessage!: DirektMessage;
   unsubDirectMessage: Subscription;

@@ -1,10 +1,12 @@
 <div class="content">
   <div class="header">
     <div>
-      <img src="{{ secondUser.imgPath }}" alt="" />
-      <img class="status" src="../../../../assets/icons/Offline.jpg" alt="" />
+      <app-userlistitem
+        [checked]="false"
+        [user]="secondUser"
+        (click)="overlayControlService.showOverlay('userProfile')"
+      ></app-userlistitem>
     </div>
-    <b>{{ secondUser.name }}</b>
   </div>
 
   <div class="massages-wrapper pad20">

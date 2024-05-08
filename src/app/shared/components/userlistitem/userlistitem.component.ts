@@ -21,6 +21,7 @@ export class UserlistitemComponent {
   overlayCtrlService = inject(OverlaycontrolService);
 
   @Input({ required: true }) user!: User;
+  @Input() checked: boolean = true;
 
   unsubActiveUser: Subscription;
   activeUser!: User;
@@ -31,8 +32,14 @@ export class UserlistitemComponent {
     );
   }
 
-  isChecked(){
-    return this.user.id == this.overlayCtrlService.selectedUser?.id && this.overlayCtrlService.messageComponentType == 'directMessage';
+  isChecked() {
+    if (this.checked) {
+      return (
+        this.user.id == this.overlayCtrlService.selectedUser?.id &&
+        this.overlayCtrlService.messageComponentType == 'directMessage'
+      );
+    } else {
+      return false;
+    }
   }
-
 }
