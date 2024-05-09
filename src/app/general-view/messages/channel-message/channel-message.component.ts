@@ -15,6 +15,7 @@ import { User } from '../../../shared/models/user.class';
 import { Message } from '../../../shared/models/message.class';
 import { MessageContainerComponent } from '../../../shared/components/message-container/message-container.component';
 import { TextareaContainerComponent } from '../../../shared/components/textarea-container/textarea-container.component';
+import { Datestamp } from '../../../shared/models/datestamp.class';
 
 @Component({
   selector: 'app-channel-message',
@@ -40,6 +41,9 @@ export class ChannelMessageComponent implements OnInit {
   numberofThreads: [{}] = [{}];
   activeUser: User = new User();
   unsubscribeActiveUser;
+  today: Date = new Date()
+
+  
 
   @Input() channel: Channel = {} as Channel;
   unsubChannels: Subscription;
@@ -76,5 +80,13 @@ export class ChannelMessageComponent implements OnInit {
     this.unsubMessages.unsubscribe();
     this.unsubscribeActiveUser.unsubscribe();
     this.unsubNumberOfThreads.unsubscribe();
+  }
+
+  getTimestamp(msg: Message) {
+    return new Datestamp(msg.date)
+  }
+
+  proofForSameDay(msg: Message) {
+      return msg.date == new Date() ? true : false
   }
 }

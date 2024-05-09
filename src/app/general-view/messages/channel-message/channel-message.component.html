@@ -1,9 +1,7 @@
 <div class="content">
   <div class="header">
     <div class="left-side" (click)="overlayCtrlService.showOverlay('editChannel')">
-      <p>
-        # {{ channel.name }}
-      </p>
+      <p># {{ channel.name }}</p>
       <div class="dropdown"></div>
     </div>
     <div class="right-side">
@@ -24,8 +22,23 @@
 
   <div class="massages-wrapper">
     @for (msg of messages; track msg; let index = $index) {
+    @if (!proofForSameDay(msg)){
+    @if (index == 0) { <div class="timestamp">
+      <img src="assets/icons/Line.png" alt="" />
+      <div class="timestamp-time">Heute</div><img src="assets/icons/Line.png" alt="" />
+    </div>}
+
     <app-message-container (click)="overlayCtrlService.openThread(channel, msg)" [message]="msg"
       [msgType]="'channel'"></app-message-container>
+    } @else {
+    <div class="timestamp">
+      <img src="assets/icons/Line.png" alt="" />
+      <div class="timestamp-time">{{ this.getTimestamp(msg).weekday }}, {{
+        this.getTimestamp(msg).day}} {{this.getTimestamp(msg).month}}</div><img src="assets/icons/Line.png" alt="" />
+    </div>
+    <app-message-container (click)="overlayCtrlService.openThread(channel, msg)" [message]="msg"
+      [msgType]="'channel'"></app-message-container>
+    }
     }
   </div>
   <app-textarea-container [type]="'Channels'"> </app-textarea-container>

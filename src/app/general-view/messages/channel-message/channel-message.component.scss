@@ -20,6 +20,17 @@
   gap: 20px;
 }
 
+.timestamp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  >.timestamp-time {
+    border: 1px solid #ADB0D9;
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px,
+  }
+}
+
 .right-side {
   display: flex;
   align-items: center;
