@@ -2,9 +2,10 @@
   <div class="header-mobile">
     <div class="logo-mobile"></div>
     <div class="user-mobile">
-        <img src="{{ this.activeUser.imgPath }}" alt="" class="user-image-mobile"  (click)="overlayCtrlService.showOverlay('dropDownUserMenu')"/>
+      <img src="{{ this.activeUser.imgPath }}" alt="" class="user-image-mobile"
+        (click)="overlayCtrlService.showOverlay('dropDownUserMenu')" />
     </div>
-    
+
   </div>
   <div class="header">
     <div class="logo"></div>
@@ -34,12 +35,13 @@
         <h4>Messages:</h4>
         <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
           <p (click)="channelService.subChannel(msgResult.messageOfChannel); onResultClick()">
-            <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
+            <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }}
           </p>
           <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
             <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
               <div class="thread-content">
-                <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
+                <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der
+                    Message</b> - {{ threadResult.content }}
                 </p>
               </div>
             </ng-container>
@@ -60,7 +62,9 @@
     </div>
   </div>
   <div class="content">
-    <app-workspace-menu></app-workspace-menu>
+    <div class="sidebar">
+      <app-workspace-menu></app-workspace-menu>
+    </div>
     <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)">
       <app-left-side></app-left-side>
     </div>
