@@ -346,7 +346,7 @@ app-left-side {
 }
 
 @media(min-width: 600px) {
-  .header-mobile {
+  .header-mobile, .search-mobile {
     display: none;
   }
 
