@@ -87,6 +87,6 @@ export class ChannelMessageComponent implements OnInit {
   }
 
   proofForSameDay(msg: Message) {
-      return msg.date == new Date() ? true : false
+      return msg.date.getDate() == new Date().getDate() ? true : false
   }
 }
