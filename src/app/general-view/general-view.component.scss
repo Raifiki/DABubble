@@ -309,14 +309,16 @@ app-left-side {
   }
 
   .content {
-    width: 320px;
-    padding: 0 10px;
+    width: 100%;
     margin: 0;
+    height: 100%;
+    ;
   }
 
   .left-side {
-    width: 300px;
-    padding: 0 10px
+    width: 100%;
+    height: 100%;
+    border-radius: unset;
   }
 
   .middle {
@@ -324,10 +326,13 @@ app-left-side {
     right: 0;
     top: 150px;
     z-index: -5;
+    width: 100%;
+    display: none;
   }
   .right-side {
-    z-index: -5
-
+    z-index: -5;
+    width: 100%;
+    display: none;
   }
 
 
