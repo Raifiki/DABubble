@@ -105,4 +105,19 @@
     .create-channel-card {
         width: 300px;
     }
+    .create-channel-card {
+        min-width: unset;
+    }
+    .form-field-ipt-style2 {
+        
+        >.ipt-field-wrapper > input {
+            background-color: unset;
+            border: unset;
+            outline: unset;
+            flex-grow: 2;
+            font-size: 18px;
+            width: 100%;
+    }
+        
+}
 }
