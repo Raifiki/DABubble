@@ -1,4 +1,11 @@
 <div class="main-container" (click)="onResultClick()">
+  <div class="header-mobile">
+    <div class="logo-mobile"></div>
+    <div class="user-mobile">
+        <img src="{{ this.activeUser.imgPath }}" alt="" class="user-image-mobile"  (click)="overlayCtrlService.showOverlay('dropDownUserMenu')"/>
+    </div>
+    
+  </div>
   <div class="header">
     <div class="logo"></div>
     <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
