@@ -302,7 +302,8 @@ app-left-side {
 
   .main-container{
     padding: 0;
-    height: 100vh;
+    height: 100%;
+    margin: 0;
   }
 
   .header-mobile {
@@ -311,9 +312,8 @@ app-left-side {
 
   .content {
     width: 100%;
-    margin: 0;
-    height: 100%;
-    ;
+    height: 80vh;
+    margin: 0px;
   }
 
   .left-side {
