@@ -69,13 +69,13 @@
     padding-left: 24px;
     padding-top: 24px;
     padding-bottom: 4px;
+    text-decoration: underline;
   }
 
   h5 {
     padding-left: 120px;
     font-size: 16px !important;
     font-style: italic;
-    text-decoration: underline;
   }
   img {
     padding-left: 60px;
@@ -137,11 +137,13 @@ app-left-side {
   height: 80vh;
   background-color: white;
   border-radius: 43px;
-  transition: width 0.225s ease-in-out left;
   position: relative;
   left: 0;
   right: 0;
+  width: 100%;
+  transition: width 0.225s ease-in-out;
 }
+
 
 .right-side {
   height: 80vh;

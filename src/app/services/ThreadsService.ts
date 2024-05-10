@@ -138,7 +138,6 @@ export class ThreadsService {
     );
 
     return newId;
-    3;
   }
 
   ngOnDestroy(): void {

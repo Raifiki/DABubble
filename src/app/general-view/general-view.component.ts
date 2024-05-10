@@ -28,6 +28,7 @@ import { WorkspaceMenuComponent } from './overlay/workspace-menu/workspace-menu.
 import { SearchService } from '../services/search.service';
 import { DirectMessageService } from '../services/direct-message.service';
 import { DirektMessage } from '../shared/models/direct-message.class';
+import { ThreadsService } from '../services/ThreadsService';
 
 @Component({
   selector: 'app-general-view',
@@ -64,6 +65,8 @@ export class GeneralViewComponent {
   messageService = inject(MessageService);
   registerService = inject(RegisterService);
   directMessageService = inject(DirectMessageService);
+  threadService = inject(ThreadsService)
+
 
   subscription: Subscription;
 
@@ -100,6 +103,8 @@ export class GeneralViewComponent {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+ 
 
   onInputChange() {
     this.isSearchFieldEmpty();
@@ -138,6 +143,7 @@ export class GeneralViewComponent {
     await this.searchService.loadAllMessages();
     setTimeout(() => {
       this.searchService.loadAllThreads();
-    }, 500);
+    }, 1000);
   }
+
 }

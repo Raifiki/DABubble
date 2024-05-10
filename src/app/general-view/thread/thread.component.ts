@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { TextareaContainerComponent } from '../../shared/components/textarea-container/textarea-container.component';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-thread',
@@ -30,8 +31,9 @@ export class ThreadComponent {
   firebaseInitService = inject(FirebaseInitService);
   messageService = inject(MessageService);
   userService = inject(UserService);
+  channelService = inject(ChannelService)
 
-  @Input() message: Message = new Message();
+  message: Message = new Message();
   @Input() channel: Channel = new Channel();
   messages: Message[] = [];
   unsubMessage!: Subscription;

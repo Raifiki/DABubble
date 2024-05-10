@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container" (click)="onResultClick()">
   <div class="header">
     <div class="logo"></div>
     <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
@@ -25,15 +25,14 @@
       </div>
       <div *ngIf="searchService.searchMessageResult.length > 0" class="message-result">
         <h4>Messages:</h4>
-        <ng-container *ngFor="let result of searchService.searchMessageResult">
-          <p (click)="channelService.subChannel(result.messageOfChannel); onResultClick()">
-            <b>{{searchService.showChannelName(result)}} </b>- {{ result.content }}
+        <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
+          <p (click)="channelService.subChannel(msgResult.messageOfChannel); onResultClick()">
+            <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
           </p>
           <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
-            <h5>Thread of Message:</h5>
-            <ng-container *ngFor="let result of searchService.searchThreadResult">
+            <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
               <div class="thread-content">
-                <p (click)="this.searchService.searchForChannel(result); onResultClick()"> {{ result.content }}
+                <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
                 </p>
               </div>
             </ng-container>
@@ -58,7 +57,7 @@
     <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)">
       <app-left-side></app-left-side>
     </div>
-    <div class="middle" [style.width]="overlayCtrlService.showHideRightSide() ? '100%' : '100%'">
+    <div class="middle">
       <div *ngIf="overlayCtrlService.messageComponentType === 'channel'">
         <app-channel-message [channel]="activeChannel"></app-channel-message>
       </div>
@@ -70,7 +69,7 @@
       </div>
     </div>
     <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())">
-      <app-thread></app-thread>
+      <app-thread [channel]="activeChannel"></app-thread>
     </div>
   </div>
 </div>
