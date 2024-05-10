@@ -7,6 +7,47 @@
     </div>
 
   </div>
+  <div class="search-mobile">
+    <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
+    class="search-bar-mobile" (ngModelChange)="onInputChange()" />
+  </div>
+  <div class="result-field-mobile" id="result-field" *ngIf="this.isSearchFieldEmptySig()">
+    <div *ngIf="searchService.searchUserResult.length > 0">
+      <h4>Users:</h4>
+      <ng-container *ngFor="let result of searchService.searchUserResult">
+        <div (click)=" onResultClick()" class="userResultContainer">
+          <img src="{{ result.imgPath }}" alt="">
+          <p (click)="openDirectMessage(result); onResultClick()">{{
+            result['name'] }}
+          </p>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="searchService.searchChannelsResult.length > 0" class="channels-result">
+      <h4>Channels:</h4>
+      <ng-container *ngFor="let result of searchService.searchChannelsResult">
+        <p (click)="channelService.subChannel(result.id); onResultClick()">{{ result.name }}
+        </p>
+      </ng-container>
+    </div>
+    <div *ngIf="searchService.searchMessageResult.length > 0" class="message-result">
+      <h4>Messages:</h4>
+      <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
+        <p (click)="channelService.subChannel(msgResult.messageOfChannel); onResultClick()">
+          <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
+        </p>
+        <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
+          <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
+            <div class="thread-content">
+              <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
+              </p>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+ 
   <div class="header">
     <div class="logo"></div>
     <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
