@@ -106,10 +106,10 @@
     <div class="sidebar">
       <app-workspace-menu></app-workspace-menu>
     </div>
-    <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)">
+    <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)" [ngClass]="{'element-to-hide': isLeftShowing()}">
       <app-left-side></app-left-side>
     </div>
-    <div class="middle">
+    <div class="middle" [ngClass]="{'element-to-hide': isMiddleShowing()}">
       <div *ngIf="overlayCtrlService.messageComponentType === 'channel'">
         <app-channel-message [channel]="activeChannel"></app-channel-message>
       </div>
@@ -120,7 +120,7 @@
         <app-new-message></app-new-message>
       </div>
     </div>
-    <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())">
+    <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())" [ngClass]="{'element-to-hide': isRightShowing()}">
       <app-thread [channel]="activeChannel"></app-thread>
     </div>
   </div>

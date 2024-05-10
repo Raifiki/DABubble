@@ -68,6 +68,10 @@ export class GeneralViewComponent {
   threadService = inject(ThreadsService)
 
 
+  isLeftShowing = this.channelService.showingLeft
+  isMiddleShowing = this.channelService.showingMiddle
+  isRightShowing = this.channelService.showingRight
+
   subscription: Subscription;
 
   constructor(

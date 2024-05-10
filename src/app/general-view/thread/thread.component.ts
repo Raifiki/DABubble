@@ -71,4 +71,10 @@ export class ThreadComponent {
     message.reactions = [];
     return message;
   }
+
+  return(){
+    this.threadService.isShowingSig.set(false)
+    this.channelService.showingMiddle.set(false)
+    this.channelService.showingRight.set(true)
+  }
 }

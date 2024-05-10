@@ -102,4 +102,15 @@ export class LeftSideComponent {
     this.unsubDirectMessages.unsubscribe();
     this.unsubActiveUser.unsubscribe();
   }
+
+  showMiddleThroughChannelSelect() {
+    this.channelService.showingLeft.set(true)
+    this.channelService.showingMiddle.set(false)
+    this.overlayCtrlService.messageComponentType = 'channel'
+  }
+
+  showMiddle() {
+    this.channelService.showingLeft.set(true)
+    this.channelService.showingMiddle.set(false)
+  }
 }

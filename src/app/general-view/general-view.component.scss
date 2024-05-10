@@ -326,14 +326,14 @@ app-left-side {
     position: absolute;
     right: 0;
     top: 150px;
-    z-index: -5;
     width: 100%;
-    display: none;
   }
   .right-side {
-    z-index: -5;
     width: 100%;
-    display: none;
+    position: absolute;
+    left: 0;
+    top: 50px;
+
   }
 
 
@@ -341,7 +341,9 @@ app-left-side {
   .sidebar {
     display: none;
   }
-
+  .element-to-hide {
+    display: none 
+  }
 
 }
 

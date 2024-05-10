@@ -329,4 +329,9 @@ export class MessageContainerComponent {
     }
     return ref;
   }
+
+  showThread() {
+    this.channelService.showingMiddle.set(true)
+    this.channelService.showingRight.set(false)
+  }
 }

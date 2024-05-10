@@ -8,6 +8,7 @@ import { OverlaycontrolService } from '../../../services/overlaycontrol.service'
 // import classes
 import { User } from '../../models/user.class';
 import { CommonModule } from '@angular/common';
+import { ChannelService } from '../../../services/channel.service';
 
 @Component({
   selector: 'app-userlistitem',
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
 })
 export class UserlistitemComponent {
   userService = inject(UserService);
+  channelService = inject(ChannelService)
   overlayCtrlService = inject(OverlaycontrolService);
 
   @Input({ required: true }) user!: User;
@@ -36,10 +38,17 @@ export class UserlistitemComponent {
     if (this.checked) {
       return (
         this.user.id == this.overlayCtrlService.selectedUser?.id &&
-        this.overlayCtrlService.messageComponentType == 'directMessage'
+        this.overlayCtrlService.messageComponentType == 'directMessage' 
       );
     } else {
       return false;
     }
   }
+
+  showMiddle() {
+    this.channelService.showingMiddle.set(false)
+    this.channelService.showingLeft.set(false)
+  }
+
+
 }

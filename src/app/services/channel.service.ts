@@ -27,12 +27,15 @@ import { MessageService } from './message.service';
 })
 export class ChannelService {
   firestore: Firestore = inject(Firestore);
-
   userService = inject(UserService);
   messageService = inject(MessageService);
 
   activeUser!: User;
   unsubActiveUser: Subscription;
+  showingLeft = signal(false)
+  showingRight = signal(true)
+  showingMiddle = signal(true)
+
 
   channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
   unsubChannels;
