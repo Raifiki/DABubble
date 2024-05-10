@@ -149,5 +149,9 @@ export class GeneralViewComponent {
       this.searchService.loadAllThreads();
     }, 1000);
   }
+  showMiddle() {
+    this.channelService.showingMiddle.set(false)
+    this.channelService.showingLeft.set(true)
+  }
 
 }

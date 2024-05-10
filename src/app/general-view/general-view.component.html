@@ -17,7 +17,7 @@
       <ng-container *ngFor="let result of searchService.searchUserResult">
         <div (click)=" onResultClick()" class="userResultContainer">
           <img src="{{ result.imgPath }}" alt="">
-          <p (click)="openDirectMessage(result); onResultClick()">{{
+          <p (click)="openDirectMessage(result); onResultClick(); showMiddle()">{{
             result['name'] }}
           </p>
         </div>
@@ -26,20 +26,20 @@
     <div *ngIf="searchService.searchChannelsResult.length > 0" class="channels-result">
       <h4>Channels:</h4>
       <ng-container *ngFor="let result of searchService.searchChannelsResult">
-        <p (click)="channelService.subChannel(result.id); onResultClick()">{{ result.name }}
+        <p (click)="channelService.subChannel(result.id); onResultClick(); showMiddle()">{{ result.name }}
         </p>
       </ng-container>
     </div>
     <div *ngIf="searchService.searchMessageResult.length > 0" class="message-result">
       <h4>Messages:</h4>
       <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
-        <p (click)="channelService.subChannel(msgResult.messageOfChannel); onResultClick()">
+        <p (click)="channelService.subChannel(msgResult.messageOfChannel); showMiddle(); onResultClick()">
           <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
         </p>
         <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
           <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
             <div class="thread-content">
-              <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
+              <p (click)="this.searchService.searchForChannel(threadResult); showMiddle(); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
               </p>
             </div>
           </ng-container>
