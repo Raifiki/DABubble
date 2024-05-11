@@ -130,3 +130,12 @@ emoji-mart {
     }
   }
 }
+
+@media(max-width: 600px){
+  emoji-mart {
+    position: absolute;
+    bottom: 120px;
+    right: 0;
+    z-index: 10;
+  }
+}
