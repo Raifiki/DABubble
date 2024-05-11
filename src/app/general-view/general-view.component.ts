@@ -71,6 +71,7 @@ export class GeneralViewComponent {
   isLeftShowing = this.channelService.showingLeft
   isMiddleShowing = this.channelService.showingMiddle
   isRightShowing = this.channelService.showingRight
+  isSearchShowing = this.channelService.showingSearch
 
   subscription: Subscription;
 

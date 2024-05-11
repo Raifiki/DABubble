@@ -35,6 +35,7 @@ export class ChannelService {
   showingLeft = signal(false)
   showingRight = signal(true)
   showingMiddle = signal(true)
+  showingSearch = signal(false)
 
 
   channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);

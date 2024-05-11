@@ -13,7 +13,7 @@
  
 
 .header-mobile {
-  padding: 16px;
+  padding: 8px 16px  0 16px;
   padding-bottom: 0;
   display: flex;
   justify-content: space-between;
@@ -31,7 +31,7 @@
 .logo-mobile {
 
   width: 150px;
-  height:80px;
+  height:60px;
   background-image: url("/assets/img/logo-complete.png");
   background-repeat: no-repeat;
   background-size: contain;
