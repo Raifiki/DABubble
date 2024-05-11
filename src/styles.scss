@@ -392,7 +392,7 @@ body {
       border: unset;
       outline: unset;
       flex-grow: 2;
-      font-size: $fnt-size-XS;
+      font-size: $fnt-size-XXS;
     }
 
     &:hover {
@@ -527,4 +527,65 @@ body {
       scrollbar-width: thin;
       scrollbar-color: greenyellow grey;
   }
+}
+
+@media(max-width: 600px){
+  .primary-btn {
+    padding: 8px 16px;
+    font-size: $fnt-size-XXS;
+  }
+  
+  .secondary-btn {
+    padding: 8px 16px;
+    font-size: $fnt-size-XXS;
+  }
+  
+
+
+  
+  .form-field-ipt-text-icon {
+    gap: 6px;
+    min-width: 486px;
+    > .ipt-field-wrapper {
+      gap: 10px;
+      padding: 12px 24px;
+  
+      > div {
+        width: 24px;
+      }
+  
+      > input {
+        font-size: $fnt-size-XXS;
+      }
+    }
+
+  }
+  
+  .form-field-ipt-style2 {
+  
+    > .ipt-field-wrapper {
+      gap: 10px;
+      padding: 12px 24px;
+      > div {
+        width: 24px;
+      }
+  
+      > input {
+        font-size: $fnt-size-XXS;
+      }
+  
+ 
+   
+  }
+  
+  .form-field-textarea-style2 {
+  
+    > .textarea-field-wrapper {
+      padding: 12px 24px;
+      > div {
+        width: 24px;
+      }
+    }
+  }
+}
 }
