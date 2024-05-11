@@ -324,3 +324,144 @@
 .show{
   display: flex !important;
 }
+
+@media(max-width: 600px){
+  .msg-wrapper{
+  
+    > img{
+      width: 50px;
+    }
+
+    .active-user-msg{
+      >img{
+        width: 55px;
+      }
+    }
+  
+  }
+
+  
+  .msg-content-wrapper{
+    gap: 8px;
+    > .content-header{
+      gap: 20px;
+      >.msg-creator-name{
+        font-size: $fnt-size-XXS;
+      
+      }
+      >.msg-time{
+        font-size: $fnt-size-XXS;
+      }
+    }
+    >.msg-content{
+      padding: 10px;
+    }
+  }
+  
+  .msg-footer{
+    gap: 40px;
+    >.msg-thread-wrapper{
+      gap: 20px;
+      >.thread-replies{
+        font-size: $fnt-size-XXS;
+    
+      }
+      >.thread-last-reply-time{
+        font-size: $fnt-size-XXS;
+      }
+    }
+    > .reaction-wrapper{
+      gap: 8px;
+      >button{
+        width:30px;
+     
+      }
+      > .reaction-chip{
+        gap: 4px;
+        padding: 3px 6px;
+        > .reaction-chip-info{
+          top:0;
+          left: 50%;
+          padding: 15px 10px;
+          width: max-content;
+       
+        }
+      
+      }
+    }
+  }
+  
+  .files-wrapper{
+    gap: 10px;
+    > .file{
+      gap: 4px;
+      padding: 8px 16px;
+      > img{
+        width: 30px;
+      }
+      > .file-btn-wrapper{
+        gap: 4px;
+        padding: 8px 16px;
+        right: 0;
+        > button{
+          padding: 8px;
+          width: 26px;
+        }
+      }
+      }
+    }
+  }
+  
+  .active-user-msg{
+    padding: 8px 25px 8px 8px;
+
+  
+  .toolbar{
+    gap: 5px;
+    padding: 3px 15px 3px 20px;
+    >button{
+      width:30px;
+   
+    }
+    >emoji-mart{
+      bottom: 0;
+      right: 0;
+    }
+    >.more-menu{
+      top: 20px;
+      right: 25px;
+      gap: 4px;
+      width: max-content;
+      padding: 10px;
+      > button{
+        padding: 10px 20px;
+     
+      }
+    }
+  }
+  
+  .wrapper-edit-msg{
+    gap: 16px;
+    padding: 20px;
+    margin-left: 100px;
+
+    >.edit-msg-footer{
+    
+      >button{
+        width: 30px;
+        height: 30px;
+     
+      }
+      > emoji-mart{
+        bottom: 25px;
+        left: 40px;
+      }
+      >div{
+        gap: 32px;
+      }
+    }
+  }
+  
+
+  
+}
