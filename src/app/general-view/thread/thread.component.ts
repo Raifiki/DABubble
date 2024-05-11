@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { TextareaContainerComponent } from '../../shared/components/textarea-container/textarea-container.component';
 import { ChannelService } from '../../services/channel.service';
+import { OverlaycontrolService } from '../../services/overlaycontrol.service';
 
 @Component({
   selector: 'app-thread',
@@ -32,6 +33,7 @@ export class ThreadComponent {
   messageService = inject(MessageService);
   userService = inject(UserService);
   channelService = inject(ChannelService)
+  overlayCtrlService = inject(OverlaycontrolService)
 
   message: Message = new Message();
   @Input() channel: Channel = new Channel();
@@ -72,9 +74,9 @@ export class ThreadComponent {
     return message;
   }
 
-  return(){
+  goBack(){
     this.threadService.isShowingSig.set(false)
-    this.channelService.showingMiddle.set(false)
-    this.channelService.showingRight.set(true)
+    this.overlayCtrlService.showingMiddle.set(false)
+    this.overlayCtrlService.showingRight.set(true)
   }
 }

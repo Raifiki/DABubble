@@ -331,7 +331,7 @@ export class MessageContainerComponent {
   }
 
   showThread() {
-    this.channelService.showingMiddle.set(true)
-    this.channelService.showingRight.set(false)
+    this.overlayCtrlService.showingMiddle.set(true)
+    this.overlayCtrlService.showingRight.set(false)
   }
 }

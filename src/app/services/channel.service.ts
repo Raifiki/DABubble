@@ -32,10 +32,7 @@ export class ChannelService {
 
   activeUser!: User;
   unsubActiveUser: Subscription;
-  showingLeft = signal(false)
-  showingRight = signal(true)
-  showingMiddle = signal(true)
-  showingSearch = signal(false)
+
 
 
   channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);

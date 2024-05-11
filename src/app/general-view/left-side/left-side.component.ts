@@ -104,13 +104,13 @@ export class LeftSideComponent {
   }
 
   showMiddleThroughChannelSelect() {
-    this.channelService.showingLeft.set(true)
-    this.channelService.showingMiddle.set(false)
+    this.overlayCtrlService.showingLeft.set(true)
+    this.overlayCtrlService.showingMiddle.set(false)
     this.overlayCtrlService.messageComponentType = 'channel'
   }
 
   showMiddle() {
-    this.channelService.showingLeft.set(true)
-    this.channelService.showingMiddle.set(false)
+    this.overlayCtrlService.showingLeft.set(true)
+    this.overlayCtrlService.showingMiddle.set(false)
   }
 }

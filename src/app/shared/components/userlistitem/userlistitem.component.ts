@@ -46,8 +46,8 @@ export class UserlistitemComponent {
   }
 
   showMiddle() {
-    this.channelService.showingMiddle.set(false)
-    this.channelService.showingLeft.set(false)
+    this.overlayCtrlService.showingMiddle.set(false)
+    this.overlayCtrlService.showingLeft.set(false)
   }
 
 

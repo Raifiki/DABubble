@@ -68,10 +68,10 @@ export class GeneralViewComponent {
   threadService = inject(ThreadsService)
 
 
-  isLeftShowing = this.channelService.showingLeft
-  isMiddleShowing = this.channelService.showingMiddle
-  isRightShowing = this.channelService.showingRight
-  isSearchShowing = this.channelService.showingSearch
+  isLeftShowing = this.overlayCtrlService.showingLeft
+  isMiddleShowing = this.overlayCtrlService.showingMiddle
+  isRightShowing = this.overlayCtrlService.showingRight
+  isSearchShowing = this.overlayCtrlService.showingSearch
 
   subscription: Subscription;
 
@@ -151,8 +151,8 @@ export class GeneralViewComponent {
     }, 1000);
   }
   showMiddle() {
-    this.channelService.showingMiddle.set(false)
-    this.channelService.showingLeft.set(true)
+    this.overlayCtrlService.showingMiddle.set(false)
+    this.overlayCtrlService.showingLeft.set(true)
   }
 
 }
