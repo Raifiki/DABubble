@@ -56,3 +56,40 @@
     mask-image: url(./../../../../assets/icons/close.svg);
   }
 }
+
+
+@media(max-width: 600px){
+  .content {
+    right: 0px;
+    top: 200px;
+    width: 100vw;
+    padding: 40px;
+    gap: 20px;
+  
+    > div {
+      gap: 5px;
+      > h3 {
+        font-size: 16px;
+      }
+    }
+  
+    > p {
+      font-size: 14px;
+    }
+  }
+  
+  .field {
+    width: 334px !important;
+    height: 45px !important;
+  }
+  
+  .btn {
+    width: 107px !important;
+    height: 39px !important;
+  }
+  
+  .back-btn {
+    width: 30px;
+  
+  }
+}
