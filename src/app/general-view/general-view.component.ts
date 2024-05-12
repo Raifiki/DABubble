@@ -74,6 +74,8 @@ export class GeneralViewComponent {
   isMiddleShowing = this.overlayCtrlService.showingMiddle
   isRightShowing = this.overlayCtrlService.showingRight
   isSearchShowing = this.overlayCtrlService.showingSearch
+  isDirectMsgShowing = this.overlayCtrlService.showingDirectMsg
+  isShwoginHeader = this.overlayCtrlService.showingHeader
 
   subscription: Subscription;
 

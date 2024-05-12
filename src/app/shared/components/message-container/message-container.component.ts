@@ -333,5 +333,6 @@ export class MessageContainerComponent {
   showThread() {
     this.overlayCtrlService.showingMiddle.set(true)
     this.overlayCtrlService.showingRight.set(false)
+    this.overlayCtrlService.showingHeader.set(true)
   }
 }

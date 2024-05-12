@@ -33,4 +33,16 @@ export class DevHeaderComponent implements OnInit {
   ngOnDestroy(){
     this.unsubActiveUser.unsubscribe();
   }
+
+  goBack() {
+    if (this.overlayCtrlService.showingRight() == false) {
+      this.overlayCtrlService.showingMiddle.set(false)
+      this.overlayCtrlService.showingRight.set(true)
+      this.overlayCtrlService.showingHeader.set(false)
+    } else {
+      this.overlayCtrlService.showingLeft.set(false)
+      this.overlayCtrlService.showingMiddle.set(true)
+      this.overlayCtrlService.showingRight.set(true)
+    }
+  }
 }

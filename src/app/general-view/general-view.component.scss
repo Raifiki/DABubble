@@ -325,15 +325,14 @@ app-left-side {
   .middle {
     position: absolute;
     right: 0;
-    top: 150px;
     width: 100%;
   }
   .right-side {
     width: 100%;
-    position: absolute;
-    left: 0;
-    top: 50px;
-
+    height: 100%;
+  }
+  .not-show-on-mobile {
+    display: none;
   }
 
 

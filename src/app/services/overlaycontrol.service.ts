@@ -37,6 +37,8 @@ export class OverlaycontrolService {
   showingRight = signal(true)
   showingMiddle = signal(true)
   showingSearch = signal(false)
+  showingDirectMsg = signal(false)
+  showingHeader = signal(false)
 
   private showHideLeftSide = new BehaviorSubject<boolean>(false);
   showHideLeftSide$ = this.showHideLeftSide.asObservable();
