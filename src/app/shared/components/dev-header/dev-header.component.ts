@@ -43,6 +43,9 @@ export class DevHeaderComponent implements OnInit {
       this.overlayCtrlService.showingLeft.set(false)
       this.overlayCtrlService.showingMiddle.set(true)
       this.overlayCtrlService.showingRight.set(true)
+      if (this.overlayCtrlService.showingHeader() == true) {
+        this.overlayCtrlService.showingHeader.set(false)
+      }
     }
   }
 }
