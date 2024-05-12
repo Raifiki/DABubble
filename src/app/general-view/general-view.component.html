@@ -7,6 +7,7 @@
     </div>
 
   </div>
+  <app-dev-header></app-dev-header>
   <div class="search-mobile" [ngClass]="{'element-to-hide': isSearchShowing()}">
     <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
     class="search-bar-mobile" (ngModelChange)="onInputChange()" />

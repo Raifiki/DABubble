@@ -29,6 +29,7 @@ import { SearchService } from '../services/search.service';
 import { DirectMessageService } from '../services/direct-message.service';
 import { DirektMessage } from '../shared/models/direct-message.class';
 import { ThreadsService } from '../services/ThreadsService';
+import { DevHeaderComponent } from '../shared/components/dev-header/dev-header.component';
 
 @Component({
   selector: 'app-general-view',
@@ -43,6 +44,7 @@ import { ThreadsService } from '../services/ThreadsService';
     ChannelMessageComponent,
     ThreadComponent,
     WorkspaceMenuComponent,
+    DevHeaderComponent
   ],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
