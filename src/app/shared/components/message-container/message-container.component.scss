@@ -441,9 +441,13 @@
   }
   
   .wrapper-edit-msg{
-    gap: 16px;
-    padding: 20px;
-    margin-left: 100px;
+    gap: 8px;
+    padding: 10px;
+    margin-left:50px;
+
+    >textarea{
+      font-size: 16px;
+    }
 
     >.edit-msg-footer{
     
@@ -453,11 +457,12 @@
      
       }
       > emoji-mart{
+        position: absolute;
         bottom: 25px;
         left: 40px;
       }
       >div{
-        gap: 32px;
+        gap: 16px;
       }
     }
   }
