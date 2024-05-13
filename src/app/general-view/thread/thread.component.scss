@@ -24,6 +24,7 @@
 .header {
   display: flex;
   align-items: center;
+  position: relative;
   padding: 32px 45px 20px 45px;
   justify-content: space-between;
   width: 100%;
@@ -79,7 +80,7 @@
 
 .back-btn {
   width: 40px;
-  position: fixed;
+  position: absolute;
   right: 30px;
   > .back-btn-icon {
     mask-image: url(../../../assets/icons/close.svg);
