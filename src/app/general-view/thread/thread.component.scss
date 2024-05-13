@@ -79,8 +79,11 @@
 
 .back-btn {
   width: 40px;
+  position: fixed;
+  right: 30px;
   > .back-btn-icon {
     mask-image: url(../../../assets/icons/close.svg);
+
   }
 }
 
