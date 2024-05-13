@@ -157,6 +157,7 @@ export class GeneralViewComponent {
   showMiddle() {
     this.overlayCtrlService.showingMiddle.set(false)
     this.overlayCtrlService.showingLeft.set(true)
+    this.overlayCtrlService.showingSearch.set(true)
   }
 
 }
