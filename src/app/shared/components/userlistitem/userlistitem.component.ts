@@ -47,7 +47,7 @@ export class UserlistitemComponent {
 
   showMiddle() {
     this.overlayCtrlService.showingMiddle.set(false)
-    this.overlayCtrlService.showingLeft.set(false)
+    this.overlayCtrlService.showingLeft.set(true)
     this.overlayCtrlService.showingSearch.set(true)
   }
 
