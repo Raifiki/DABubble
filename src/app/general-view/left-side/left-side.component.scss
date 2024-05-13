@@ -207,12 +207,13 @@
   }
 }
 
-@media (max-width: 600px){
-  .content{
-    margin: 0px
+@media (max-width: 600px) {
+  .content {
+    margin: 0px;
+    height: 80vh;
   }
 
-  .header{
+  .header {
     display: none;
   }
 }
