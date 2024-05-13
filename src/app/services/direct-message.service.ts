@@ -86,7 +86,6 @@ export class DirectMessageService implements OnInit {
           newDirectMessageId,
           directMessage.messages[0]
         );
-      console.log('Direct message added successfully');
     } catch (error) {
       console.error('Error adding direct message: ', error);
     }

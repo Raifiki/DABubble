@@ -12,7 +12,7 @@
   align-items: center;
   gap: 10px;
 
-  > .back-arrow {
+  >.back-arrow {
     cursor: pointer;
     background-image: url(../../../../assets/icons/68.\ Arrow.svg);
     width: 25px;
@@ -21,13 +21,13 @@
     background-size: contain;
   }
 
-  > img {
+  >img {
     border-radius: 50%;
     width: 50px;
     height: 50px;
   }
 
-  > b {
+  >b {
     font-family: "Nunito";
   }
 }
@@ -44,7 +44,7 @@
   }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1350px) {
   .content {
     display: none;
   }

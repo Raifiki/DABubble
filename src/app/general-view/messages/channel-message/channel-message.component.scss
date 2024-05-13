@@ -25,7 +25,7 @@
   justify-content: center;
   align-items: center;
 
-  > .timestamp-time {
+  >.timestamp-time {
     border: 1px solid #adb0d9;
     border-radius: 30px;
     padding: 5px 15px 5px 15px;
@@ -36,14 +36,14 @@
   display: flex;
   align-items: center;
 
-  > div {
+  >div {
     cursor: pointer;
     display: flex;
     align-items: center;
     border-radius: 30px;
     padding: 8px;
 
-    > p {
+    >p {
       font-family: "Nunito";
       font-size: 20px;
       font-weight: 600;
@@ -53,11 +53,11 @@
       margin: 0;
     }
 
-    > div {
+    >div {
       border-radius: 20px;
       padding: 3px 10px 3px 10px;
 
-      > img {
+      >img {
         width: 40px;
         height: 40px;
         margin-left: -8px;
@@ -65,13 +65,15 @@
         border: 2px solid white;
       }
     }
+
     &:hover {
       background-color: $prim-color-light-hover;
-      > p {
+
+      >p {
         color: $prim-color-bright-hover;
       }
 
-      > #counter {
+      >#counter {
         color: $prim-color-bright-hover;
       }
 
@@ -89,7 +91,7 @@
   border-radius: 30px;
   padding: 8px;
 
-  > p {
+  >p {
     font-family: "Nunito";
     font-size: 24px;
     font-weight: 700;
@@ -98,18 +100,19 @@
     margin: 0;
   }
 
-  > img {
+  >img {
     padding-left: 8px;
     vertical-align: middle;
   }
 
   &:hover {
     background-color: $prim-color-light-hover;
-    > p {
+
+    >p {
       color: $prim-color-bright-hover;
     }
 
-    > #counter {
+    >#counter {
       color: $prim-color-bright-hover;
     }
 
@@ -126,13 +129,13 @@
   padding: 8px;
   margin-left: 16px;
 
-  > img {
+  >img {
     width: 24px;
     height: 24px;
   }
 
   &:hover {
-    > img {
+    >img {
       content: url(../../../../assets/icons/person_add\ _hover.svg);
     }
   }
@@ -162,25 +165,28 @@ app-message-container {
   height: 20%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1350px) {
   .header {
     padding: 15px;
   }
+
   .header-members {
     display: none !important;
   }
 
   .left-side {
-    > p {
+    >p {
       font-size: 18px;
     }
   }
+
   .timestamp {
-    > .timestamp-time {
+    >.timestamp-time {
       width: 30%;
       font-size: 14px;
     }
-    > img {
+
+    >img {
       width: 30%;
     }
   }

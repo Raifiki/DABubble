@@ -8,7 +8,7 @@
   aspect-ratio: 0 !important;
   width: 100% !important;
 
-  > textarea {
+  >textarea {
     border: unset !important;
     outline: none !important;
   }
@@ -33,12 +33,13 @@ emoji-mart {
   display: flex;
   align-items: center;
 
-  > .line {
+  >.line {
     height: 70%;
     width: 2px;
     background-color: #adb0d9;
   }
-  > #openFile {
+
+  >#openFile {
     cursor: pointer;
     padding: 8px;
 
@@ -48,7 +49,8 @@ emoji-mart {
       border-radius: 50%;
     }
   }
-  > #openEmoji {
+
+  >#openEmoji {
     cursor: pointer;
     padding: 8px;
 
@@ -58,7 +60,8 @@ emoji-mart {
       border-radius: 50%;
     }
   }
-  > #openUserList {
+
+  >#openUserList {
     cursor: pointer;
     padding: 8px;
 
@@ -73,6 +76,7 @@ emoji-mart {
 .sendBtn {
   width: 40px;
   height: 40px;
+
   &:hover {
     content: url(../../../../assets/icons/Send\ iconhover.svg);
   }
@@ -83,7 +87,8 @@ emoji-mart {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-  > .file {
+
+  >.file {
     position: relative;
     cursor: pointer;
     display: flex;
@@ -92,11 +97,13 @@ emoji-mart {
     padding: 8px 16px;
     background-color: white;
     border-radius: 30px;
-    > img {
+
+    >img {
       width: 40px;
       aspect-ratio: 1;
     }
-    > .file-btn-wrapper {
+
+    >.file-btn-wrapper {
       position: absolute;
       display: flex;
       align-items: center;
@@ -111,7 +118,8 @@ emoji-mart {
       border-radius: 30px;
       background-color: rgba($color: $online-green, $alpha: 0.2);
       right: 0;
-      > button {
+
+      >button {
         background-color: white;
         padding: 8px;
         width: 32px;
@@ -122,8 +130,9 @@ emoji-mart {
         mask-image: url(./../../../../assets/icons/delete.png);
       }
     }
+
     &:hover {
-      > .file-btn-wrapper {
+      >.file-btn-wrapper {
         opacity: 1;
         transition: all ease-in-out 200ms;
       }
@@ -131,7 +140,7 @@ emoji-mart {
   }
 }
 
-@media(max-width: 600px){
+@media(max-width: 1350px) {
   emoji-mart {
     position: absolute;
     bottom: 120px;

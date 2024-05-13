@@ -1,6 +1,6 @@
 @import './../../../shared/styles/includeStyles.scss';
 
-.registered-user-profile-card{
+.registered-user-profile-card {
     position: absolute;
     right: 20px;
     top: 120px;
@@ -13,126 +13,149 @@
     width: fit-content;
     min-width: 500px;
     background-color: $white;
-    >.card-header{
+
+    >.card-header {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        >.back-btn{
+
+        >.back-btn {
             width: 40px;
-            >.back-btn-icon{
+
+            >.back-btn-icon {
                 mask-image: url(./../../../../assets/icons/close.svg);
             }
         }
     }
 }
 
-.card-content{
+.card-content {
     display: flex;
     flex-direction: column;
     gap: 45px;
     width: 100%;
-    > img{
+
+    >img {
         width: 200px;
         aspect-ratio: 1;
         align-self: center;
         border-radius: 100%;
     }
-    >.name-status-wrapper{
+
+    >.name-status-wrapper {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        >.name-editBtn-wrapper{
+
+        >.name-editBtn-wrapper {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            > h2{
+
+            >h2 {
                 font-size: $fnt-size-M;
             }
         }
-        > .status-wrapper{
+
+        >.status-wrapper {
             display: flex;
             align-items: center;
             gap: 15px;
             font-size: $fnt-size-S;
             color: $dark-grey;
-            >.status-lamp{
+
+            >.status-lamp {
                 width: 16px;
                 aspect-ratio: 1;
                 border-radius: 100%;
                 background-color: $dark-grey;
             }
         }
-        > .status-wrapper.active{
+
+        >.status-wrapper.active {
             color: $online-green;
-            >.status-lamp{
+
+            >.status-lamp {
                 background-color: $online-green;
             }
         }
     }
-    >.email-wrapper{
+
+    >.email-wrapper {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        >div{
+
+        >div {
             display: flex;
             align-items: center;
             gap: 20px;
             font-size: $fnt-size-S;
-            >img{
+
+            >img {
                 width: 30px;
                 aspect-ratio: 1;
             }
         }
-        >span{
+
+        >span {
             color: $email-blue;
             margin-left: 50px;
         }
     }
 }
 
-@media(max-width:600px){
-  
-    .registered-user-profile-card{
+@media(max-width: 1350px) {
+
+    .registered-user-profile-card {
         top: 80px;
         right: 0;
         min-width: 90vw !important;
-       
+
     }
-    
-    .card-content{
-        gap:25px;
+
+    .card-content {
+        gap: 25px;
         width: 100%;
-        >img{
+
+        >img {
             width: 100px;
         }
-        >.name-status-wrapper{
+
+        >.name-status-wrapper {
             gap: 15px;
-            >.name-editBtn-wrapper{
-                > h2{
+
+            >.name-editBtn-wrapper {
+                >h2 {
                     font-size: $fnt-size-S;
                 }
             }
-            > .status-wrapper{
+
+            >.status-wrapper {
                 gap: 15px;
                 font-size: $fnt-size-S;
-                >.status-lamp{
+
+                >.status-lamp {
                     width: 12px;
                     aspect-ratio: 1;
                 }
             }
-          
+
         }
-        >.email-wrapper{
+
+        >.email-wrapper {
             gap: 10px;
-            >div{
+
+            >div {
                 gap: 10px;
                 font-size: $fnt-size-S;
-                >img{
+
+                >img {
                     width: 20px;
                     aspect-ratio: 1;
                 }
             }
-         
+
         }
     }
 }

@@ -1,6 +1,6 @@
 @import './../../../shared/styles/includeStyles.scss';
 
-.user-profile-card{
+.user-profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,119 +10,141 @@
     width: fit-content;
     min-width: 500px;
     background-color: $white;
-    >.card-header{
+
+    >.card-header {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        >.back-btn{
+
+        >.back-btn {
             width: 40px;
-            >.back-btn-icon{
+
+            >.back-btn-icon {
                 mask-image: url(./../../../../assets/icons/close.svg);
             }
         }
     }
 }
 
-.card-content{
+.card-content {
     display: flex;
     flex-direction: column;
     gap: 45px;
     width: 100%;
-    > img{
+
+    >img {
         width: 200px;
         aspect-ratio: 1;
         align-self: center;
         border-radius: 100%;
     }
-    >.name-status-wrapper{
+
+    >.name-status-wrapper {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        > h2{
+
+        >h2 {
             font-size: $fnt-size-M;
         }
-        > .status-wrapper{
+
+        >.status-wrapper {
             display: flex;
             align-items: center;
             gap: 15px;
             font-size: $fnt-size-S;
             color: $dark-grey;
-            >.status-lamp{
+
+            >.status-lamp {
                 width: 16px;
                 aspect-ratio: 1;
                 border-radius: 100%;
                 background-color: $dark-grey;
             }
         }
-        > .status-wrapper.active{
+
+        >.status-wrapper.active {
             color: $online-green;
-            >.status-lamp{
+
+            >.status-lamp {
                 background-color: $online-green;
             }
         }
     }
-    >.email-wrapper{
+
+    >.email-wrapper {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        >div{
+
+        >div {
             display: flex;
             align-items: center;
             gap: 20px;
             font-size: $fnt-size-S;
-            >img{
+
+            >img {
                 width: 30px;
                 aspect-ratio: 1;
             }
         }
-        >span{
+
+        >span {
             color: $email-blue;
             margin-left: 50px;
         }
     }
 }
 
-@media (max-width: 600px){
-    .user-profile-card{
+@media (max-width: 1350px) {
+    .user-profile-card {
         min-width: 100vw;
         gap: 25px;
         padding: 40px;
-        >.card-header{
-            >.back-btn{
-                width:30px;
-            
+
+        >.card-header {
+            >.back-btn {
+                width: 30px;
+
             }
         }
     }
-    
-    .card-content{
+
+    .card-content {
         gap: 25px;
-        > img{
+
+        >img {
             width: 100px;
         }
-        >.name-status-wrapper{
+
+        >.name-status-wrapper {
             gap: 15px;
-            > h2{
+
+            >h2 {
                 font-size: $fnt-size-S;
             }
-            > .status-wrapper{
+
+            >.status-wrapper {
                 gap: 15px;
                 font-size: $fnt-size-XS;
-             
+
             }
-          
+
         }
-        >.email-wrapper{
+
+        >.email-wrapper {
             gap: 10px;
-            >div{
+
+            >div {
                 gap: 15px;
                 font-size: $fnt-size-XS;
-                >img{
+
+                >img {
                     width: 30px;
                     aspect-ratio: 1;
                 }
             }
-         
+
         }
     }
 }

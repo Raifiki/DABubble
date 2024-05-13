@@ -33,8 +33,6 @@ export class ChannelService {
   activeUser!: User;
   unsubActiveUser: Subscription;
 
-
-
   channels$: BehaviorSubject<Channel[]> = new BehaviorSubject<Channel[]>([]);
   unsubChannels;
 

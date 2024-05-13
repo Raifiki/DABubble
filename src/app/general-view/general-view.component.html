@@ -7,10 +7,10 @@
     </div>
 
   </div>
-     <app-dev-header   [ngClass]="{'element-to-hide': isMiddleShowing() && !isShwoginHeader()}" ></app-dev-header>
-  <div class="search-mobile" [ngClass]="{'element-to-hide': isSearchShowing()}">
+  <app-dev-header [ngClass]="{'element-to-hide': isMiddleShowing() && !isShwoginHeader()}"></app-dev-header>
+  <div class="search-mobile " [ngClass]="{'element-to-hide': isSearchShowing()}">
     <input (focus)="initSearch()" type="search" placeholder="Gehe zu..." [(ngModel)]="searchInput"
-    class="search-bar-mobile" (ngModelChange)="onInputChange()" />
+      class="search-bar-mobile" (ngModelChange)="onInputChange()" />
   </div>
   <div class="result-field-mobile" id="result-field" *ngIf="this.isSearchFieldEmptySig()">
     <div *ngIf="searchService.searchUserResult.length > 0">
@@ -35,12 +35,13 @@
       <h4>Messages:</h4>
       <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
         <p (click)="channelService.subChannel(msgResult.messageOfChannel); showMiddle(); onResultClick()">
-          <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
+          <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }}
         </p>
         <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
           <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
             <div class="thread-content">
-              <p (click)="this.searchService.searchForChannel(threadResult); showMiddle(); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
+              <p (click)="this.searchService.searchForChannel(threadResult); showMiddle(); onResultClick()"><b>Thread in
+                  der Message</b> - {{ threadResult.content }}
               </p>
             </div>
           </ng-container>
@@ -48,7 +49,7 @@
       </ng-container>
     </div>
   </div>
- 
+
   <div class="header ">
     <div class="logo"></div>
     <input (focus)="initSearch()" type="search" placeholder="Code learning durchsuchen" [(ngModel)]="searchInput"
@@ -107,7 +108,8 @@
     <div class="sidebar">
       <app-workspace-menu></app-workspace-menu>
     </div>
-    <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)" [ngClass]="{'element-to-hide': isLeftShowing()}">
+    <div class="left-side" *ngIf="!(overlayCtrlService.showHideLeftSide$ | async)"
+      [ngClass]="{'element-to-hide': isLeftShowing()}">
       <app-left-side></app-left-side>
     </div>
     <div class="middle" [ngClass]="{'element-to-hide': isMiddleShowing()}">
@@ -121,7 +123,8 @@
         <app-new-message></app-new-message>
       </div>
     </div>
-    <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())" [ngClass]="{'element-to-hide': isRightShowing()}">
+    <div class="right-side" *ngIf="(overlayCtrlService.showHideRightSide())"
+      [ngClass]="{'element-to-hide': isRightShowing()}">
       <app-thread [channel]="activeChannel"></app-thread>
     </div>
   </div>
