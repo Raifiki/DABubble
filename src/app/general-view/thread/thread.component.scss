@@ -19,8 +19,6 @@
   }
 }
 
-
-
 .header {
   display: flex;
   align-items: center;
@@ -52,11 +50,10 @@
   align-items: center;
   flex-direction: row;
   width: 100%;
-  >p {
-    margin: 0
-    color #ADB0D9;
+  > p {
+    margin: 0 color #adb0d9;
   }
-  >img {
+  > img {
     width: 60%;
   }
 }
@@ -85,7 +82,6 @@
   right: 30px;
   > .back-btn-icon {
     mask-image: url(../../../assets/icons/close.svg);
-
   }
 }
 
@@ -105,5 +101,6 @@
 @media (max-width: 600px) {
   .content {
     border-radius: 0;
+    height: 90vh;
   }
 }

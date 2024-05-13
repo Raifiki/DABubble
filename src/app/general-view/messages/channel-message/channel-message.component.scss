@@ -25,10 +25,10 @@
   justify-content: center;
   align-items: center;
 
-  >.timestamp-time {
-    border: 1px solid #ADB0D9;
+  > .timestamp-time {
+    border: 1px solid #adb0d9;
     border-radius: 30px;
-    padding: 5px 15px 5px 15px,
+    padding: 5px 15px 5px 15px;
   }
 }
 
@@ -90,7 +90,6 @@
   padding: 8px;
 
   > p {
-
     font-family: "Nunito";
     font-size: 24px;
     font-weight: 700;
@@ -163,33 +162,31 @@ app-message-container {
   height: 20%;
 }
 
-@media(max-width: 600px){
-
-  .header{
+@media (max-width: 600px) {
+  .header {
     padding: 15px;
   }
-  .header-members{
+  .header-members {
     display: none !important;
   }
 
-  .left-side{
-    >p{
+  .left-side {
+    > p {
       font-size: 18px;
     }
   }
-  .timestamp{
-    >.timestamp-time{
+  .timestamp {
+    > .timestamp-time {
       width: 30%;
       font-size: 14px;
     }
-    >img{
+    > img {
       width: 30%;
     }
   }
 
   .content {
     border-radius: 0;
+    height: 90vh;
   }
-
-
 }
