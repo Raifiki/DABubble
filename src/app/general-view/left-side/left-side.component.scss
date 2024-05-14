@@ -19,12 +19,12 @@
   align-items: center;
   padding: 0 20px;
 
-  >div {
+
   >div {
     display: flex;
     align-items: center;
 
-    >img {
+
 
     >img {
       margin-left: 13px;
@@ -32,7 +32,7 @@
       height: 60px;
     }
 
-    >p {
+
     >p {
       font-family: "Nunito";
       font-size: 24px;
@@ -45,7 +45,7 @@
     }
   }
 
-  >img {
+
   >img {
     width: 40px;
     height: 40px;
@@ -86,16 +86,16 @@
   align-items: center;
   justify-content: space-between;
 
-  >div {
+
   >div {
     display: flex;
 
-    >img {
+
     >img {
       margin-left: 16px;
     }
 
-    >b {
+
     >b {
       text-align: center;
       margin: 0;
@@ -192,7 +192,7 @@
   gap: 15px;
   padding: 0 20px 0 49px;
 
-  >p {
+
   >p {
     margin: 0;
     cursor: pointer;
@@ -217,7 +217,7 @@
   >app-members-list {
     margin-top: 40px;
 
-    >img {
+
     >img {
       width: 50px;
       height: 50px;
@@ -237,41 +237,4 @@
     display: none;
   }
 }
-
-.btn-new-msg-res {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 40px;
-  right: 20px;
-  width: 60px;
-  aspect-ratio: 1;
-  background-color: $prim-color;
-  border-radius: 100px;
-  box-shadow: 0 6px 10px 0 rgba($color: #000000, $alpha: 0.2);
-
-  >img {
-    width: 40px;
-    aspect-ratio: 1;
-  }
-}
-
-@media (max-width: 1350px) {
-  .content {
-    margin: 0px;
-    height: 80vh;
-  }
-
-
-
-  .header {
-    display: none;
-  }
-
-  .btn-new-msg-res {
-    display: block;
-  }
-
-
 }
