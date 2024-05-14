@@ -5,7 +5,7 @@
       <div class="dropdown"></div>
     </div>
     <div class="right-side">
-      <div (click)="overlayCtrlService.showOverlay('members')">
+      <div class="header-members" (click)="overlayCtrlService.showOverlay('members')">
         <div>
           @for (member of channel.members; track member; let index = $index) {
           @if(index

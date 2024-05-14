@@ -127,7 +127,6 @@ export class ThreadsService {
       collection(this.getThreadColRef(this.idOfThisThreads), 'threads'),
       message.getCleanBEJSON()
     ).then((msgId) => (newId = msgId.id));
-    console.log(newId);
     this.messages[0].answers.amount++;
     this.messages[0].answers.lastAnswer = new Date();
     this.messagesService.updateMessage(

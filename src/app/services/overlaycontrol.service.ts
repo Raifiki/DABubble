@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 
 // import interfaces
 import { MessageComponent, OverlayType } from '../shared/interfaces/interfaces';
@@ -33,6 +33,12 @@ export class OverlaycontrolService {
   selectedUser: User | undefined;
   activeMessage: Message = new Message();
   activeChannel: Channel = new Channel();
+  showingLeft = signal(false)
+  showingRight = signal(true)
+  showingMiddle = signal(true)
+  showingSearch = signal(false)
+  showingDirectMsg = signal(false)
+  showingHeader = signal(false)
 
   private showHideLeftSide = new BehaviorSubject<boolean>(false);
   showHideLeftSide$ = this.showHideLeftSide.asObservable();

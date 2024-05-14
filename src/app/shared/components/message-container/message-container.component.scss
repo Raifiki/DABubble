@@ -1,5 +1,4 @@
-@import './../../styles/includeStyles.scss';
-
+@import "./../../styles/includeStyles.scss";
 
 .msg-wrapper {
   position: relative;
@@ -54,7 +53,7 @@
     display: flex;
     gap: 20px;
     align-items: flex-end;
-    font-family: 'Nunito';
+    font-family: "Nunito";
 
     >.msg-creator-name {
       cursor: pointer;
@@ -233,8 +232,8 @@
     left: 100px;
 
     >emoji-mart {
-      right: unset;
-      left: 0;
+      right: -140px;
+
     }
   }
 
@@ -295,21 +294,21 @@
     position: absolute;
     bottom: 0;
     transform: translateY(100%);
-    right: 0;
+    right: -140px;
     z-index: 10;
   }
 
   >.more-menu {
     position: absolute;
-    top: 20px;
-    right: 25px;
+    top: 37px;
+    right: 180px;
     transform: translateX(100%);
     display: none;
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
     width: max-content;
-    border-radius: 0px 30px 30px 30px;
+    border-radius: 30px 0px 30px 30px;
     background-color: white;
     box-shadow: 0 6px 14px 0 rgba($color: #000000, $alpha: 0.1);
     padding: 10px;
@@ -341,7 +340,7 @@
     border: none;
     outline: none;
     resize: none;
-    font-family: 'Nunito';
+    font-family: "Nunito";
     color: $dark-grey;
     overflow: hidden;
   }
@@ -350,6 +349,8 @@
     position: relative;
     display: flex;
     justify-content: space-between;
+
+    >button {
 
     >button {
       width: 40px;
@@ -376,4 +377,155 @@
 
 .show {
   display: flex !important;
+}
+
+@media (max-width: 1350px) {
+  .msg-wrapper {
+    >img {
+      width: 50px;
+    }
+
+    .active-user-msg {
+      >img {
+        width: 55px;
+      }
+    }
+  }
+
+  .msg-content-wrapper {
+    gap: 8px;
+
+    >.content-header {
+      gap: 20px;
+
+      >.msg-creator-name {
+        font-size: $fnt-size-XXS;
+      }
+
+      >.msg-time {
+        font-size: $fnt-size-XXS;
+      }
+    }
+
+    >.msg-content {
+      padding: 10px;
+    }
+  }
+
+  .msg-footer {
+    gap: 40px;
+
+    >.msg-thread-wrapper {
+      gap: 20px;
+
+      >.thread-replies {
+        font-size: $fnt-size-XXS;
+      }
+
+      >.thread-last-reply-time {
+        font-size: $fnt-size-XXS;
+      }
+    }
+
+    >.reaction-wrapper {
+      gap: 8px;
+
+      >button {
+        width: 30px;
+      }
+
+      >.reaction-chip {
+        gap: 4px;
+        padding: 3px 6px;
+
+        >.reaction-chip-info {
+          top: 0;
+          left: 50%;
+          padding: 15px 10px;
+          width: max-content;
+        }
+      }
+    }
+  }
+
+  .files-wrapper {
+    gap: 10px;
+
+    >.file {
+      gap: 4px;
+      padding: 8px 16px;
+
+      >img {
+        width: 30px;
+      }
+
+      >.file-btn-wrapper {
+        gap: 4px;
+        padding: 8px 16px;
+        right: 0;
+
+        >button {
+          padding: 8px;
+          width: 26px;
+        }
+      }
+    }
+  }
+}
+
+.active-user-msg {
+  padding: 8px 25px 8px 8px;
+
+  .toolbar {
+    gap: 5px;
+    padding: 3px 15px 3px 20px;
+
+    >button {
+      width: 30px;
+    }
+
+    >emoji-mart {
+      bottom: 0;
+      right: -140px;
+    }
+
+    >.more-menu {
+      top: 38px;
+      right: 180px;
+      gap: 4px;
+      width: max-content;
+      padding: 10px;
+
+      >button {
+        padding: 10px 20px;
+      }
+    }
+  }
+
+  .wrapper-edit-msg {
+    gap: 8px;
+    padding: 10px;
+    margin-left: 50px;
+
+    >textarea {
+      font-size: 16px;
+    }
+
+    >.edit-msg-footer {
+      >button {
+        width: 30px;
+        height: 30px;
+      }
+
+      >emoji-mart {
+        position: absolute;
+        bottom: 25px;
+        left: 40px;
+      }
+
+      >div {
+        gap: 16px;
+      }
+    }
+  }
 }

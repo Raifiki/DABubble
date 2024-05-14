@@ -116,3 +116,21 @@
         }
     }
 }
+
+@media (max-width: 1350px) {
+    .create-channel-card {
+        width: unset
+    }
+
+    .create-channel-card {
+        min-width: unset;
+    }
+
+    .form-field-ipt-style2 {
+
+        >.ipt-field-wrapper>input {
+            width: 100%;
+        }
+
+    }
+}

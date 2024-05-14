@@ -39,3 +39,9 @@
     color: $prim-color-bright-hover;
     font-weight: bold;
 }
+
+@media(max-width: 320px){
+    .user-list-item-wrapper{
+        font-size: $fnt-size-XXS;
+    }
+}

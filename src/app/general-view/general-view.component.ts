@@ -29,6 +29,7 @@ import { SearchService } from '../services/search.service';
 import { DirectMessageService } from '../services/direct-message.service';
 import { DirektMessage } from '../shared/models/direct-message.class';
 import { ThreadsService } from '../services/ThreadsService';
+import { DevHeaderComponent } from '../shared/components/dev-header/dev-header.component';
 
 @Component({
   selector: 'app-general-view',
@@ -43,6 +44,7 @@ import { ThreadsService } from '../services/ThreadsService';
     ChannelMessageComponent,
     ThreadComponent,
     WorkspaceMenuComponent,
+    DevHeaderComponent
   ],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
@@ -67,6 +69,13 @@ export class GeneralViewComponent {
   directMessageService = inject(DirectMessageService);
   threadService = inject(ThreadsService)
 
+
+  isLeftShowing = this.overlayCtrlService.showingLeft
+  isMiddleShowing = this.overlayCtrlService.showingMiddle
+  isRightShowing = this.overlayCtrlService.showingRight
+  isSearchShowing = this.overlayCtrlService.showingSearch
+  isDirectMsgShowing = this.overlayCtrlService.showingDirectMsg
+  isShwoginHeader = this.overlayCtrlService.showingHeader
 
   subscription: Subscription;
 
@@ -144,6 +153,11 @@ export class GeneralViewComponent {
     setTimeout(() => {
       this.searchService.loadAllThreads();
     }, 1000);
+  }
+  showMiddle() {
+    this.overlayCtrlService.showingMiddle.set(false)
+    this.overlayCtrlService.showingLeft.set(true)
+    this.overlayCtrlService.showingSearch.set(true)
   }
 
 }

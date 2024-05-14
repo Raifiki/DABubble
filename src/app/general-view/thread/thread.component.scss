@@ -15,16 +15,16 @@
     transform: translate(500px);
   }
 
+
   100% {
     transform: translate(0px);
   }
 }
 
-
-
 .header {
   display: flex;
   align-items: center;
+  position: relative;
   padding: 32px 45px 20px 45px;
   justify-content: space-between;
   width: 100%;
@@ -33,7 +33,8 @@
 
   >div {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
     >h2 {
       margin: 0;
@@ -53,9 +54,11 @@
   flex-direction: row;
   width: 100%;
 
+
   >p {
-    margin: 0 color #ADB0D9;
+    margin: 0 color #adb0d9;
   }
+
 
   >img {
     width: 60%;
@@ -99,4 +102,11 @@
 
 .pad20 {
   padding: 20px;
+}
+
+@media (max-width: 1350px) {
+  .content {
+    border-radius: 0;
+    height: 90vh;
+  }
 }

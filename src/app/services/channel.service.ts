@@ -27,7 +27,6 @@ import { MessageService } from './message.service';
 })
 export class ChannelService {
   firestore: Firestore = inject(Firestore);
-
   userService = inject(UserService);
   messageService = inject(MessageService);
 

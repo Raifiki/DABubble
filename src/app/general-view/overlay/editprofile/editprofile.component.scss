@@ -15,9 +15,13 @@
     background-color: $white;
 
     >.card-header {
+
+    >.card-header {
         display: flex;
         justify-content: space-between;
         width: 100%;
+
+        >.back-btn {
 
         >.back-btn {
             width: 40px;
@@ -73,4 +77,58 @@
             gap: 45px;
         }
     }
+}
+
+@media(max-width: 1350px) {
+    .edit-profile-card {
+        right: 0px;
+        top: 80px;
+        gap: 25px;
+        min-width: 100vw;
+
+        >.card-header {
+            >.back-btn {
+                width: 30px;
+            }
+        }
+    }
+
+    .card-content {
+        gap: 25px;
+
+        >img {
+            width: 100px;
+        }
+
+        >form {
+            gap: 25px;
+
+            >.form-content-wrapper {
+                gap: 8x;
+
+                .header-ipt-field {
+                    gap: 10px;
+                    font-size: $fnt-size-XS;
+
+                    >img {
+                        width: 20px;
+                    }
+                }
+            }
+
+            >.btn-wrapper {
+                gap: 25px;
+            }
+        }
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    span {
+        font-size: 16px;
+    }
+
+
 }

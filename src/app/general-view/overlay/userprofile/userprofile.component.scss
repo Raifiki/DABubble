@@ -95,3 +95,56 @@
         }
     }
 }
+
+@media (max-width: 1350px) {
+    .user-profile-card {
+        min-width: 100vw;
+        gap: 25px;
+        padding: 40px;
+
+        >.card-header {
+            >.back-btn {
+                width: 30px;
+
+            }
+        }
+    }
+
+    .card-content {
+        gap: 25px;
+
+        >img {
+            width: 100px;
+        }
+
+        >.name-status-wrapper {
+            gap: 15px;
+
+            >h2 {
+                font-size: $fnt-size-S;
+            }
+
+            >.status-wrapper {
+                gap: 15px;
+                font-size: $fnt-size-XS;
+
+            }
+
+        }
+
+        >.email-wrapper {
+            gap: 10px;
+
+            >div {
+                gap: 15px;
+                font-size: $fnt-size-XS;
+
+                >img {
+                    width: 30px;
+                    aspect-ratio: 1;
+                }
+            }
+
+        }
+    }
+}
