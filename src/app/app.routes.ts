@@ -10,7 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuardService } from './services/auth-guard.service';
 
 export const routes: Routes = [
-  { path: '', component: RegisterComponent },
+  { path: '', component: RegisterComponent, pathMatch: 'full' },
   { path: 'imprint', component: ImprintComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
   { path: 'signin', component: SigninComponent },
@@ -20,4 +20,5 @@ export const routes: Routes = [
     canActivate: [AuthGuardService],
     component: GeneralViewComponent,
   },
+
 ];

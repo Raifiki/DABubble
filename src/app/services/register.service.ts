@@ -50,7 +50,7 @@ export class RegisterService {
       this.firebaseInitService.getAuth(),
       this.googleProvider
     )
-      .then(async (result) => {
+      .then( async (result) => {
         let user = new User({
           id: result.user.uid,
           name: result.user.displayName,
@@ -62,18 +62,29 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
-        console.log(result.user.photoURL);
-        let userData = await this.userService.getUserRef(user.id);
-        if (userData.id === user.id) {
-          await this.userService.loadUser(userData.id);
+        console.log('user',user)
+        console.log('user ID',user.id)
+        let userData: any = ''
+        setTimeout(() => {
+            userData =  this.userService.getUserRef(user.id);
+           
+        }, 500);
+          console.log('geladene Daten vom Server',userData)
+        if (userData) {
+          if ( userData.id == user.id) {
+           await this.userService.loadUser(userData.id);
+          }
         } else {
           this.userService.activeUser$.next(user);
-          await this.userService.saveUser(user).then(() => {
-            this.router.navigate(['/generalView']);
-          });
+          setTimeout(() => {
+            
+            this.userService.saveUser(user)
+            }, 500);
+            this.directMessageService.subDirectMessagesList();
+            this.channelService.subChannels();
+          this.router.navigate(['/generalView']);
+          ;
         }
-        await this.directMessageService.subDirectMessagesList();
-        await this.channelService.subChannels();
       })
       .catch((error) => {
         alert(
