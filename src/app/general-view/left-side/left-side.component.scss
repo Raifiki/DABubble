@@ -19,21 +19,16 @@
   align-items: center;
   padding: 0 20px;
 
-  >div {
-  >div {
+  > div {
     display: flex;
     align-items: center;
-
-    >img {
-
-    >img {
+    > img {
       margin-left: 13px;
       width: 60px;
       height: 60px;
     }
 
-    >p {
-    >p {
+    > p {
       font-family: "Nunito";
       font-size: 24px;
       font-weight: 700;
@@ -45,15 +40,14 @@
     }
   }
 
-  >img {
-  >img {
+  > img {
     width: 40px;
     height: 40px;
     vertical-align: middle;
     cursor: pointer;
 
     &:hover {
-      content: url("/Angular/DABubble/assets/icons/edit_squarehover.svg");
+      content: url(../../../assets/icons/edit_squarehover.svg);
       width: 40px;
       height: 40px;
       border-radius: 50px;
@@ -62,8 +56,6 @@
     }
   }
 }
-
-
 .body {
   display: flex;
   flex-direction: column;
@@ -86,17 +78,14 @@
   align-items: center;
   justify-content: space-between;
 
-  >div {
-  >div {
+  > div {
     display: flex;
 
-    >img {
-    >img {
+    > img {
       margin-left: 16px;
     }
 
-    >b {
-    >b {
+    > b {
       text-align: center;
       margin: 0;
       margin-left: 12px;
@@ -105,7 +94,7 @@
 }
 
 .dropdown {
-  background-image: url("/Angular/DABubble/assets/icons/arrow_drop_down.svg");
+  background-image: url(../../../assets/icons/arrow_drop_down.svg);
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -113,33 +102,28 @@
 
 .hover {
   cursor: pointer;
-
-
   &:hover {
-    >b {
+    > b {
       color: $prim-color;
     }
 
 
     .dropdown {
-      background-image: url("/Angular/DABubble/assets/icons/arrow_drop_downhover.svg");
+      background-image: url(../../../assets/icons/arrow_drop_downhover.svg);
     }
-
-    >img {
-      content: url("/Angular/DABubble/assets/icons/workspaceshover.svg");
+    > img {
+      content: url(../../../assets/icons/workspaceshover.svg);
     }
   }
 }
 
 .plus-icon {
-  background-image: url("/Angular/DABubble/assets/icons/add.svg");
+  background-image: url(../../../assets/icons/add.svg);
   width: 24px;
   height: 24px;
   cursor: pointer;
-
-
   &:hover {
-    background-image: url("/Angular/DABubble/assets/icons/addhover.svg");
+    background-image: url(../../../assets/icons/addhover.svg);
     border-radius: 50px;
     background-color: $prim-color-light-hover;
     padding: 8px;
@@ -192,8 +176,7 @@
   gap: 15px;
   padding: 0 20px 0 49px;
 
-  >p {
-  >p {
+  > p {
     margin: 0;
     cursor: pointer;
   }
@@ -203,7 +186,7 @@
   }
 
   &:hover img {
-    content: url("/Angular/DABubble/assets/icons/add_circle_hover.jpg");
+    content: url(../../../assets/icons/add_circle_hover.jpg);
   }
 }
 
@@ -213,12 +196,10 @@
   flex-direction: column;
   width: 100%;
 
-  >app-members-list {
-  >app-members-list {
+  > app-members-list {
     margin-top: 40px;
 
-    >img {
-    >img {
+    > img {
       width: 50px;
       height: 50px;
     }
@@ -231,8 +212,6 @@
   align-items: flex-start;
   padding: 20px;
   gap: 13px;
-
-
   &.collapsed {
     display: none;
   }

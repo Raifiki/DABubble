@@ -40,39 +40,33 @@ emoji-mart {
   }
 
   >#openFile {
-
-  >#openFile {
     cursor: pointer;
     padding: 8px;
 
     &:hover {
-      content: url("/Angular/DABubble/assets/icons/addhover.svg");
+      content: url(../../../../assets/icons/addhover.svg);
       background-color: $prim-color-light-hover;
       border-radius: 50%;
     }
   }
 
   >#openEmoji {
-
-  >#openEmoji {
     cursor: pointer;
     padding: 8px;
 
     &:hover {
-      content: url("/Angular/DABubble/assets/icons/sentiment_satisfiedhover.svg");
+      content: url(../../../../assets/icons/sentiment_satisfiedhover.svg);
       background-color: $prim-color-light-hover;
       border-radius: 50%;
     }
   }
 
   >#openUserList {
-
-  >#openUserList {
     cursor: pointer;
     padding: 8px;
 
     &:hover {
-      content: url("/Angular/DABubble/assets/icons/alternate_emailhover.svg");
+      content: url(../../../../assets/icons/alternate_emailhover.svg);
       background-color: $prim-color-light-hover;
       border-radius: 50%;
     }
@@ -83,10 +77,8 @@ emoji-mart {
   width: 40px;
   height: 40px;
 
-
   &:hover {
-    content: url("/Angular/DABubble/assets/icons/Sendiconhover.svg");
-    cursor: pointer;
+    content: url(../../../../assets/icons/Send\ iconhover.svg);
   }
 }
 
@@ -128,8 +120,6 @@ emoji-mart {
       right: 0;
 
       >button {
-
-      >button {
         background-color: white;
         padding: 8px;
         width: 32px;
@@ -137,7 +127,7 @@ emoji-mart {
       }
 
       .delete-btn-icon {
-        mask-image: url("/Angular/DABubble/assets/icons/delete.png");
+        mask-image: url(./../../../../assets/icons/delete.png);
       }
     }
 

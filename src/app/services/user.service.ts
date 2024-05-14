@@ -84,7 +84,7 @@ export class UserService {
       this.activeUser$.next(user);
       this.activeUser$.value.isAuth = true;
       this.activeUser$.value.status = 'Aktiv';
-      this.router.navigate(['generalView']);
+      this.router.navigate(['/generalView']);
       this.saveUser(this.activeUser$.value);
     });
     this.unsubUser = onSnapshot(userRef, (data: any) => {

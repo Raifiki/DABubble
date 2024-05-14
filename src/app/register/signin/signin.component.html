@@ -2,7 +2,7 @@
     <div class="login-container-signin">
         <div class="headline-container-signin">
             <div class="headder-arrow-signin">
-                <img src="assets/img/arrow_back.png" class="go-back-signin" (click)="goBack()">
+                <img src="../../../assets/img/arrow_back.png" class="go-back-signin" (click)="goBack()">
                 <div class="headline-signin">Konto erstellen</div>
             </div>
             <div class="subheadline-signin">
@@ -36,7 +36,7 @@
             <div class="privacy-signin">
                 <input type="checkbox" class="checkbox-signin" name="checkbox" ngModel #checkbox="ngModel"
                     (click)="checkboxChange()" [checked]="checkboxChange"
-                    [ngStyle]="checkboxChecked ? {'background-image': 'url(assets/img/check_box_checked.png)'} : {'background-image': 'url(assets/img/check_box_unchecked.png)'}">
+                    [ngStyle]="checkboxChecked ? {'background-image': 'url(../../../assets/img/check_box_checked.png)'} : {'background-image': 'url(../../../assets/img/check_box_unchecked.png)'}">
                 <div>
                     <div> Ich stimme der <a href="/privacy">Datenschutzbestimmung</a> zu. </div>
                     @if (!checkboxChecked && f.valid) {

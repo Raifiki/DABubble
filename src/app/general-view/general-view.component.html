@@ -78,13 +78,12 @@
         <h4>Messages:</h4>
         <ng-container *ngFor="let msgResult of searchService.searchMessageResult">
           <p (click)="channelService.subChannel(msgResult.messageOfChannel); onResultClick()">
-            <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }}
+            <b>Im Channel {{searchService.showChannelName(msgResult)}} </b> - {{ msgResult.content }} 
           </p>
           <div *ngIf="searchService.searchThreadResult.length > 0" class="thread-result">
             <ng-container *ngFor="let threadResult of searchService.searchThreadResult">
               <div class="thread-content">
-                <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der
-                    Message</b> - {{ threadResult.content }}
+                <p (click)="this.searchService.searchForChannel(threadResult); onResultClick()"><b>Thread in der Message</b> - {{ threadResult.content }}
                 </p>
               </div>
             </ng-container>
@@ -99,7 +98,7 @@
         <img src="{{ this.activeUser.imgPath }}" alt="" class="user-image" />
       </div>
       <div>
-        <img class="user-menu" src="assets/img/keyboard_arrow_down.png"
+        <img class="user-menu" src="../../assets/img/keyboard_arrow_down.png"
           (click)="overlayCtrlService.showOverlay('dropDownUserMenu')" />
       </div>
     </div>

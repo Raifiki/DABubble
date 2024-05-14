@@ -19,18 +19,17 @@
   background-color: white;
   cursor: pointer;
 
-  >div {
+  > div {
     display: flex;
     writing-mode: vertical-lr;
   }
 
   &:hover {
-    >div {
+    > div {
       color: $prim-color-bright-hover;
     }
-
-    >img {
-      content: url("/assets/icons/show-menu-hover.svg");
+    > img {
+      content: url(../../../../assets/icons/show-menu-hover.svg);
     }
   }
 }
