@@ -25,10 +25,6 @@ export class LoginComponent {
     this.registerService.logUserIn(f.value.userEmail, f.value.password);
   }
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-  }
 
   logInTestUser() {
     this.registerService.logInTestUser();

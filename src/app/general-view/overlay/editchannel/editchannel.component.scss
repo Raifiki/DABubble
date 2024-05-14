@@ -1,6 +1,6 @@
 @import './../../../shared/styles/includeStyles.scss';
 
-.edit-channel-card{
+.edit-channel-card {
     position: absolute;
     top: 200px;
     left: 300px;
@@ -15,32 +15,39 @@
     max-width: 876px;
     background-color: $white;
     font-size: $fnt-size-XS;
-    >.card-header{
+
+    >.card-header {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        >h3 span{
+
+        >h3 span {
             margin-right: 15px;
         }
-        >.back-btn{
+
+        >.back-btn {
             width: 40px;
-            >.back-btn-icon{
-                mask-image: url(./../../../../assets/icons/close.svg);
+
+            >.back-btn-icon {
+                mask-image: url("/Angular/DABubble/assets/icons/close.svg");
             }
         }
     }
-    >button{
+
+    >button {
         align-self: flex-end;
     }
 }
 
-.card-content{
+.card-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     width: 100%;
-    > .name-field-wrapper, .channel-details-wrapper{
+
+    >.name-field-wrapper,
+    .channel-details-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -48,55 +55,69 @@
         padding: 20px 20px 0 20px;
         border: 1px solid $lightblue;
         border-radius: 20px;
-        > .field-header-wrapper{
+
+        >.field-header-wrapper {
             display: flex;
             justify-content: space-between;
             width: 100%;
             font-size: $fnt-size-XS !important;
-            >span{
+
+            >span {
                 font-weight: bold;
             }
         }
-        >.form-field-textarea-style2, .form-field-ipt-style2{
+
+        >.form-field-textarea-style2,
+        .form-field-ipt-style2 {
             width: 100%;
-            .ipt-field-wrapper, .textarea-field-wrapper{
+
+            .ipt-field-wrapper,
+            .textarea-field-wrapper {
                 margin-left: -20px;
                 margin-right: -20px;
-                > textarea{
+
+                >textarea {
                     overflow: hidden;
                     resize: none;
                     height: fit-content;
                 }
             }
         }
-        >.vertical-line{
+
+        >.vertical-line {
             width: 100%;
             height: 1px;
             margin: 20px 0;
             background-color: $lightblue;
         }
-        >.creator-wrapper{
+
+        >.creator-wrapper {
             display: flex;
             flex-direction: column;
             gap: 5px;
             align-self: flex-start;
             margin-bottom: 20px;
-            >span:first-child{
+
+            >span:first-child {
                 font-weight: bold;
             }
-            >span:nth-child(2){
+
+            >span:nth-child(2) {
                 color: $prim-color-bright-hover;
                 font-size: 24px;
             }
         }
     }
-    >.edit-field-view{
+
+    >.edit-field-view {
         border-color: transparent;
-        >.field-header-wrapper span{
+
+        >.field-header-wrapper span {
             margin: -20px 0 0 -20px;
             transition: all ease-out $transition-time;
         }
-        >.field-header-wrapper button{
+
+        >.field-header-wrapper button {
             margin: -20px -20px 20px 0;
             transition: all ease-out $transition-time;
         }

@@ -14,11 +14,12 @@
   gap: 20px;
   box-shadow: 0px 6px 10px 0px #00000033;
 
-  > div {
+  >div {
     display: flex;
     justify-content: space-between;
     gap: 5px;
-    > h3 {
+
+    >h3 {
       margin: 0;
       font-family: "Nunito";
       font-size: 24px;
@@ -29,7 +30,7 @@
     }
   }
 
-  > p {
+  >p {
     font-family: "Nunito";
     font-size: 18px;
     font-weight: 400;
@@ -52,7 +53,8 @@
 
 .back-btn {
   width: 40px;
-  > .back-btn-icon {
-    mask-image: url(./../../../../assets/icons/close.svg);
+
+  >.back-btn-icon {
+    background-image:  url("/Angular/DABubble/assets/icons/close.svg");
   }
 }

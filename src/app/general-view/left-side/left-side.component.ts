@@ -11,7 +11,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 
 // customer components
 import { UserlistitemComponent } from '../../shared/components/userlistitem/userlistitem.component';
-import { MessageComponent } from '../../shared/interfaces/interfaces';
 
 //services
 import { MessageService } from '../../services/message.service';
@@ -25,9 +24,6 @@ import { DirectMessageService } from '../../services/direct-message.service';
 import { User } from '../../shared/models/user.class';
 import { Channel } from '../../shared/models/channel.class';
 import { DirektMessage } from '../../shared/models/direct-message.class';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { Message } from '../../shared/models/message.class';
-import { ThreadComponent } from '../thread/thread.component';
 import { ThreadsService } from '../../services/ThreadsService';
 
 // impoort types

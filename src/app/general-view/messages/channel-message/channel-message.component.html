@@ -15,7 +15,7 @@
         <p id="counter">{{ channel.members.length }}</p>
       </div>
       <div (click)="overlayCtrlService.showOverlay('add-members')" id="add-person">
-        <img src="../../../../assets/icons/person_add.svg" alt="" />
+        <img src="assets/icons/person_add.svg" alt="" />
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
     <app-message-container (click)="overlayCtrlService.openThread(channel, msg)" [message]="msg"
       [msgType]="'channel'"></app-message-container>
     } @else {
-    
+
     <div class="timestamp">
       <img src="assets/icons/Line.png" alt="" />
       <div class="timestamp-time">Heute</div><img src="assets/icons/Line.png" alt="" />
