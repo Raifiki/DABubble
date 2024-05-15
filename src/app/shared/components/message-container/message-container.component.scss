@@ -4,7 +4,7 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  padding: 10px 10px 10px 45px;
+  padding: 10px 5px 10px 5px;
   gap: 30px;
 
   >.toolbar {
@@ -419,10 +419,12 @@
 
       >.thread-replies {
         font-size: $fnt-size-XXS;
+        display: inline-block;
+        white-space: nowrap;
       }
 
       >.thread-last-reply-time {
-        font-size: $fnt-size-XXS;
+        font-size: $fnt-size-XXS ;
       }
     }
 
