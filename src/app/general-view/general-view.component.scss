@@ -139,6 +139,8 @@
   width: 100vw;
   left: 50%;
   top: 450px;
+  height: 50vh;
+  overflow-x: auto;
   transform: translate(-50%, -50%);
   background-color: white;
   z-index: 9;
