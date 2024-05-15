@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -21,6 +21,7 @@ export class RegisterService {
   userToCreate$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   directMessageService = inject(DirectMessageService);
   channelService = inject(ChannelService);
+  loginError = signal(false)
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -96,9 +97,7 @@ export class RegisterService {
       await this.userService.loadUser(userCredential.user.uid);
       this.userService.saveIdToLocalStorate(userCredential.user.uid);
     } catch (error: any) {
-      alert(
-
-      );
+        this.loginError.set(true)
     }
     await this.directMessageService.subDirectMessagesList();
     await this.channelService.subChannels();

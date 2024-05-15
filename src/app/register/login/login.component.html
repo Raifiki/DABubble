@@ -18,7 +18,7 @@
       }
       <input type="password" required placeholder="Passwort" id="password" name="password" ngModel #password="ngModel"
         class="input-pw-login input-fields-login" />
-      @if (!password.valid && password.touched) {
+      @if (!password.valid && password.touched || loginError()) {
       <div class="invalid-input-login">
         *Falsches Passwort. Bitte noch einmal versuchen.
       </div>
