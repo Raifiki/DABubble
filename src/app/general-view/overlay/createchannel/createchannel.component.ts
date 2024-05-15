@@ -57,10 +57,6 @@ export class CreatechannelComponent {
       let id = await this.channelService.createChannel(this.channel);
       if (typeof id === 'string') this.addChannelId2Users(id);
       this.overlayCtrlService.hideOverlay();
-      console.log(
-        'channel created event - save data not implemented',
-        this.channel.getCleanBEJSON()
-      );
     }
   }
 
