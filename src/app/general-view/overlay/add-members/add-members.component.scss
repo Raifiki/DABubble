@@ -55,14 +55,14 @@
   width: 40px;
 
   >.back-btn-icon {
-    mask-image:  url("/Angular/DABubble/assets/icons/close.svg");
+    mask-image: url("/Angular/DABubble/assets/icons/close.svg");
   }
+}
 
-  @media (max-width: 1350px) {
-    .content {
-      transform: translate(-50% -50%);
-      right: unset;
-      top: unset;
-    }
+@media(max-width: 1350px) {
+  .content {
+    right: 3%;
+    top: 20%;
+
   }
 }
