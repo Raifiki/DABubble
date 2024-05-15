@@ -40,9 +40,14 @@ export class UserSelectComponent {
   }
 
   filterUsers(prompt: string) {
-    this.filteredUserList = this.userList.filter((user) =>
-      user.name.toLowerCase().includes(prompt.toLowerCase())
+    if (prompt[0] == '@') {
+      this.filteredUserList = this.userList
+    } else {
+      
+      this.filteredUserList = this.userList.filter((user) =>
+        user.name.toLowerCase().includes(prompt.toLowerCase())
     );
+    }
   }
 
   addUser(idx: number) {

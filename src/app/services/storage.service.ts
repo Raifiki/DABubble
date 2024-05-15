@@ -27,7 +27,6 @@ export class StorageService {
   async uploadFile(storageRef: StorageReference, file: File) {
     await uploadBytes(ref(storageRef, file.name), file)
       .then(() => {
-        console.log(file.name, 'uploaded', 'to', storageRef.fullPath);
       })
       .catch((err) => {
         alert('upload failed:' + err);
@@ -38,7 +37,6 @@ export class StorageService {
     let fileName = 'customProfileIMG.' + file.name.split('.').slice(-1);
     await uploadBytes(ref(this.getUserRef(userID), fileName), file)
       .then(() => {
-        console.log(file.name, 'uploaded', 'to user storage');
       })
       .catch((err) => {
         alert('upload failed:' + err);

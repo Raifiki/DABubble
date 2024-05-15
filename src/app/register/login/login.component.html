@@ -9,7 +9,7 @@
       </div>
     </div>
     <form (ngSubmit)="onSubmit(f)" class="input-container-login" #f="ngForm">
-      <input type="email" required placeholder="beispielname.@email.com" id="userEmail" name="userEmail" ngModel
+      <input type="email" required placeholder="beispielname@email.com" id="userEmail" name="userEmail" ngModel
         #userEmail="ngModel" class="input-email-login input-fields-login" email />
       @if (!userEmail.valid && userEmail.touched) {
       <div class="invalid-input-login">

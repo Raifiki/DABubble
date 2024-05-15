@@ -121,10 +121,6 @@ export class GeneralViewComponent {
     this.searchService.searchChannels(this.searchInput);
     await this.searchService.searchMessages(this.searchInput);
     await this.searchService.searchThreads(this.searchInput);
-    console.log('threads:',this.searchService.listOfAllThreads);
-    console.log('msgs:',this.searchService.listOfAllMessages);
-    console.log('threads:',this.searchService.searchThreadResult);
-    console.log('msgs:',this.searchService.searchMessageResult);
   }
 
   onResultClick() {

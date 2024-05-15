@@ -52,6 +52,7 @@
             align-self: center;
             border-radius: 50%;
             padding: 8px;
+            object-fit: cover;
 
             &:hover {
                 background-color: $hover-grey;

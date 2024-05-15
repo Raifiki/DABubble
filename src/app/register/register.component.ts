@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AnimationService } from '../services/animation.service';
 
@@ -8,6 +8,7 @@ import { SendemailComponent } from './sendemail/sendemail.component';
 import { ChooseavatarComponent } from './chooseavatar/chooseavatar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -29,11 +30,28 @@ export class RegisterComponent {
   isResetPwIsShowen = false;
   isLoginShowen = true;
   animationService = inject(AnimationService);
-  animationPlayed;
   chooseAvatar = false;
+  animationPlayed: boolean = false
+  mobileAnimation: boolean = true
 
   constructor() {
-    this.animationPlayed = this.checkAmount();
+    setTimeout(() => {
+      this.mobileAnimation = false
+    }, 2000);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkAnimationPlayed();
+  }
+  ngOnInit() {
+    this.checkAnimationPlayed()
+  }
+
+
+  checkAnimationPlayed() {
+    const played = sessionStorage.getItem('animationPlayed');
+    this.animationPlayed = played == 'true'
   }
 
   showPwComponent(event: boolean) {
@@ -52,14 +70,6 @@ export class RegisterComponent {
     this.isSignIsShowen = true;
   }
 
-  checkAmount() {
-    const amount = sessionStorage.getItem('animationPlayed');
-    if (amount === 'false') {
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   showMain(event: boolean) {
     this.isLoginShowen = true;
@@ -74,4 +84,5 @@ export class RegisterComponent {
     this.isResetPwIsShowen = false;
     this.isSignIsShowen = false;
   }
+
 }

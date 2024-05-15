@@ -62,14 +62,10 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
-        console.log('user',user)
-        console.log('user ID',user.id)
         let userData: any = ''
         setTimeout(() => {
             userData =  this.userService.getUserRef(user.id);
-           
         }, 500);
-          console.log('geladene Daten vom Server',userData)
         if (userData) {
           if ( userData.id == user.id) {
            await this.userService.loadUser(userData.id);
@@ -86,11 +82,7 @@ export class RegisterService {
           ;
         }
       })
-      .catch((error) => {
-        alert(
-          'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-            error.message
-        );
+      .catch((error) => {    
       });
   }
 
@@ -105,8 +97,7 @@ export class RegisterService {
       this.userService.saveIdToLocalStorate(userCredential.user.uid);
     } catch (error: any) {
       alert(
-        'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error.message
+
       );
     }
     await this.directMessageService.subDirectMessagesList();
