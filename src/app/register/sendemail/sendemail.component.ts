@@ -23,7 +23,7 @@ export class SendemailComponent {
   toggleOverlay: boolean = true;
 
   private actionCodeSettings = {
-    url: 'https://christian-westrich.de/projects/DABubble/#/resetPW/',
+    url: 'https://christian-westrich.developerakademie.de/Angular/DABubble/#/resetPW/',
     handleCodeInApp: true,
   };
 
