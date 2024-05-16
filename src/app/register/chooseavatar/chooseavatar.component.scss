@@ -141,7 +141,7 @@
             color: $prim-color;
 
             >h2 {
-                font-size: 24px;
+                font-size: 21px;
                 padding-top: 22px;
             }
         }
@@ -181,7 +181,7 @@
         }
 
         >.card-footer {
-            align-self: flex-end;
+            margin: 0 0 10px 0;
         }
 
     }
@@ -226,6 +226,8 @@
             }
         }
     }
+
+   
 
 
 

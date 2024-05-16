@@ -201,12 +201,12 @@
 
   .input-fields-login {
     font-size: 14px;
-    padding: 14px 0px 14px 64px;
+    padding: 14px 0px 14px 30px;
   }
 
   .forgot-pw-login {
     font-size: 16px;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 10px 0;
   }
 
   .input-pw-login {
@@ -219,7 +219,7 @@
 
   .login-btn-login,
   .guest-login-login {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px 10px
   }
 
@@ -239,6 +239,7 @@
 
   .btn-container-login {
     margin-bottom: 10px;
+    gap: 10px;
   }
 
 }
