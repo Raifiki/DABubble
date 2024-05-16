@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 20px 50px 20px;
+  padding: 0 20px 0 20px;
 }
 
 .footer-container {
@@ -252,6 +252,10 @@
 
   .footer-container {
     display: none;
+  }
+  .content {
+
+    padding: 0 20px 50px 20px;
   }
 
   .first-logo {
