@@ -129,8 +129,8 @@
         >.back-btn {
             position: absolute;
             left: 5px;
-            top: 20px;
-            width: 40px;
+            top: 6px;
+            width: 56px;
 
             >.back-btn-icon {
                 mask-image: url("/Angular/DABubble/assets/icons/arrow_left_black.svg");
@@ -182,6 +182,7 @@
 
         >.card-footer {
             margin: 0 0 10px 0;
+            align-self: unset;
         }
 
     }
