@@ -182,12 +182,15 @@ app-message-container {
 
   .timestamp {
     >.timestamp-time {
-      width: 30%;
+      width: 50%;
       font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     >img {
-      width: 30%;
+      width: 20%;
     }
   }
 
