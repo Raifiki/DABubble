@@ -49,15 +49,23 @@
   flex-direction: column;
   font-size: 18px;
   font-weight: 400;
-
-
+  
   >.create {
     text-decoration: underline;
     color: blue;
     cursor: pointer;
+    text-decoration: underline;
+    color: #00f;
+    line-height: 22px;
+    letter-spacing: 0em;
+    border-radius: 32px;
+    padding: 5px 15px;
+    border: 1px solid rgba(255, 255, 255, 0);
     &:hover {
       border: 1px solid black;
       border-radius: 30px;
+
+      
     }
 }
 
