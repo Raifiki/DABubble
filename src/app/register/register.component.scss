@@ -254,7 +254,6 @@
     display: none;
   }
   .content {
-
     padding: 0 20px 20px 20px;
   }
 
@@ -315,7 +314,12 @@
     opacity: 0;
     width: 80px;
     height: 30px;
+  }
 
+  .header {
+    height: 50px;
+    padding: 0;
+    margin: 0;
   }
     
   @keyframes logo-animation-mobile {
@@ -403,16 +407,3 @@
 
 }
 
-@media(max-height: 920px){
-  .content{
-    padding: 20px 20px 60px;
-  }
-
-  .footer-container{
-    margin-top: 0px;
-  }
-
-  .header{
-    padding-top: 30px;
-  }
-}

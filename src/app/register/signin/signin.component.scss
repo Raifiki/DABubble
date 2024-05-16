@@ -240,6 +240,12 @@
 
 }
 
+@media (max-width: 1350px) {
+    .login-container-signin {
+        margin-top: 70px;
+    }
+}
+
 @media (max-width: 600px) {
     .headline-container-signin {
         gap: 0;
@@ -281,7 +287,6 @@
     }
 
     .login-container-signin {
-
         margin-top: 100px;
     }
 
