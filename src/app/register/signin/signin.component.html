@@ -26,7 +26,7 @@
             }
             <input type="password" required placeholder="Passwort" id="password" name="password" ngModel
                 #password="ngModel" class="input-pw-signin input-fields-signin"
-                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,16}" />
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,16}$" />
             @if (!password.valid && password.touched) {
             <div class="invalid-input-signin">
                 *Bitte legen Sie Ihr Passwort fest. Mindestens 8 Zeichen/Nummern (mind 1 Kleinbuchstabe, 1
