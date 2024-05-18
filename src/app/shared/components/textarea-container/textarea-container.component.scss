@@ -78,11 +78,12 @@ emoji-mart {
 }
 
 .sendBtn {
+  cursor: pointer;
   width: 40px;
   height: 40px;
 
   &:hover {
-    content: url(../../../../assets/icons/Send\ iconhover.svg);
+    content: url("../../../../assets/icons/Sendiconhover.svg");
   }
 }
 

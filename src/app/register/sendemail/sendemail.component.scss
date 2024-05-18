@@ -76,7 +76,7 @@
             width: 60px;
     
             >.back-btn-icon {
-                mask-image: url("/Angular/DABubble/assets/icons/arrow_left_black.svg");
+                mask-image: url("./../../../assets/icons/arrow_left_black.svg");
             }
         }
     
@@ -97,7 +97,7 @@
     
             .form-field-ipt-text-icon {
                 .ipt-email-img {
-                    mask-image: url("/Angular/DABubble/assets/img/mail.png");
+                    mask-image: url("./../../../assets/img/mail.png");
                 }
             }
     

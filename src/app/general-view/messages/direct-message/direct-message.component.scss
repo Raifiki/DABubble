@@ -99,7 +99,7 @@
   width: 40px;
   height: 40px;
   &:hover {
-    content: url(../../../../assets/icons/Send\ iconhover.svg);
+    content: url("./../../../../assets/icons/Sendiconhover.svg");
   }
 }
 
@@ -151,7 +151,8 @@
     height: 40px;
 
     &:hover {
-      content: url("/Angular/DABubble/assets/icons/Sendiconhover.svg");
+      //content: url("/Angular/DABubble/assets/icons/Sendiconhover.svg");
+      content: url("./../../../../assets/icons/Sendiconhover.svg");
     }
   }
 }
