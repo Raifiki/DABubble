@@ -52,7 +52,16 @@
 
 .back-btn {
   width: 40px;
-  > .back-btn-icon {
-    mask-image: url(./../../../../assets/icons/close.svg);
+
+  >.back-btn-icon {
+    mask-image: url("/Angular/DABubble/assets/icons/close.svg");
+  }
+}
+
+@media(max-width: 1350px) {
+  .content {
+    right: 3%;
+    top: 20%;
+
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -21,6 +21,7 @@ export class RegisterService {
   userToCreate$: BehaviorSubject<User> = new BehaviorSubject<User>(new User());
   directMessageService = inject(DirectMessageService);
   channelService = inject(ChannelService);
+  loginError = signal(false)
 
   constructor(
     private firebaseInitService: FirebaseInitService,
@@ -50,7 +51,7 @@ export class RegisterService {
       this.firebaseInitService.getAuth(),
       this.googleProvider
     )
-      .then(async (result) => {
+      .then( async (result) => {
         let user = new User({
           id: result.user.uid,
           name: result.user.displayName,
@@ -62,24 +63,27 @@ export class RegisterService {
           password: '',
           isAuth: true,
         });
-        console.log(result.user.photoURL);
-        let userData = await this.userService.getUserRef(user.id);
-        if (userData.id === user.id) {
-          await this.userService.loadUser(userData.id);
+        let userData: any = ''
+        setTimeout(() => {
+            userData =  this.userService.getUserRef(user.id);
+        }, 500);
+        if (userData) {
+          if ( userData.id == user.id) {
+           await this.userService.loadUser(userData.id);
+          }
         } else {
           this.userService.activeUser$.next(user);
-          await this.userService.saveUser(user).then(() => {
-            this.router.navigate(['/generalView']);
-          });
+          setTimeout(() => {
+            
+            this.userService.saveUser(user)
+            }, 500);
+            this.directMessageService.subDirectMessagesList();
+            this.channelService.subChannels();
+          this.router.navigate(['/generalView']);
+          ;
         }
-        await this.directMessageService.subDirectMessagesList();
-        await this.channelService.subChannels();
       })
-      .catch((error) => {
-        alert(
-          'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-            error.message
-        );
+      .catch((error) => {    
       });
   }
 
@@ -93,10 +97,7 @@ export class RegisterService {
       await this.userService.loadUser(userCredential.user.uid);
       this.userService.saveIdToLocalStorate(userCredential.user.uid);
     } catch (error: any) {
-      alert(
-        'Es ist bei der Anmeldung etwas schief gelaufen. Folgender Fehler trat auf: ' +
-          error.message
-      );
+        this.loginError.set(true)
     }
     await this.directMessageService.subDirectMessagesList();
     await this.channelService.subChannels();

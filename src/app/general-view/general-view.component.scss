@@ -32,7 +32,7 @@
 
   width: 150px;
   height: 60px;
-  background-image: url("./../../assets/img/logo-complete.png");
+  background-image: url("/Angular/DABubble/assets/img/logo-complete.png");
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -84,6 +84,16 @@
   max-height: 500px;
   overflow-y: auto;
 
+  .userResultContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    p {
+      padding: 0;
+      margin-left: 20px;
+    }
+  }
+
   p {
     margin-left: 45px;
     cursor: pointer;
@@ -126,10 +136,10 @@
 
 .result-field-mobile {
   position: absolute;
-  width: 100vw;
+  width: 90vw;
   left: 50%;
-  top: 450px;
-  height: 60vh;
+  top: 50%;
+  height: 50vh;
   overflow-x: auto;
   transform: translate(-50%, -50%);
   background-color: white;
@@ -138,6 +148,7 @@
   box-shadow: 0 1px 50px 50px rgba(0, 0, 0, 0.4);
   border-top: 0;
   display: none;
+  
 
   p {
     margin-left: 45px;

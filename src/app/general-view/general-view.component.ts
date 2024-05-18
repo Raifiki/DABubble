@@ -115,12 +115,12 @@ export class GeneralViewComponent {
 
  
 
-  onInputChange() {
+  async onInputChange() {
     this.isSearchFieldEmpty();
     this.searchService.searchUsers(this.searchInput);
     this.searchService.searchChannels(this.searchInput);
-    this.searchService.searchMessages(this.searchInput);
-    this.searchService.searchThreads(this.searchInput);
+    await this.searchService.searchMessages(this.searchInput);
+    await this.searchService.searchThreads(this.searchInput);
   }
 
   onResultClick() {
@@ -154,6 +154,8 @@ export class GeneralViewComponent {
       this.searchService.loadAllThreads();
     }, 1000);
   }
+
+  
   showMiddle() {
     this.overlayCtrlService.showingMiddle.set(false)
     this.overlayCtrlService.showingLeft.set(true)

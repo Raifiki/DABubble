@@ -26,7 +26,6 @@
 .headline-container-login {
   gap: 30px;
   text-align: center;
-  margin:10px 10px  30px 10px;
 }
 
 .login-container-login {
@@ -127,7 +126,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px 0 30px 0;
 
   >img {
     width: 30%;
@@ -182,6 +180,12 @@
   }
 }
 
+@media (max-width: 1350px) {
+  .headline-login {
+    margin: 0;
+  }
+}
+
 @media(max-width: 600px) {
   .headline-container-login {
     gap: 20px;
@@ -198,11 +202,11 @@
   }
   .input-fields-login{
     font-size: 14px;
-    padding: 14px 0px 14px 64px;
+    padding: 14px 0px 14px 50px;
   }
   .forgot-pw-login{
     font-size: 16px;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 10px 0;
   }
   .input-pw-login {
     margin-top: 10px;
@@ -210,8 +214,10 @@
   .divider-login {
     margin: 0;
   }
-  .login-btn-login, .guest-login-login{
-    font-size: 16px;
+
+  .login-btn-login,
+  .guest-login-login {
+    font-size: 14px;
     padding: 10px 10px
   }
   .create-account {
@@ -228,6 +234,7 @@
   }
   .btn-container-login {
     margin-bottom: 10px;
-}
+    gap: 10px;
+  }
 
 }

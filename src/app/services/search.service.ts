@@ -1,6 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseInitService } from './firebase-init.service';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from 'firebase/firestore';
 import { UserService } from './user.service';
 import { ThreadsService } from './ThreadsService';
 import { MessageService } from './message.service';
@@ -9,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user.class';
 import { Channel } from '../shared/models/channel.class';
 import { Message } from '../shared/models/message.class';
+import { OverlaycontrolService } from './overlaycontrol.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +26,7 @@ export class SearchService {
   threadsService = inject(ThreadsService);
   messageService = inject(MessageService);
   channelService = inject(ChannelService);
+  overlayCtrService = inject(OverlaycontrolService);
 
   searchUserResult: User[] = [];
   searchChannelsResult: Channel[] = [];
@@ -76,25 +84,28 @@ export class SearchService {
   }
 
   async loadAllMessages() {
-    this.listOfAllChannels.forEach((channel) => {
-      let channelId = channel.id;
-      onSnapshot(this.getMessageRef('Channels', channelId), (msgList) => {
-        let messages: Message[] = [];
-        msgList.forEach((msg) => {
-          const MESSAGE = new Message(
-            this.messageService.getCleanMessageObj(msg.data()),
-            msg.id
-          );
-          MESSAGE.messageOfChannel = channel.id;
-          messages.push(MESSAGE);
-        });
-        this.listOfAllMessages = messages;
+    this.listOfAllMessages = [];
+
+    for (let i = 0; i < this.listOfAllChannels.length; i++) {
+      let messages: Message[] = [];
+      let channelId = this.listOfAllChannels[i].id;
+      let querySnapshotMessages = await getDocs(
+        this.getMessageRef('Channels', channelId)
+      );
+      querySnapshotMessages.forEach((msg) => {
+        const MESSAGE = new Message(
+          this.messageService.getCleanMessageObj(msg.data()),
+          msg.id
+        );
+        MESSAGE.messageOfChannel = channelId;
+        messages.push(MESSAGE);
       });
-    });
+      this.listOfAllMessages = [...this.listOfAllMessages, ...messages];
+    }
   }
 
-  searchMessages(input: string) {
-    this.loadAllMessages();
+  async searchMessages(input: string) {
+    await this.loadAllMessages();
     this.searchMessageResult = [];
     this.listOfAllMessages.forEach((message) => {
       let messageToCompareWith = message.content.toLowerCase();
@@ -105,36 +116,46 @@ export class SearchService {
   }
 
   async loadAllThreads() {
-    let threads: Message[] = [];
-    this.listOfAllMessages.forEach(async (message) => {
-      let messageId = message.id;
-      let channelId = message.messageOfChannel;
-      await onSnapshot(
-        collection(this.getThreadColRef(messageId, channelId), 'threads'),
-        (messages) => {
-          messages.forEach((thread) => {
-            let msg = new Message(
-              this.threadsService.getCleanMessageObj(thread.data()),
-              message.id,
-              message.messageOfChannel
-            );
-            threads.push(msg);
-          });
-          this.listOfAllThreads = threads;
-        }
+    this.listOfAllThreads = [];
+
+    for (let i = 0; i < this.listOfAllMessages.length; i++) {
+      let threads: Message[] = [];
+      let messageId = this.listOfAllMessages[i].id;
+      let channelId = this.listOfAllMessages[i].messageOfChannel;
+      let querySnapshotThread = await getDocs(
+        collection(this.getThreadColRef(messageId, channelId), 'threads')
       );
-    });
+
+      querySnapshotThread.forEach((threadMsg) => {
+        let msg = new Message(
+          this.threadsService.getCleanMessageObj(threadMsg.data()),
+          threadMsg.id,
+          messageId
+        );
+        threads.push(msg);
+      });
+      this.listOfAllThreads = [...this.listOfAllThreads, ...threads];
+    }
   }
 
-  searchThreads(input: string) {
-    this.loadAllThreads();
+  async searchThreads(input: string) {
+    await this.loadAllThreads();
     this.searchThreadResult = [];
     this.listOfAllThreads.forEach((thread) => {
       let threadToCompareWith = thread.content.toLowerCase();
       if (threadToCompareWith.includes(input.toLowerCase())) {
         this.searchThreadResult.push(thread);
+        this.addMsg2SearchMsgResult(thread.messageOfChannel);
       }
     });
+  }
+
+  addMsg2SearchMsgResult(msgId: string) {
+    if (!this.searchMessageResult.some((msg) => msg.id == msgId)) {
+      this.searchMessageResult.push(
+        this.listOfAllMessages.filter((msg) => msg.id == msgId)[0]
+      );
+    }
   }
 
   showChannelName(message: Message): string | undefined {
@@ -186,11 +207,11 @@ export class SearchService {
 
   async searchForChannel(message: Message) {
     let channelId = message.messageOfChannel;
-    let messageId = message.id;
-    await this.channelService.subChannel(channelId);
+    this.overlayCtrService.showMessageComponent('channel', channelId);
+    await this.threadsService.getThread(message.id);
     this.threadsService.isShowingSig.set(true);
-    setTimeout(() => {
-      this.threadsService.getThread(messageId);
-    }, 200);
+    this.overlayCtrService.showingMiddle.set(true);
+    this.overlayCtrService.showingRight.set(false);
+    this.overlayCtrService.showingHeader.set(true);
   }
 }

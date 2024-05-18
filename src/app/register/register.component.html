@@ -36,9 +36,16 @@
     </div>
 </div>
 
-@if (animationPlayed === false) {
-<div class="overlay-intro">
-    <img src="assets/img/Logo.png" alt="" class="first-logo" />
-    <img src="assets/img/Logo name.png" alt="" class="second-logo" />
-</div>
+@if (!animationPlayed) {
+    <div class="overlay-intro">
+        <img src="assets/img/Logo.png" alt="" class="first-logo" />
+        <img src="assets/img/Logo name.png" alt="" class="second-logo" />
+    </div>
+}
+
+@if (!animationPlayed) {
+    <div class="overlay-intro-mobile ">
+        <img src="assets/img/Logo.png" alt="" class="first-logo-mobile" />
+        <img src="assets/img/Logo name.png" alt="" class="second-logo-mobile" />
+    </div>
 }

@@ -77,8 +77,9 @@ export class ChannelService {
         let activeChannel = new Channel(cleanObj, channel.id);
         this.activeChannel$.next(activeChannel);
       }
-    });
-    this.messageService.subMessages('Channels', channelID);
+    }); 
+     
+      this.messageService.subMessages('Channels', channelID);
   }
 
   async createChannel(channel: Channel) {
@@ -91,7 +92,6 @@ export class ChannelService {
         ]);
       })
       .then((docRef) => {
-        console.log('Channel wurde mit der folgenden ID erstellt:', docRef?.id);
         newId = docRef?.id;
       });
     return newId;
@@ -106,7 +106,6 @@ export class ChannelService {
         ]);
       })
       .then((docRef) => {
-        console.log('channel mit folgender ID wurde gelöscht: ', channelID);
       });
   }
 
@@ -119,7 +118,6 @@ export class ChannelService {
         ]);
       })
       .then((docRef) => {
-        console.log('channel mit folgender ID wurde geupdatet: ', channel.id);
       });
   }
 

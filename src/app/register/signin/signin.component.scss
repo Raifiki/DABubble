@@ -223,7 +223,7 @@
         background-color: #fff;
         position: absolute;
         top: 0;
-        left: 0;
+        left: -3px;
 
         &:hover {
             color: #797ef3;
@@ -240,6 +240,8 @@
 
 }
 
+
+
 @media (max-width: 600px) {
     .headline-container-signin {
         gap: 0;
@@ -252,7 +254,7 @@
         >.headder-arrow-signin {
 
             >.headline-signin {
-                font-size: 30px;
+                font-size: 28px;
             }
         }
     }
@@ -280,9 +282,5 @@
         font-size: 14px;
     }
 
-    .login-container-signin {
-
-        margin-top: 100px;
-    }
 
 }

@@ -5,7 +5,7 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  padding: 10px 10px 10px 45px;
+  padding: 10px 5px 10px 5px;
   gap: 30px;
   >.toolbar{
     position: absolute;
@@ -252,7 +252,7 @@
     position: absolute;
     bottom: 0;
     transform: translateY(100%);
-    right: -140px;
+    right: -90px;
     z-index: 10;
   }
   >.more-menu{
@@ -302,7 +302,9 @@
     position: relative;
     display: flex;
     justify-content: space-between;
-    >button{
+
+
+    >button {
       width: 40px;
       height: 40px;
       .btn-icon-reactions{
@@ -360,19 +362,25 @@
   }
 
   .msg-footer {
-    gap: 40px;
+    gap: 5px;
 
+    
     >.msg-thread-wrapper {
       gap: 20px;
 
       >.thread-replies {
-        font-size: $fnt-size-XXS;
+        font-size: 12px;
+        display: inline-block;
+        white-space: nowrap;
       }
 
-      >.thread-last-reply-time {
-        font-size: $fnt-size-XXS;
+
+        >.thread-last-reply-time {
+            font-size: 12px ;
+          }
+      
+
       }
-    }
 
     >.reaction-wrapper {
       gap: 8px;
@@ -392,6 +400,9 @@
           width: max-content;
         }
       }
+    }
+    >.thread-last-reply {
+      font-size: 12px;
     }
   }
 
@@ -428,12 +439,12 @@
     padding: 3px 15px 3px 20px;
 
     >button {
-      width: 30px;
+      width: 40px;
     }
 
     >emoji-mart {
       bottom: 0;
-      right: -140px;
+      right: -90px;
     }
 
     >.more-menu {
@@ -475,4 +486,11 @@
       }
     }
   }
+}
+
+@media (max-width: 500px) {
+  .msg-wrapper{
+    padding: 5px;
+    gap: 5px;
+  } 
 }

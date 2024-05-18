@@ -11,6 +11,7 @@
   >textarea {
     border: unset !important;
     outline: none !important;
+    resize: none;
   }
 }
 
@@ -39,6 +40,7 @@ emoji-mart {
     background-color: #adb0d9;
   }
 
+
   >#openFile {
     cursor: pointer;
     padding: 8px;
@@ -50,6 +52,7 @@ emoji-mart {
     }
   }
 
+
   >#openEmoji {
     cursor: pointer;
     padding: 8px;
@@ -60,6 +63,7 @@ emoji-mart {
       border-radius: 50%;
     }
   }
+
 
   >#openUserList {
     cursor: pointer;
@@ -118,6 +122,7 @@ emoji-mart {
       border-radius: 30px;
       background-color: rgba($color: $online-green, $alpha: 0.2);
       right: 0;
+
 
       >button {
         background-color: white;

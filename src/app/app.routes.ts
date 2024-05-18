@@ -13,11 +13,15 @@ import { NewMessageComponent } from './general-view/messages/new-message/new-mes
 import { AuthGuardService } from './services/auth-guard.service';
 
 export const routes: Routes = [
-  { path: '', component: RegisterComponent },
+  { path: '', component: RegisterComponent, pathMatch: 'full' },
   { path: 'imprint', component: ImprintComponent },
   { path: 'privacy', component: PrivacyPolicyComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'resetPW', component: ResetpasswordComponent },
-  { path: 'generalView', canActivate: [AuthGuardService],component: GeneralViewComponent },
-  {path: 'testing', canActivate: [AuthGuardService],component: NewMessageComponent},
+  {
+    path: 'generalView',
+    canActivate: [AuthGuardService],
+    component: GeneralViewComponent,
+  },
+
 ];

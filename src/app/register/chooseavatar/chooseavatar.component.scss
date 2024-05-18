@@ -52,6 +52,7 @@
             align-self: center;
             border-radius: 50%;
             padding: 8px;
+            object-fit: cover;
 
             &:hover {
                 background-color: $hover-grey;
@@ -128,8 +129,8 @@
         >.back-btn {
             position: absolute;
             left: 5px;
-            top: 20px;
-            width: 40px;
+            top: 6px;
+            width: 56px;
 
             >.back-btn-icon {
                 mask-image: url(../../../assets/icons/arrow_left_black.svg);
@@ -140,7 +141,7 @@
             color: $prim-color;
 
             >h2 {
-                font-size: 24px;
+                font-size: 21px;
                 padding-top: 22px;
             }
         }
@@ -148,7 +149,7 @@
         >.card-content {
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 0px;
 
             >.profile-img {
                 width: 100px;
@@ -180,7 +181,8 @@
         }
 
         >.card-footer {
-            align-self: flex-end;
+            margin: 0 0 10px 0;
+            align-self: unset;
         }
 
     }
@@ -214,7 +216,10 @@
                 aspect-ratio: 1;
                 padding: 4px;
                 border-radius: 50%;
-
+                >img {
+                    height: 50px;
+                    width: 50px;
+                }
                 &:hover {
                     background-color: $hover-grey;
                 }
@@ -225,6 +230,8 @@
             }
         }
     }
+
+   
 
 
 

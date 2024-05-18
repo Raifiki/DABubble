@@ -110,6 +110,7 @@ export class LeftSideComponent {
     this.overlayCtrlService.showingSearch.set(true)
   }
 
+
   showMiddle() {
     this.overlayCtrlService.showingLeft.set(true)
     this.overlayCtrlService.showingMiddle.set(false)
